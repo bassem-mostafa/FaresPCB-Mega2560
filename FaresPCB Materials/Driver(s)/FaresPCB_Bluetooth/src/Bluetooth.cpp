@@ -51,7 +51,7 @@
  *
  * @return void  : None
  */
-void Bluetooth_Init( void )
+void Bluetooth_Initialize( void )
 {
     HW_PIN_INPUT(HW_BLUETOOTH_STATE);
     HW_PIN_OUTPUT(HW_BLUETOOTH_KEY);

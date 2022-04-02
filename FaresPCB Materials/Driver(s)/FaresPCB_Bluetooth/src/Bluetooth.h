@@ -52,7 +52,7 @@ typedef enum Bluetooth_Status_t
  *
  * @return void  : None
  */
-void Bluetooth_Init( void );
+void Bluetooth_Initialize( void );
 
 /*
  * @brief Gets bluetooth status

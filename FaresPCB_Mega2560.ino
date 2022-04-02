@@ -9,7 +9,7 @@ uint8_t length;
 void setup()
 {
     LED_TurnOff(LED_Internal);
-    Bluetooth_Init();
+    Bluetooth_Initialize();
     Bluetooth_Write((uint8_t*)"\nFaresPCB Ready\n", strlen("\nFaresPCB Ready\n"));
 }
 
