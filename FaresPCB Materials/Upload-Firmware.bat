@@ -8,22 +8,22 @@ REM "Switch To Script Drive"
 REM "Navigate To Script Location"
 CD "%~dp0"
 
-SET TOOL_EXE="..\waveshare setup materials\adafruit\hardware\nrf52\0.21.0\tools\adafruit-nrfutil\win32\adafruit-nrfutil.exe"
-SET FIRMWARE_ZIP="%~1"
+SET TOOL_EXE="C:\eclipse\arduinoPlugin\packages\arduino\tools\avrdude\6.3.0-arduino17/bin/avrdude"
+SET FIRMWARE_HEX="%~1"
 
-if %FIRMWARE_ZIP% == "" (
-    SET /p FIRMWARE_ZIP="Firmware ZIP file (default ..\waveshare setup materials\Firmware(s)\sdardtemphumdityfw-latest.zip): "
+if %FIRMWARE_HEX% == "" (
+    SET /p FIRMWARE_HEX="Firmware ZIP file (default ../Release/FaresPCB-Mega2560.hex): "
 )
 
-SET /p CUBE_PORT="PORT (ex: COM1): "
+SET /p COM_PORT="PORT (ex: COM1): "
 
 
-IF %FIRMWARE_ZIP% == "" (
-    SET FIRMWARE_ZIP="..\waveshare setup materials\Firmware(s)\sdardtemphumdityfw-latest.zip"
+IF %FIRMWARE_HEX% == "" (
+    SET FIRMWARE_HEX="../Release/FaresPCB-Mega2560.hex"
 )
 
-ECHO "Executing %TOOL_EXE% dfu serial -pkg %FIRMWARE_ZIP% -p %CUBE_PORT% -b 115200 --singlebank"
+ECHO "Executing %TOOL_EXE% -CC:\eclipse\arduinoPlugin\packages\arduino\tools\avrdude\6.3.0-arduino17/etc/avrdude.conf -patmega2560 -cwiring -P%COM_PORT% -b115200 -D -Uflash:w:%FIRMWARE_HEX%:i"
 
-%TOOL_EXE% dfu serial -pkg %FIRMWARE_ZIP% -p %CUBE_PORT% -b 115200 --singlebank
+%TOOL_EXE% -CC:\eclipse\arduinoPlugin\packages\arduino\tools\avrdude\6.3.0-arduino17/etc/avrdude.conf -patmega2560 -cwiring -P%COM_PORT% -b115200 -D -Uflash:w:%FIRMWARE_HEX%:i
 
 PAUSE
