@@ -35,7 +35,7 @@
 // #### Public Type(s) #########################################################
 // #############################################################################
 
-typedef enum Bluetooth_Status_t
+typedef enum __attribute__((packed, aligned(1))) Bluetooth_Status_t
 {
     Bluetooth_Status_Idle = 0,
     Bluetooth_Status_Connected,

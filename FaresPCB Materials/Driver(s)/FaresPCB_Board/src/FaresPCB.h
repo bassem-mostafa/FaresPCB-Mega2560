@@ -221,7 +221,7 @@
 // #### Public Type(s) #########################################################
 // #############################################################################
 
-typedef struct HW_PinDef
+typedef struct __attribute__((packed, aligned(1))) HW_PinDef
 {
     volatile uint8_t * DDR;
     volatile uint8_t * PORT;
