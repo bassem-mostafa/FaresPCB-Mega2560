@@ -59,8 +59,8 @@
 //20          PB1 ( SCK/PCINT1 )          Digital pin 52 (SCK)
 //21          PB2 ( MOSI/PCINT2 )         Digital pin 51 (MOSI)
 //22          PB3 ( MISO/PCINT3 )         Digital pin 50 (MISO)
-//23          PB4 ( OC2A/PCINT4 )         Digital pin 10 (PWM)
-//24          PB5 ( OC1A/PCINT5 )         Digital pin 11 (PWM)
+//23          PB4 ( OC2A/PCINT4 )         Digital pin 10 (PWM)          BLUETOOTH STATE
+//24          PB5 ( OC1A/PCINT5 )         Digital pin 11 (PWM)          BLUETOOTH KEY
 //25          PB6 ( OC1B/PCINT6 )         Digital pin 12 (PWM)
 //26          PB7 ( OC0A/OC1C/PCINT7 )    Digital pin 13 (PWM)          LED BUILTIN / LED INTERNAL
 //27          PH7 ( T4 )
@@ -122,8 +122,8 @@
 //83          PK6 ( ADC14/PCINT22 )       Analog pin 14
 //84          PK5 ( ADC13/PCINT21 )       Analog pin 13
 //85          PK4 ( ADC12/PCINT20 )       Analog pin 12
-//86          PK3 ( ADC11/PCINT19 )       Analog pin 11                 BLUETOOTH KEY
-//87          PK2 ( ADC10/PCINT18 )       Analog pin 10                 BLUETOOTH STATE
+//86          PK3 ( ADC11/PCINT19 )       Analog pin 11
+//87          PK2 ( ADC10/PCINT18 )       Analog pin 10
 //88          PK1 ( ADC9/PCINT17 )        Analog pin 9
 //89          PK0 ( ADC8/PCINT16 )        Analog pin 8
 //90          PF7 ( ADC7 )                Analog pin 7                  ULTRA-SONIC ECHO
@@ -207,8 +207,8 @@
 #define HW_EEPROM_ADDRESS           0x50
 
 // BLUETOOTH Info
-#define HW_BLUETOOTH_KEY            (const HW_PinDef) {&DDRK, &PORTK, &PINK, (0x01 << 3)}
-#define HW_BLUETOOTH_STATE          (const HW_PinDef) {&DDRK, &PORTK, &PINK, (0x01 << 2)}
+#define HW_BLUETOOTH_KEY            (const HW_PinDef) {&DDRB, &PORTB, &PINB, (0x01 << 5)}
+#define HW_BLUETOOTH_STATE          (const HW_PinDef) {&DDRB, &PORTB, &PINB, (0x01 << 4)}
 //#define HW_BLUETOOTH_TX             18
 //#define HW_BLUETOOTH_RX             19
 #define HW_BLUETOOTH_SERIAL         Serial1
