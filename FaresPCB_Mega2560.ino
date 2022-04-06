@@ -2,6 +2,7 @@
 
 #include "LED.h"
 #include "Bluetooth.h"
+#include "LCD.h"
 
 uint8_t buffer[20];
 uint8_t length;
@@ -11,6 +12,7 @@ void setup()
     LED_TurnOff(LED_Internal);
     Bluetooth_Initialize();
     Bluetooth_Write((uint8_t*)"\nFaresPCB Ready\n", strlen("\nFaresPCB Ready\n"));
+    LCD_Initialize();
 }
 
 void loop()
