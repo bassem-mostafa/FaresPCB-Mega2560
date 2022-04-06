@@ -2,34 +2,52 @@
 
 REM "This Batch File Requires Administrative Permissions"
 REM "This Batch File Links Project Libraries Into User Arduino Libraries"
+REM "Reference(s)"
+REM "- https://en.wikibooks.org/wiki/Windows_Batch_Scripting"
+REM "- https://stackoverflow.com/questions/4051883/batch-script-how-to-check-for-admin-rights"
 
-REM "Switch To Script Drive"
-%~d0
+REM "Makes Variables Local To Script, And Assignable"
+SETLOCAL ENABLEDELAYEDEXPANSION
 
-REM "Navigate To Script Location"
-CD "%~dp0"
+REM "Checks Administrative Permissions"
+NET SESSION >NUL 2>&1
 
-REM "Prompt For User Directory"
-SET /p USER_DIR="User Directory (ex: C:\Users\<USER_DIR>): "
+IF NOT %ERRORLEVEL% == 0 (
+    ECHO Requires Administrative Permissions
+    PAUSE
+    EXIT /B 1
+)
 
-REM "If Not Provided, Use Current Logged-In Username"
+REM "Switches/Navigates To Script's Location"
+%~d0 & CD "%~dp0"
+
+REM "Prompts For User Directory"
+SET /P USER_DIR = "User Directory (default: C:/Users/%USERNAME%): "
+
+REM "Uses Current Logged-In User Directory If Not Provided"
 IF "%USER_DIR%"=="" (
-    SET USER_DIR=%USERNAME%
+    SET USER_DIR=C:/Users/%USERNAME%
 )
 
-REM "Remove Libraries From Destination Folder If Exists"
-FOR /D %%f in ("C:\Users\%USER_DIR%\Documents\Arduino\libraries\FaresPCB_"*) DO (
-    RMDIR /S /Q "%%f"
+REM "Displaying User Directory"
+ECHO Using User Directory '%USER_DIR%'
+
+REM "Removes Existing Libraries From User Directory"
+FOR /D %%f IN ("%CD%/Driver(s)/FaresPCB_*") DO (
+    IF EXIST "%USER_DIR%/Documents/Arduino/libraries/%%~nf" (
+        ECHO Remove Detected %USER_DIR%/Documents/Arduino/libraries/%%~nf
+        RMDIR /S /Q "%USER_DIR%/Documents/Arduino/libraries/%%~nf"
+    )
 )
 
-REM "Make Libraries Links From Project Folders Into Destination Folder"
-FOR /D %%f in ("%CD%\Driver(s)\FaresPCB_"*) DO (
-    ECHO "Creating Link For %%~nf From %%f To C:\Users\%USER_DIR%\Documents\Arduino\libraries\%%~nf"
-    MKLINK /D "C:\Users\%USER_DIR%\Documents\Arduino\libraries\%%~nf" "%%f"
+REM "Links Libraries From Project Folders Into User Directory"
+FOR /D %%f IN ("%CD%/Driver(s)/FaresPCB_*") DO (
+    SET PROJECT_LIBRARY=%%~nf
+    IF "%%~nf"=="!PROJECT_LIBRARY:Template=!" (
+        ECHO Linking %%~nf From %%f To %USER_DIR%/Documents/Arduino/libraries/%%~nf
+        MKLINK /D "%USER_DIR%/Documents/Arduino/libraries/%%~nf" "%%f"
+    )
 )
 
-REM "Remove Template Libraries Links From Destination Folder"
-FOR /D %%f in ("C:\Users\%USER_DIR%\Documents\Arduino\libraries\*Template"*) DO (
-    RMDIR /S /Q "%%f"
-)
+ENDLOCAL
 PAUSE
