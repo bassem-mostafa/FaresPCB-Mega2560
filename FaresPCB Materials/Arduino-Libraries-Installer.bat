@@ -22,30 +22,30 @@ REM "Switches/Navigates To Script's Location"
 %~d0 & CD "%~dp0"
 
 REM "Prompts For User Directory"
-SET /P USER_DIR = "User Directory (default: C:/Users/%USERNAME%): "
+SET /P USER_DIR = "User Directory (default: C:\Users\%USERNAME%): "
 
 REM "Uses Current Logged-In User Directory If Not Provided"
 IF "%USER_DIR%"=="" (
-    SET USER_DIR=C:/Users/%USERNAME%
+    SET USER_DIR=C:\Users\%USERNAME%
 )
 
 REM "Displaying User Directory"
 ECHO Using User Directory '%USER_DIR%'
 
 REM "Removes Existing Libraries From User Directory"
-FOR /D %%f IN ("%CD%/Driver(s)/FaresPCB_*") DO (
-    IF EXIST "%USER_DIR%/Documents/Arduino/libraries/%%~nf" (
-        ECHO Remove Detected %USER_DIR%/Documents/Arduino/libraries/%%~nf
-        RMDIR /S /Q "%USER_DIR%/Documents/Arduino/libraries/%%~nf"
+FOR /D %%f IN ("%CD%\Driver(s)\FaresPCB_*") DO (
+    IF EXIST "%USER_DIR%\Documents\Arduino\libraries\%%~nf" (
+        ECHO Remove Detected %USER_DIR%\Documents\Arduino\libraries\%%~nf
+        RMDIR /S /Q "%USER_DIR%\Documents\Arduino\libraries\%%~nf"
     )
 )
 
 REM "Links Libraries From Project Folders Into User Directory"
-FOR /D %%f IN ("%CD%/Driver(s)/FaresPCB_*") DO (
+FOR /D %%f IN ("%CD%\Driver(s)\FaresPCB_*") DO (
     SET PROJECT_LIBRARY=%%~nf
     IF "%%~nf"=="!PROJECT_LIBRARY:Template=!" (
-        ECHO Linking %%~nf From %%f To %USER_DIR%/Documents/Arduino/libraries/%%~nf
-        MKLINK /D "%USER_DIR%/Documents/Arduino/libraries/%%~nf" "%%f"
+        ECHO Linking %%~nf From %%f To %USER_DIR%\Documents\Arduino\libraries\%%~nf
+        MKLINK /D "%USER_DIR%\Documents\Arduino\libraries\%%~nf" "%%f"
     )
 )
 
