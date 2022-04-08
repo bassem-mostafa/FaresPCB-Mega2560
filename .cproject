@@ -26,6 +26,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FreeRTOS/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_LCD/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LED/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.346803891" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -38,6 +39,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FreeRTOS/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_LCD/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LED/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.200465458" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -50,6 +52,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FreeRTOS/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_LCD/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LED/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.1279911154" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
