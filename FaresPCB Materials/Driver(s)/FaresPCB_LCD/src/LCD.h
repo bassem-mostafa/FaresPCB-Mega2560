@@ -32,6 +32,7 @@
 // #############################################################################
 
 #define LCD_ICON_SIZE 8
+#define LCD_Icon_Alarm LCD_Icon_Bell
 
 // #############################################################################
 // #### Public Type(s) #########################################################
@@ -89,6 +90,15 @@ typedef enum __attribute__((packed, aligned(1))) LCD_Custom_Character_t
  * @return void     : None
  */
 void LCD_Initialize( void );
+
+/*
+ * @brief Clears LCD
+ *
+ * @param[in] void  : None
+ *
+ * @return void     : None
+ */
+void LCD_Clear( void );
 
 /*
  * @brief Turns LCD back-light on

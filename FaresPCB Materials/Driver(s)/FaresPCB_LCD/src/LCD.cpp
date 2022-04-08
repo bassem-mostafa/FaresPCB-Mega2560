@@ -31,180 +31,180 @@
 // #### Private Type(s) ########################################################
 // #############################################################################
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Command_t
+typedef enum __attribute__((packed, aligned(1))) Command_t
 {
-    LCD_Command_Clear       = 0b00000001,
-    LCD_Command_Home        = 0b00000010,
-    LCD_Command_Mode        = 0b00000100,
-    LCD_Command_Display     = 0b00001000,
-    LCD_Command_Shift       = 0b00010000,
-    LCD_Command_Function    = 0b00100000,
-    LCD_Command_CGRAM       = 0b01000000,
-    LCD_Command_DDRAM       = 0b10000000,
-} LCD_Command_t;
+    Command_CLEAR       = 0b00000001,
+    Command_HOME        = 0b00000010,
+    Command_MODE        = 0b00000100,
+    Command_DISPLAY     = 0b00001000,
+    Command_SHIFT       = 0b00010000,
+    Command_FUNCTION    = 0b00100000,
+    Command_CGRAM       = 0b01000000,
+    Command_DDRAM       = 0b10000000,
+} Command_t;
 
-typedef union __attribute__((packed, aligned(1))) LCD_Clear_t
+typedef union __attribute__((packed, aligned(1))) Clear_t
 {
-    const LCD_Command_t command;
-} LCD_Clear_t;
+    const Command_t command;
+} Clear_t;
 
-typedef union __attribute__((packed, aligned(1))) LCD_Home_t
+typedef union __attribute__((packed, aligned(1))) Home_t
 {
-    const LCD_Command_t command;
-} LCD_Home_t;
+    const Command_t command;
+} Home_t;
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Mode_Select_t
+typedef enum __attribute__((packed, aligned(1))) Mode_Select_t
 {
-    LCD_Mode_Select_Cursor = 0,
-    LCD_Mode_Select_Screen,
-} LCD_Mode_Select_t;
+    Mode_Select_Cursor = 0,
+    Mode_Select_Screen,
+} Mode_Select_t;
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Mode_Screen_t
+typedef enum __attribute__((packed, aligned(1))) Mode_Screen_t
 {
-    LCD_Mode_Screen_Shift_Right = 0,
-    LCD_Mode_Screen_Shift_Left,
-} LCD_Mode_Screen_t;
+    Mode_Screen_Shift_Right = 0,
+    Mode_Screen_Shift_Left,
+} Mode_Screen_t;
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Mode_Cursor_t
+typedef enum __attribute__((packed, aligned(1))) Mode_Cursor_t
 {
-    LCD_Mode_Cursor_Decrement = 0,
-    LCD_Mode_Cursor_Increment,
-} LCD_Mode_Cursor_t;
+    Mode_Cursor_Decrement = 0,
+    Mode_Cursor_Increment,
+} Mode_Cursor_t;
 
-typedef union __attribute__((packed, aligned(1))) LCD_Mode_t
+typedef union __attribute__((packed, aligned(1))) Mode_t
 {
-    const LCD_Command_t command;
+    const Command_t command;
     struct
     {
-        LCD_Mode_Select_t select : 1;
+        Mode_Select_t select : 1;
         uint8_t : 7;
     };
     struct
     {
         uint8_t : 1;
-        LCD_Mode_Screen_t screen : 1;
+        Mode_Screen_t screen : 1;
         uint8_t : 6;
     };
     struct
     {
         uint8_t : 1;
-        LCD_Mode_Cursor_t cursor : 1;
+        Mode_Cursor_t cursor : 1;
         uint8_t : 6;
     };
-} LCD_Mode_t;
+} Mode_t;
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Setting_Cursor_Blink_t
+typedef enum __attribute__((packed, aligned(1))) Setting_Cursor_Blink_t
 {
-    LCD_Setting_Cursor_Blink_Disable = 0,
-    LCD_Setting_Cursor_Blink_Enable,
-} LCD_Setting_Cursor_Blink_t;
+    Setting_Cursor_Blink_Disable = 0,
+    Setting_Cursor_Blink_Enable,
+} Setting_Cursor_Blink_t;
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Setting_Cursor_t
+typedef enum __attribute__((packed, aligned(1))) Setting_Cursor_t
 {
-    LCD_Setting_Cursor_Disable = 0,
-    LCD_Setting_Cursor_Enable,
-} LCD_Setting_Cursor_t;
+    Setting_Cursor_Disable = 0,
+    Setting_Cursor_Enable,
+} Setting_Cursor_t;
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Setting_Display_t
+typedef enum __attribute__((packed, aligned(1))) Setting_Display_t
 {
-    LCD_Setting_Display_Disable = 0,
-    LCD_Setting_Display_Enable,
-} LCD_Setting_Display_t;
+    Setting_Display_Disable = 0,
+    Setting_Display_Enable,
+} Setting_Display_t;
 
-typedef union __attribute__((packed, aligned(1))) LCD_Setting_t
+typedef union __attribute__((packed, aligned(1))) Setting_t
 {
-    const LCD_Command_t command;
+    const Command_t command;
     struct
     {
-        LCD_Setting_Cursor_Blink_t cursor_blink : 1;
-        LCD_Setting_Cursor_t cursor : 1;
-        LCD_Setting_Display_t display : 1;
+        Setting_Cursor_Blink_t cursor_blink : 1;
+        Setting_Cursor_t cursor : 1;
+        Setting_Display_t display : 1;
     };
-} LCD_Setting_t;
+} Setting_t;
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Shift_Direction_t
+typedef enum __attribute__((packed, aligned(1))) Shift_Direction_t
 {
-    LCD_Shift_Direction_Left = 0,
-    LCD_Shift_Direction_Right,
-} LCD_Shift_Direction_t;
+    Shift_Direction_Left = 0,
+    Shift_Direction_Right,
+} Shift_Direction_t;
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Shift_Select_t
+typedef enum __attribute__((packed, aligned(1))) Shift_Select_t
 {
-    LCD_Shift_Select_Cursor = 0,
-    LCD_Shift_Select_Screen,
-} LCD_Shift_Select_t;
+    Shift_Select_Cursor = 0,
+    Shift_Select_Screen,
+} Shift_Select_t;
 
-typedef union __attribute__((packed, aligned(1))) LCD_Shift_t
+typedef union __attribute__((packed, aligned(1))) Shift_t
 {
-    const LCD_Command_t command;
-    struct
-    {
-        uint8_t : 2;
-        LCD_Shift_Direction_t direction : 1;
-        LCD_Shift_Select_t select : 1;
-    };
-} LCD_Shift_t;
-
-typedef enum __attribute__((packed, aligned(1))) LCD_Function_Font_t
-{
-    LCD_Function_Font_5x8 = 0,
-    LCD_Function_Font_5x11,
-} LCD_Function_Font_t;
-
-typedef enum __attribute__((packed, aligned(1))) LCD_Function_Line_t
-{
-    LCD_Function_Line_1_Line = 0,
-    LCD_Function_Line_2_Line,
-} LCD_Function_Line_t;
-
-typedef enum __attribute__((packed, aligned(1))) LCD_Function_Interface_t
-{
-    LCD_Function_Interface_4bit = 0,
-    LCD_Function_Interface_8bit,
-} LCD_Function_Interface_t;
-
-typedef union __attribute__((packed, aligned(1))) LCD_Function_t
-{
-    const LCD_Command_t command;
+    const Command_t command;
     struct
     {
         uint8_t : 2;
-        LCD_Function_Font_t font : 1;
-        LCD_Function_Line_t line : 1;
-        LCD_Function_Interface_t interface: 1;
+        Shift_Direction_t direction : 1;
+        Shift_Select_t select : 1;
     };
-} LCD_Function_t;
+} Shift_t;
 
-typedef union __attribute__((packed, aligned(1))) LCD_CGRAM_t
+typedef enum __attribute__((packed, aligned(1))) Function_Font_t
 {
-    const LCD_Command_t command;
+    Function_Font_5x8 = 0,
+    Function_Font_5x11,
+} Function_Font_t;
+
+typedef enum __attribute__((packed, aligned(1))) Function_Line_t
+{
+    Function_Line_1_Line = 0,
+    Function_Line_2_Line,
+} Function_Line_t;
+
+typedef enum __attribute__((packed, aligned(1))) Function_Interface_t
+{
+    Function_Interface_4bit = 0,
+    Function_Interface_8bit,
+} Function_Interface_t;
+
+typedef union __attribute__((packed, aligned(1))) Function_t
+{
+    const Command_t command;
+    struct
+    {
+        uint8_t : 2;
+        Function_Font_t font : 1;
+        Function_Line_t line : 1;
+        Function_Interface_t interface: 1;
+    };
+} Function_t;
+
+typedef union __attribute__((packed, aligned(1))) CGRAM_t
+{
+    const Command_t command;
     struct
     {
         uint8_t address : 6;
     };
-} LCD_CGRAM_t;
+} CGRAM_t;
 
-typedef union __attribute__((packed, aligned(1))) LCD_DDRAM_t
+typedef union __attribute__((packed, aligned(1))) DDRAM_t
 {
-    const LCD_Command_t command;
+    const Command_t command;
     struct
     {
         uint8_t address : 7;
     };
-} LCD_DDRAM_t;
+} DDRAM_t;
 
 // #############################################################################
 // #### Private Variable(s) ####################################################
 // #############################################################################
 
-static LCD_Clear_t    LCD_Clear    = {LCD_Command_Clear};
-static LCD_Home_t     LCD_Home     = {LCD_Command_Home};
-static LCD_Mode_t     LCD_Mode     = {LCD_Command_Mode};
-static LCD_Setting_t  LCD_Setting  = {LCD_Command_Display};
-static LCD_Shift_t    LCD_Shift    = {LCD_Command_Shift};
-static LCD_Function_t LCD_Function = {LCD_Command_Function};
-static LCD_CGRAM_t    LCD_CGRAM    = {LCD_Command_CGRAM};
-static LCD_DDRAM_t    LCD_DDRAM    = {LCD_Command_DDRAM};
+static Clear_t    Clear    = {Command_CLEAR};
+static Home_t     Home     = {Command_HOME};
+static Mode_t     Mode     = {Command_MODE};
+static Setting_t  Setting  = {Command_DISPLAY};
+static Shift_t    Shift    = {Command_SHIFT};
+static Function_t Function = {Command_FUNCTION};
+static CGRAM_t    CGRAM    = {Command_CGRAM};
+static DDRAM_t    DDRAM    = {Command_DDRAM};
 
 // #############################################################################
 // #### Private Method(s) ######################################################
@@ -271,22 +271,34 @@ void LCD_Initialize( void )
     HW_PIN_CLEAR(HW_LCD_CS1);
     HW_PIN_CLEAR(HW_LCD_CS2);
     _delay_ms(POWER_ON_DELAY);
-    LCD_Function.font = LCD_Function_Font_5x8;
-    LCD_Function.interface = LCD_Function_Interface_8bit;
-    LCD_Function.line = LCD_Function_Line_2_Line;
-    send(LCD_Function.command, true);
-    send(LCD_Function.command, true);
+    Function.font = Function_Font_5x8;
+    Function.interface = Function_Interface_8bit;
+    Function.line = Function_Line_2_Line;
+    send(Function.command, true);
+    send(Function.command, true);
 
-    LCD_Setting.cursor = LCD_Setting_Cursor_Disable;
-    LCD_Setting.cursor_blink = LCD_Setting_Cursor_Blink_Disable;
-    LCD_Setting.display = LCD_Setting_Display_Enable;
-    send(LCD_Setting.command, true);
+    Setting.cursor = Setting_Cursor_Disable;
+    Setting.cursor_blink = Setting_Cursor_Blink_Disable;
+    Setting.display = Setting_Display_Enable;
+    send(Setting.command, true);
 
-    send(LCD_Clear.command, true);
+    send(Clear.command, true);
 
-    LCD_Mode.select = LCD_Mode_Select_Cursor;
-    LCD_Mode.cursor = LCD_Mode_Cursor_Increment;
-    send(LCD_Mode.command, true);
+    Mode.select = Mode_Select_Cursor;
+    Mode.cursor = Mode_Cursor_Increment;
+    send(Mode.command, true);
+}
+
+/*
+ * @brief Clears LCD
+ *
+ * @param[in] void  : None
+ *
+ * @return void     : None
+ */
+void LCD_Clear( void )
+{
+    send(Clear.command, true);
 }
 
 /*
@@ -328,16 +340,16 @@ void LCD_Write( LCD_Line_t LCD_Line, LCD_Character_t LCD_Character, uint8_t * te
     switch (LCD_Line)
     {
         case LCD_Line_1:
-            LCD_DDRAM.address = 0x00;
+            DDRAM.address = 0x00;
             break;
         case LCD_Line_2:
-            LCD_DDRAM.address = 0x40;
+            DDRAM.address = 0x40;
             break;
         default:
             break;
     }
-    LCD_DDRAM.address += LCD_Character;
-    send(LCD_DDRAM.command, true);
+    DDRAM.address += LCD_Character;
+    send(DDRAM.command, true);
     for (uint8_t i = 0; (LCD_Character <= LCD_Character_16) && (i < length); LCD_Character = LCD_Character + 1, ++i)
     {
         send(text[i]);
@@ -354,9 +366,9 @@ void LCD_Write( LCD_Line_t LCD_Line, LCD_Character_t LCD_Character, uint8_t * te
  */
 void LCD_Setup( LCD_Custom_Character_t LCD_Custom_Character, LCD_Icon_t LCD_Icon )
 {
-    LCD_CGRAM.address = LCD_Custom_Character;
-    LCD_CGRAM.address <<= 3;
-    send(LCD_CGRAM.command, true);
+    CGRAM.address = LCD_Custom_Character;
+    CGRAM.address <<= 3;
+    send(CGRAM.command, true);
     for (uint8_t i = 0; i < sizeof(LCD_Icon_t); ++i)
     {
         send(LCD_Icon[i]);
@@ -377,16 +389,16 @@ void LCD_Draw( LCD_Line_t LCD_Line, LCD_Character_t LCD_Character, LCD_Custom_Ch
     switch (LCD_Line)
     {
         case LCD_Line_1:
-            LCD_DDRAM.address = 0x00;
+            DDRAM.address = 0x00;
             break;
         case LCD_Line_2:
-            LCD_DDRAM.address = 0x40;
+            DDRAM.address = 0x40;
             break;
         default:
             break;
     }
-    LCD_DDRAM.address += LCD_Character;
-    send(LCD_DDRAM.command, true);
+    DDRAM.address += LCD_Character;
+    send(DDRAM.command, true);
 
     send(LCD_Custom_Character);
 }
