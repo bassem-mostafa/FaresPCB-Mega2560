@@ -132,8 +132,8 @@
 //93          PF4 ( ADC4/TMK )            Analog pin 4
 //94          PF3 ( ADC3 )                Analog pin 3
 //95          PF2 ( ADC2 )                Analog pin 2
-//96          PF1 ( ADC1 )                Analog pin 1                  VARIABLE RESISTOR
-//97          PF0 ( ADC0 )                Analog pin 0                  TEMPERATURE SENSOR
+//96          PF1 ( ADC1 )                Analog pin 1                  TEMPERATURE SENSOR
+//97          PF0 ( ADC0 )                Analog pin 0                  VARIABLE RESISTOR
 //98          AREF                        Analog Reference
 //99          GND                         GND
 //100         AVCC                        VCC
@@ -195,7 +195,7 @@
 #define HW_RS232_RX                 (const HW_PinDef) {&DDRJ, &PORTJ, &PINJ, (0x01 << 0)}
 
 // TEMPERATURE SENSORs PINs
-#define HW_TEMPERATURE_SENSOR       (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 0)}
+#define HW_TEMPERATURE_SENSOR       A1// (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 0)}
 
 // VARIABLE RESISTORs PINs
 #define HW_VARIABLE_RESISTOR        (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 1)}
