@@ -54,6 +54,10 @@ typedef struct __attribute__((packed, aligned(1))) Request_t
             uint8_t index;
             LCD_Custom_Character_t bar[LOADING_BAR_SIZE];
         } _loading;
+        struct
+        {
+            Bluetooth_Status_t status;
+        } _bluetooth;
     };
 } Request_t;
 
@@ -115,6 +119,7 @@ static void vTask( void *pvParameters )
                     break;
                 case Task_LCD_Request_Bluetooth:
                     LCD_Setup(LCD_Custom_Character_1, LCD_Icon_Bluetooth);
+                    Request._bluetooth.status = Bluetooth_Status();
                     break;
                 case Task_LCD_Request_Temperature:
                     LCD_Setup(LCD_Custom_Character_1, LCD_Icon_Thermometer);
@@ -170,6 +175,11 @@ static void vTask( void *pvParameters )
                 LCD_Write(LCD_Line_2, LCD_Character_6, (uint8_t*)"??:??:?? ??", strlen("??:??:?? ??"));
                 break;
             case Task_LCD_Request_Bluetooth:
+                if (Request._bluetooth.status != Bluetooth_Status())
+                {
+                    Request._bluetooth.status = Bluetooth_Status();
+                    LCD_Clear();
+                }
                 LCD_Write(LCD_Line_1, LCD_Character_4, (uint8_t*)"Bluetooth", strlen("Bluetooth"));
                 LCD_Draw(LCD_Line_1, LCD_Character_1, LCD_Custom_Character_1);
                 switch (Bluetooth_Status())
