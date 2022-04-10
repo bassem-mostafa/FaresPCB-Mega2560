@@ -24,6 +24,9 @@
 #include "queue.h"
 #include "string.h"
 #include "Bluetooth.h"
+#include "Temperature.h"
+#include "stdlib.h"
+#include "stdio.h"
 
 // #############################################################################
 // #### Private Macro(s) #######################################################
@@ -39,6 +42,7 @@
 #if LOADING_BAR_SIZE < 3
 #warning "macro LOADING_BAR_SIZE should be equal to 3 or higher"
 #endif
+#define TEMPERATURE_TEXT_SIZE 6
 
 // #############################################################################
 // #### Private Type(s) ########################################################
@@ -58,6 +62,11 @@ typedef struct __attribute__((packed, aligned(1))) Request_t
         {
             Bluetooth_Status_t status;
         } _bluetooth;
+        struct
+        {
+            char text[TEMPERATURE_TEXT_SIZE];
+            double celsius;
+        } _temperature;
     };
 } Request_t;
 
@@ -195,9 +204,11 @@ static void vTask( void *pvParameters )
                 }
                 break;
             case Task_LCD_Request_Temperature:
+                Request._temperature.celsius = Temperature_Celsius();
+                snprintf(Request._temperature.text, sizeof(Request._temperature.text), "%5.5s", dtostrf(Request._temperature.celsius, 5, 2, Request._temperature.text));
                 LCD_Write(LCD_Line_1, LCD_Character_3, (uint8_t*)"Temperature", strlen("Temperature"));
                 LCD_Draw(LCD_Line_2, LCD_Character_1, LCD_Custom_Character_1);
-                LCD_Write(LCD_Line_2, LCD_Character_10, (uint8_t*)"???.?", strlen("???.?"));
+                LCD_Write(LCD_Line_2, LCD_Character_10, (uint8_t*)Request._temperature.text, strlen(Request._temperature.text));
                 LCD_Draw(LCD_Line_2, LCD_Character_15, LCD_Custom_Character_2);
                 LCD_Write(LCD_Line_2, LCD_Character_16, (uint8_t*)"C", strlen("C"));
                 break;
