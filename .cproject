@@ -26,6 +26,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FreeRTOS/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_LCD/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LED/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LCD/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Temperature/src}&quot;"/>
@@ -41,6 +42,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FreeRTOS/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_LCD/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LED/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LCD/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Temperature/src}&quot;"/>
@@ -56,6 +58,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FreeRTOS/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_LCD/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_Bluetooth/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LED/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Task_LCD/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/FaresPCB-Mega2560/libraries/FaresPCB_Temperature/src}&quot;"/>
