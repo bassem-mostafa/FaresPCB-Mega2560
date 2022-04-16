@@ -5,6 +5,7 @@
 #include "LCD.h"
 #include "Task_LED.h"
 #include "Task_LCD.h"
+#include "Task_Bluetooth.h"
 
 uint8_t buffer[20];
 uint8_t length;
@@ -12,18 +13,13 @@ uint8_t length;
 void setup()
 {
     LED_TurnOff(LED_Internal);
-    Bluetooth_Initialize();
-    Bluetooth_Write((uint8_t*)"\nFaresPCB Ready\n", strlen("\nFaresPCB Ready\n"));
     Task_LED_Initialize();
     Task_LCD_Initialize();
+    Task_Bluetooth_Initialize();
 }
 
 void loop()
 {
-    if ( ( length = Bluetooth_Read(buffer, sizeof(buffer)) ) > 0)
-    {
-        Bluetooth_Write(buffer, length);
-    }
     if (LED_isOn(LED_Internal))
     {
         LED_TurnOff(LED_Internal);
