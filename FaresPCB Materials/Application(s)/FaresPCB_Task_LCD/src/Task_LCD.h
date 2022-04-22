@@ -44,6 +44,7 @@ typedef enum __attribute__((packed, aligned(1))) Task_LCD_Request_t
     Task_LCD_Request_Bluetooth,
     Task_LCD_Request_Temperature,
     Task_LCD_Request_Distance,
+    Task_LCD_Request_Version,
 } Task_LCD_Request_t;
 
 // #############################################################################

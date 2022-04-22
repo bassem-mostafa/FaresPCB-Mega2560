@@ -136,6 +136,8 @@ static void vTask( void *pvParameters )
                     break;
                 case Task_LCD_Request_Distance:
                     break;
+                case Task_LCD_Request_Version:
+                    break;
                 default:
                     break;
             }
@@ -216,6 +218,11 @@ static void vTask( void *pvParameters )
                 LCD_Write(LCD_Line_1, LCD_Character_5, (uint8_t*)"Distance", strlen("Distance"));
                 LCD_Write(LCD_Line_2, LCD_Character_10, (uint8_t*)"???.?", strlen("???.?"));
                 LCD_Write(LCD_Line_2, LCD_Character_15, (uint8_t*)"CM", strlen("CM"));
+                break;
+            case Task_LCD_Request_Version:
+                extern const char FW_VERSION[30];
+                LCD_Write(LCD_Line_1, LCD_Character_5, (uint8_t*)"Version", strlen("Version"));
+                LCD_Write(LCD_Line_2, LCD_Character_2, (uint8_t*)FW_VERSION, strlen(FW_VERSION)-3);
                 break;
             default:
                 break;
