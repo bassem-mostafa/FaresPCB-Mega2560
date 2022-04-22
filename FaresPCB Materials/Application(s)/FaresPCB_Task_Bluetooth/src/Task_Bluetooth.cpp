@@ -61,6 +61,7 @@ typedef enum __attribute__((packed, aligned(1))) Task_Bluetooth_Request_t
     Task_Bluetooth_Request_LCD_Bluetooth,
     Task_Bluetooth_Request_LCD_Temperature,
     Task_Bluetooth_Request_LCD_Distance,
+    Task_Bluetooth_Request_LCD_Version,
 } Task_Bluetooth_Request_t;
 
 typedef struct __attribute__((packed, aligned(1))) Request_t
@@ -105,6 +106,7 @@ Command_t commandSet[] =
         {"lcd bluetooth",   Task_Bluetooth_Request_LCD_Bluetooth},
         {"lcd temperature", Task_Bluetooth_Request_LCD_Temperature},
         {"lcd distance",    Task_Bluetooth_Request_LCD_Distance},
+        {"lcd version",     Task_Bluetooth_Request_LCD_Version},
 };
 // #############################################################################
 // #### Private Method(s) ######################################################
@@ -217,6 +219,9 @@ static void vTask( void *pvParameters )
                     break;
                 case Task_Bluetooth_Request_LCD_Distance:
                     Task_LCD_Request(Task_LCD_Request_Distance);
+                    break;
+                case Task_Bluetooth_Request_LCD_Version:
+                    Task_LCD_Request(Task_LCD_Request_Version);
                     break;
                 default:
                     break;
