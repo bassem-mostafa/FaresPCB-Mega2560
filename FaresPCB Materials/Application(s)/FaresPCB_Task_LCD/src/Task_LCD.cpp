@@ -153,9 +153,8 @@ static void vTask( void *pvParameters )
             case Task_LCD_Request_Empty:
                 break;
             case Task_LCD_Request_Loading:
+                if (Request._loading.index >= LOADING_BAR_SIZE) break;
                 LCD_Write(LCD_Line_1, LCD_Character_5, (uint8_t*)"Loading", strlen("Loading"));
-
-                if (Request._loading.index >= LOADING_BAR_SIZE) Request._loading.index = 0;
                 switch (Request._loading.bar[Request._loading.index])
                 {
                     case LCD_Custom_Character_1:
