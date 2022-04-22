@@ -131,6 +131,9 @@ static void vTask( void *pvParameters )
 
     Request._received.length = 0;
 
+    extern const char FW_VERSION[30];
+    Bluetooth_Write((uint8_t*)"\nFirmware Version: ", strlen("\nFirmware Version: "));
+    Bluetooth_Write((uint8_t*)FW_VERSION, strlen(FW_VERSION));
     Bluetooth_Write((uint8_t*)"\nFaresPCB Ready\n", strlen("\nFaresPCB Ready\n"));
 
     for( ;; )
