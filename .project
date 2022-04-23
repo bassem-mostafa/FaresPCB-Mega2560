@@ -67,6 +67,11 @@
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_RTC</location>
 		</link>
 		<link>
+			<name>libraries/FaresPCB_Relay</name>
+			<type>2</type>
+			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_Relay</location>
+		</link>
+		<link>
 			<name>libraries/FaresPCB_Task_Bluetooth</name>
 			<type>2</type>
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_Task_Bluetooth</location>
