@@ -52,6 +52,7 @@ typedef enum __attribute__((packed, aligned(1))) Task_Bluetooth_Request_t
     Task_Bluetooth_Request_LED_Blink,
     Task_Bluetooth_Request_LED_Increase,
     Task_Bluetooth_Request_LED_Decrease,
+    Task_Bluetooth_Request_LED_RGB,
 
     Task_Bluetooth_Request_LCD_Off,
     Task_Bluetooth_Request_LCD_On,
@@ -96,6 +97,7 @@ Command_t commandSet[] =
         {"led blink",    Task_Bluetooth_Request_LED_Blink},
         {"led increase", Task_Bluetooth_Request_LED_Increase},
         {"led decrease", Task_Bluetooth_Request_LED_Decrease},
+        {"led rgb",      Task_Bluetooth_Request_LED_RGB},
 
         {"lcd off",         Task_Bluetooth_Request_LCD_Off},
         {"lcd on",          Task_Bluetooth_Request_LCD_On},
@@ -197,6 +199,9 @@ static void vTask( void *pvParameters )
                     break;
                 case Task_Bluetooth_Request_LED_Decrease:
                     Task_LED_Request(Task_LED_Request_Decrease);
+                    break;
+                case Task_Bluetooth_Request_LED_RGB:
+                    Task_LED_Request(Task_LED_Request_RGB);
                     break;
 
                 case Task_Bluetooth_Request_LCD_Off:
