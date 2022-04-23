@@ -54,6 +54,12 @@ typedef struct __attribute__((packed, aligned(1))) Request_t
         {
             LED_t LED;
         } _decrease;
+        struct
+        {
+            uint8_t red;
+            uint8_t green;
+            uint8_t blue;
+        } _rgb;
     };
 } Request_t;
 
@@ -84,6 +90,7 @@ static void vTask( void *pvParameters )
             LED_TurnOff(LED_3);
             LED_TurnOff(LED_4);
             LED_TurnOff(LED_5);
+            LED_RGB_SetIntensity(0, 0, 0);
 
             switch (Request.request)
             {
@@ -101,6 +108,11 @@ static void vTask( void *pvParameters )
                     break;
                 case Task_LED_Request_Decrease:
                     Request._decrease.LED = LED_1;
+                    break;
+                case Task_LED_Request_RGB:
+                    Request._rgb.red = 0;
+                    Request._rgb.green = 0;
+                    Request._rgb.blue = 0;
                     break;
                 default:
                     break;
@@ -153,6 +165,24 @@ static void vTask( void *pvParameters )
                 LED_TurnOff(Request._decrease.LED);
                 Request._decrease.LED =  Request._increase.LED <= LED_1 ? LED_5 : Request._increase.LED - 1;
                 LED_TurnOn(Request._decrease.LED);
+                break;
+            case Task_LED_Request_RGB:
+                LED_RGB_SetIntensity(Request._rgb.red, Request._rgb.green, Request._rgb.blue);
+                Request._rgb.red += 50;
+                if (Request._rgb.red >= 250)
+                {
+                    Request._rgb.red = 0;
+                    Request._rgb.green += 50;
+                    if (Request._rgb.green >= 250)
+                    {
+                        Request._rgb.green = 0;
+                        Request._rgb.blue += 50;
+                        if (Request._rgb.blue >= 250)
+                        {
+                            Request._rgb.blue = 0;
+                        }
+                    }
+                }
                 break;
             default:
                 break;

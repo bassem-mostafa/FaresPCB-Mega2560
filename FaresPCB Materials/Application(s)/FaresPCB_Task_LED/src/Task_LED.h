@@ -41,6 +41,7 @@ typedef enum __attribute__((packed, aligned(1))) Task_LED_Request_t
     Task_LED_Request_Blink,
     Task_LED_Request_Increase,
     Task_LED_Request_Decrease,
+    Task_LED_Request_RGB,
 } Task_LED_Request_t;
 
 // #############################################################################
