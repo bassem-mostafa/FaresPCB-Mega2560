@@ -27,6 +27,7 @@
 #include "Temperature.h"
 #include "stdlib.h"
 #include "stdio.h"
+#include "RTC.h"
 
 // #############################################################################
 // #### Private Macro(s) #######################################################
@@ -43,6 +44,8 @@
 #warning "macro LOADING_BAR_SIZE should be equal to 3 or higher"
 #endif
 #define TEMPERATURE_TEXT_SIZE 6
+#define DATE_TEXT_SIZE 15 // ??? ??/??/???? + '\0'
+#define TIME_TEXT_SIZE 12 // ??:??:?? ?? + '\0'
 
 // #############################################################################
 // #### Private Type(s) ########################################################
@@ -67,6 +70,14 @@ typedef struct __attribute__((packed, aligned(1))) Request_t
             char text[TEMPERATURE_TEXT_SIZE];
             double celsius;
         } _temperature;
+        struct
+        {
+            char text[DATE_TEXT_SIZE];
+        } _date;
+        struct
+        {
+            char text[TIME_TEXT_SIZE];
+        } _time;
     };
 } Request_t;
 
@@ -181,8 +192,17 @@ static void vTask( void *pvParameters )
                 LCD_Draw(LCD_Line_1, LCD_Character_1, LCD_Custom_Character_1);
                 LCD_Draw(LCD_Line_2, LCD_Character_1, LCD_Custom_Character_2);
                 LCD_Draw(LCD_Line_2, LCD_Character_2, LCD_Custom_Character_3);
-                LCD_Write(LCD_Line_1, LCD_Character_3, (uint8_t*)"??? ??/??/????", strlen("??? ??/??/????"));
-                LCD_Write(LCD_Line_2, LCD_Character_6, (uint8_t*)"??:??:?? ??", strlen("??:??:?? ??"));
+                {
+                    RTC_Date_t RTC_Date = RTC_DateGet();
+                    const char weekday[][4] = {"???", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"};
+                    snprintf(Request._date.text, sizeof(Request._date.text), "%3.3s %02d/%02d/%04d", weekday[RTC_Date.weekday], RTC_Date.day, RTC_Date.month, RTC_Date.year);
+                    LCD_Write(LCD_Line_1, LCD_Character_3, (uint8_t*)Request._date.text, strlen(Request._date.text));
+                }
+                {
+                    RTC_Time_t RTC_Time = RTC_TimeGet();
+                    snprintf(Request._time.text, sizeof(Request._time.text), "%02d:%02d:%02d %2.2s", RTC_Time.hour, RTC_Time.minute, RTC_Time.second, RTC_Time.period == RTC_Period_24H ? "24" : RTC_Time.period == RTC_Period_12H_AM ? "AM" : "PM");
+                    LCD_Write(LCD_Line_2, LCD_Character_6, (uint8_t*)Request._time.text, strlen(Request._time.text));
+                }
                 break;
             case Task_LCD_Request_Bluetooth:
                 if (Request._bluetooth.status != Bluetooth_Status())
