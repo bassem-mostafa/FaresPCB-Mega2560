@@ -59,9 +59,9 @@
 //20          PB1 ( SCK/PCINT1 )          Digital pin 52 (SCK)
 //21          PB2 ( MOSI/PCINT2 )         Digital pin 51 (MOSI)
 //22          PB3 ( MISO/PCINT3 )         Digital pin 50 (MISO)
-//23          PB4 ( OC2A/PCINT4 )         Digital pin 10 (PWM)
-//24          PB5 ( OC1A/PCINT5 )         Digital pin 11 (PWM)
-//25          PB6 ( OC1B/PCINT6 )         Digital pin 12 (PWM)
+//23          PB4 ( OC2A/PCINT4 )         Digital pin 10 (PWM)          LED RGB Red Color
+//24          PB5 ( OC1A/PCINT5 )         Digital pin 11 (PWM)          LED RGB Green Color
+//25          PB6 ( OC1B/PCINT6 )         Digital pin 12 (PWM)          LED RGB Blue
 //26          PB7 ( OC0A/OC1C/PCINT7 )    Digital pin 13 (PWM)          LED BUILTIN / LED INTERNAL
 //27          PH7 ( T4 )
 //28          PG3 ( TOSC2 )
@@ -146,6 +146,9 @@
 #define HW_LED_3                    (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 5)}
 #define HW_LED_4                    (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 4)}
 #define HW_LED_5                    (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 3)}
+#define HW_LED_RGB_RED              10
+#define HW_LED_RGB_GREEN            11
+#define HW_LED_RGB_BLUE             12
 
 // RELAYs PINs
 #define HW_RELAY_1                  (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 2)}

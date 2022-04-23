@@ -163,6 +163,34 @@ bool LED_isOn( LED_t LED )
     return isOn;
 }
 
+/*
+ * @brief Sets RGB LED intensity
+ *
+ * @param[in] red    : red intensity
+ * @param[in] green  : green intensity
+ * @param[in] blue   : blue intensity
+ *
+ * @return void     : None
+ */
+void LED_RGB_SetIntensity( uint8_t red, uint8_t green, uint8_t blue )
+{
+    if (red == 0 && green == 0 && blue == 0)
+    {
+        pinMode(HW_LED_RGB_RED, INPUT);
+        pinMode(HW_LED_RGB_GREEN, INPUT);
+        pinMode(HW_LED_RGB_BLUE, INPUT);
+    }
+    else
+    {
+        pinMode(HW_LED_RGB_RED, OUTPUT);
+        pinMode(HW_LED_RGB_GREEN, OUTPUT);
+        pinMode(HW_LED_RGB_BLUE, OUTPUT);
+        analogWrite(HW_LED_RGB_RED, red);
+        analogWrite(HW_LED_RGB_GREEN, green);
+        analogWrite(HW_LED_RGB_BLUE, blue);
+    }
+}
+
 // #############################################################################
 // #### Public Variable(s) #####################################################
 // #############################################################################

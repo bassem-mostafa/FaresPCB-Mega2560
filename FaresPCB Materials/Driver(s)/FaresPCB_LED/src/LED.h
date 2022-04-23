@@ -75,6 +75,17 @@ void LED_TurnOff( LED_t LED );
  */
 bool LED_isOn( LED_t LED );
 
+/*
+ * @brief Sets RGB LED intensity
+ *
+ * @param[in] red    : red intensity
+ * @param[in] green  : green intensity
+ * @param[in] blue   : blue intensity
+ *
+ * @return void     : None
+ */
+void LED_RGB_SetIntensity( uint8_t red, uint8_t green, uint8_t blue );
+
 // #############################################################################
 // #### Public Variable(s) #####################################################
 // #############################################################################
