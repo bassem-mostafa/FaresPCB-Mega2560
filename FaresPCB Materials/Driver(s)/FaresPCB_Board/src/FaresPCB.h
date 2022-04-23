@@ -59,8 +59,8 @@
 //20          PB1 ( SCK/PCINT1 )          Digital pin 52 (SCK)
 //21          PB2 ( MOSI/PCINT2 )         Digital pin 51 (MOSI)
 //22          PB3 ( MISO/PCINT3 )         Digital pin 50 (MISO)
-//23          PB4 ( OC2A/PCINT4 )         Digital pin 10 (PWM)          BLUETOOTH STATE
-//24          PB5 ( OC1A/PCINT5 )         Digital pin 11 (PWM)          BLUETOOTH KEY
+//23          PB4 ( OC2A/PCINT4 )         Digital pin 10 (PWM)
+//24          PB5 ( OC1A/PCINT5 )         Digital pin 11 (PWM)
 //25          PB6 ( OC1B/PCINT6 )         Digital pin 12 (PWM)
 //26          PB7 ( OC0A/OC1C/PCINT7 )    Digital pin 13 (PWM)          LED BUILTIN / LED INTERNAL
 //27          PH7 ( T4 )
@@ -128,8 +128,8 @@
 //89          PK0 ( ADC8/PCINT16 )        Analog pin 8
 //90          PF7 ( ADC7 )                Analog pin 7                  ULTRA-SONIC ECHO
 //91          PF6 ( ADC6 )                Analog pin 6                  ULTRA-SONIC TRIG
-//92          PF5 ( ADC5/TMS )            Analog pin 5
-//93          PF4 ( ADC4/TMK )            Analog pin 4
+//92          PF5 ( ADC5/TMS )            Analog pin 5                  BLUETOOTH STATE
+//93          PF4 ( ADC4/TMK )            Analog pin 4                  BLUETOOTH KEY
 //94          PF3 ( ADC3 )                Analog pin 3
 //95          PF2 ( ADC2 )                Analog pin 2
 //96          PF1 ( ADC1 )                Analog pin 1                  TEMPERATURE SENSOR
@@ -207,8 +207,8 @@
 #define HW_EEPROM_ADDRESS           0x50
 
 // BLUETOOTH Info
-#define HW_BLUETOOTH_KEY            (const HW_PinDef) {&DDRB, &PORTB, &PINB, (0x01 << 5)}
-#define HW_BLUETOOTH_STATE          (const HW_PinDef) {&DDRB, &PORTB, &PINB, (0x01 << 4)}
+#define HW_BLUETOOTH_KEY            (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 4)}
+#define HW_BLUETOOTH_STATE          (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 5)}
 //#define HW_BLUETOOTH_TX             18
 //#define HW_BLUETOOTH_RX             19
 #define HW_BLUETOOTH_SERIAL         Serial1
