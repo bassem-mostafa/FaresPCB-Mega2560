@@ -62,6 +62,11 @@
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_LED</location>
 		</link>
 		<link>
+			<name>libraries/FaresPCB_RTC</name>
+			<type>2</type>
+			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_RTC</location>
+		</link>
+		<link>
 			<name>libraries/FaresPCB_Task_Bluetooth</name>
 			<type>2</type>
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_Task_Bluetooth</location>
@@ -85,6 +90,11 @@
 			<name>libraries/FreeRTOS</name>
 			<type>2</type>
 			<locationURI>ECLIPSE_HOME/arduinoPlugin/libraries/FreeRTOS/10.4.6-1</locationURI>
+		</link>
+		<link>
+			<name>libraries/Wire</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.8.5/libraries/Wire</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
