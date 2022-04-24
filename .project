@@ -57,6 +57,11 @@
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_Board</location>
 		</link>
 		<link>
+			<name>libraries/FaresPCB_Buzzer</name>
+			<type>2</type>
+			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_Buzzer</location>
+		</link>
+		<link>
 			<name>libraries/FaresPCB_LCD</name>
 			<type>2</type>
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_LCD</location>
