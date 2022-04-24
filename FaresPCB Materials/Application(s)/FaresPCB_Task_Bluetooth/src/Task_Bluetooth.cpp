@@ -166,8 +166,8 @@ static void vTask( void *pvParameters )
         {
             if (Request._received.data[i] == ';')
             {
-                Request._received.length = 0;
-                Request._received.data[0] = '\0';
+                memcpy(Request._received.data, Request._received.data + (i + 1), Request._received.length - (i + 1));
+                Request._received.length -= (i + 1);
                 Bluetooth_Write((uint8_t*)"\nCommand [Clear]\n", strlen("\nCommand [Clear]\n"));
                 break;
             }
