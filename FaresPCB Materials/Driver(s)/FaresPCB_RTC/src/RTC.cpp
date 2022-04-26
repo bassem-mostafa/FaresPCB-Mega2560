@@ -288,6 +288,47 @@ RTC_Date_t RTC_DateGet( void )
  */
 void RTC_DateSet( RTC_Date_t RTC_Date )
 {
+    RTC._06h.year_10 = DEC2BCD( ( (RTC_Date.year - YEAR_OFFSET) / 10 ) % 10);
+    RTC._06h.year = DEC2BCD( ( (RTC_Date.year - YEAR_OFFSET) /  1 ) % 10);
+    RTC._05h.month_10 = DEC2BCD( (RTC_Date.month / 10 ) % 10);
+    RTC._05h.month = DEC2BCD( (RTC_Date.month /  1 ) % 10);
+    RTC._04h.date_10 = DEC2BCD( (RTC_Date.day / 10 ) % 10);
+    RTC._04h.date = DEC2BCD( (RTC_Date.day /  1 ) % 10);
+    switch (RTC_Date.weekday)
+    {
+        case RTC_WeekDay_Saturday:
+            RTC._03h.day = _03h_Day_Saturday;
+            break;
+        case RTC_WeekDay_Sunday:
+            RTC._03h.day = _03h_Day_Sunday;
+            break;
+        case RTC_WeekDay_Monday:
+            RTC._03h.day = _03h_Day_Monday;
+            break;
+        case RTC_WeekDay_Tuesday:
+            RTC._03h.day = _03h_Day_Tuesday;
+            break;
+        case RTC_WeekDay_Wednesday:
+            RTC._03h.day = _03h_Day_Wednesday;
+            break;
+        case RTC_WeekDay_Thursday:
+            RTC._03h.day = _03h_Day_Thursday;
+            break;
+        case RTC_WeekDay_Friday:
+            RTC._03h.day = _03h_Day_Friday;
+            break;
+        case RTC_WeekDay_Unknown:
+        default:
+            // Don't Change Day
+            break;
+    }
+
+    Wire.begin();
+    Wire.beginTransmission(HW_RTC_ADDRESS);
+    Wire.write(offsetof(RTC_t, _03h));
+    Wire.write((uint8_t*)&RTC._03h, offsetof(RTC_t, _06h) - offsetof(RTC_t, _03h) + 1);
+    Wire.endTransmission();
+    Wire.end();
 }
 
 /*
@@ -352,6 +393,46 @@ RTC_Time_t RTC_TimeGet( void )
  */
 void RTC_TimeSet( RTC_Time_t RTC_Time )
 {
+    switch (RTC_Time.period)
+    {
+    case RTC_Period_12H_AM:
+    case RTC_Period_12H_PM:
+        RTC._02h.mode = _02h_Mode_12h;
+        RTC._02h._12h.hour_10 = DEC2BCD((RTC_Time.hour / 10) % 10);
+        RTC._02h._12h.hour = DEC2BCD((RTC_Time.hour /  1) % 10);
+        RTC._01h.minute_10 = DEC2BCD((RTC_Time.minute / 10) % 10);
+        RTC._01h.minute = DEC2BCD((RTC_Time.minute /  1) % 10);
+        RTC._00h.second_10 = DEC2BCD((RTC_Time.second / 10) % 10);
+        RTC._00h.second = DEC2BCD((RTC_Time.second /  1) % 10);
+        switch (RTC_Time.period)
+        {
+            case RTC_Period_12H_AM:
+                RTC._02h._12h.period = _02h_Period_AM;
+                break;
+            case RTC_Period_12H_PM:
+            default:
+                RTC._02h._12h.period = _02h_Period_PM;
+                break;
+        }
+        break;
+    case RTC_Period_24H:
+    default:
+        RTC._02h.mode = _02h_Mode_24h;
+        RTC._02h._24h.hour_10 = DEC2BCD((RTC_Time.hour / 10) % 10);
+        RTC._02h._24h.hour = DEC2BCD((RTC_Time.hour /  1) % 10);
+        RTC._01h.minute_10 = DEC2BCD((RTC_Time.minute / 10) % 10);
+        RTC._01h.minute = DEC2BCD((RTC_Time.minute /  1) % 10);
+        RTC._00h.second_10 = DEC2BCD((RTC_Time.second / 10) % 10);
+        RTC._00h.second = DEC2BCD((RTC_Time.second /  1) % 10);
+        break;
+    }
+
+    Wire.begin();
+    Wire.beginTransmission(HW_RTC_ADDRESS);
+    Wire.write(offsetof(RTC_t, _00h));
+    Wire.write((uint8_t*)&RTC._00h, offsetof(RTC_t, _02h) - offsetof(RTC_t, _00h) + 1);
+    Wire.endTransmission();
+    Wire.end();
 }
 
 /*
@@ -377,6 +458,14 @@ uint8_t RTC_MemoryGet( uint8_t index )
  */
 void RTC_MemorySet( uint8_t index, uint8_t value )
 {
+    RTC._RAM[index] = value;
+
+    Wire.begin();
+    Wire.beginTransmission(HW_RTC_ADDRESS);
+    Wire.write(offsetof(RTC_t, _RAM) + index);
+    Wire.write(RTC._RAM[index]);
+    Wire.endTransmission();
+    Wire.end();
 }
 
 // #############################################################################
