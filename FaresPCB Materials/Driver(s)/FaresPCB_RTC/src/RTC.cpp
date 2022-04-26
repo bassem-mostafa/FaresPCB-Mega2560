@@ -445,6 +445,21 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
 uint8_t RTC_MemoryGet( uint8_t index )
 {
     uint8_t value;
+    Wire.begin();
+    Wire.beginTransmission(HW_RTC_ADDRESS);
+    Wire.write(offsetof(RTC_t, _RAM) + index);
+    Wire.endTransmission(false);
+    Wire.requestFrom(HW_RTC_ADDRESS, 1);
+    for( uint8_t timeout = 0x0F; Wire.available() < (1); --timeout)
+    {
+        _delay_ms(1);
+    }
+    Wire.end();
+    if (Wire.available() == (1) )
+    {
+        Wire.readBytes((uint8_t*)&RTC._RAM[index], 1);
+        value = RTC._RAM[index];
+    }
     return value;
 }
 
