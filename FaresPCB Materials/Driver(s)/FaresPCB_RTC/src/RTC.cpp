@@ -172,7 +172,7 @@ typedef enum __attribute__((packed, aligned(1))) _07h_SquareWave_t
     _07h_SquareWave_Enable,
 } _07h_SquareWave_t;
 
-typedef enum __attribute__((packed, aligned(1))) s
+typedef enum __attribute__((packed, aligned(1))) _07h_OutputDefault_t
 {
     _07h_OutputDefault_Low = 0,
     _07h_OutputDefault_High,
