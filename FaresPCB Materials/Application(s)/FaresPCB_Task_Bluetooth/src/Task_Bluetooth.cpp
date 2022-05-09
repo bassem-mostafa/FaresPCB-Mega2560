@@ -98,7 +98,8 @@ CommandHandle_t CommandHandle[] =
          "\n\t led on"          // no comma
          "\n\t led blink"       // no comma
          "\n\t led increase"    // no comma
-         "\n\t led decrease",
+         "\n\t led decrease"    // no comma
+         "\n\t led rgb",
      /* Command Handler */
      handleLED
     },
@@ -155,6 +156,7 @@ static void handleLED( void * handle, int argc, char * argv[] )
             "blink",
             "increase",
             "decrease",
+            "rgb",
     };
     do
     {
@@ -186,6 +188,9 @@ static void handleLED( void * handle, int argc, char * argv[] )
                             break;
                         case 4:
                             Task_LED_Request(Task_LED_Request_Decrease);
+                            break;
+                        case 5:
+                            Task_LED_Request(Task_LED_Request_RGB);
                             break;
                         default:
                             break;
