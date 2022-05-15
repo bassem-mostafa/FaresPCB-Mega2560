@@ -3,6 +3,7 @@
 #include "Task_LED.h"
 #include "Task_LCD.h"
 #include "Task_Bluetooth.h"
+#include "Task_7Segment.h"
 
 #define _VERIFY_MONTH(MMM) (__TIMESTAMP__[4] == MMM[0] && __TIMESTAMP__[5] == MMM[1] && __TIMESTAMP__[6] == MMM[2])
 
@@ -47,6 +48,7 @@ void setup()
     Task_LED_Initialize();
     Task_LCD_Initialize();
     Task_Bluetooth_Initialize();
+    Task_7Segment_Initialize();
 }
 
 void loop()
