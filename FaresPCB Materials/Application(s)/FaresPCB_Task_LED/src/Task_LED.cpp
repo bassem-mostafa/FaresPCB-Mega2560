@@ -85,6 +85,8 @@ static void vTask( void *pvParameters )
 
     QueueHandle = xQueueCreate( TASK_QUEUE_LENGTH, sizeof(Request_t) );
 
+    Task_LED_Request(Task_LED_Request_RGB);
+
     for( ;; )
     {
         if ( xQueueReceive(QueueHandle, &Request, pdMS_TO_TICKS(0)) == pdTRUE )
