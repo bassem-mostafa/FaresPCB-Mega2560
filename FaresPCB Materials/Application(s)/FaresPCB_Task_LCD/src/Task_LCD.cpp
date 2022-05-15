@@ -103,6 +103,9 @@ static void vTask( void *pvParameters )
 
     QueueHandle = xQueueCreate( TASK_QUEUE_LENGTH, sizeof(Request_t) );
 
+    Task_LCD_Request(Task_LCD_Request_On);
+    Task_LCD_Request(Task_LCD_Request_DateTime);
+
     LCD_Initialize();
 
     for( ;; )
