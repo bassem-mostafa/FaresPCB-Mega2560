@@ -26,6 +26,7 @@
 #include "Task_LED.h"
 #include "Task_LCD.h"
 #include "stdio.h"
+#include "Task_7Segment.h"
 
 // #############################################################################
 // #### Private Macro(s) #######################################################
@@ -312,9 +313,7 @@ static void handle7Segment( void * handle, int argc, char * argv[] )
         }
         char number_str[10];
         snprintf(number_str, sizeof(number_str), "%d", number);
-        Bluetooth_Write((uint8_t*)"number read <", strlen("number read <"));
-        Bluetooth_Write((uint8_t*)number_str, strlen(number_str));
-        Bluetooth_Write((uint8_t*)">\n", strlen(">\n"));
+        Task_7Segment_Request((Task_7Segment_Request_t){number});
     } while(0);
     if (displayManual)
     {
