@@ -46,6 +46,25 @@
 // #############################################################################
 
 /*
+ * @brief Clears ALL 7-Segments
+ *
+ * @param[in] void   : None
+ *
+ * @return void     : None
+ */
+void Segment_Clear( void )
+{
+    HW_PIN_TRI_STATE(HW_7SEGMENT_SEL1);
+    HW_PIN_TRI_STATE(HW_7SEGMENT_SEL2);
+    HW_PIN_TRI_STATE(HW_7SEGMENT_SEL3);
+    HW_PIN_TRI_STATE(HW_7SEGMENT_SEL4);
+    HW_PIN_TRI_STATE(HW_7SEGMENT_BIT0);
+    HW_PIN_TRI_STATE(HW_7SEGMENT_BIT1);
+    HW_PIN_TRI_STATE(HW_7SEGMENT_BIT2);
+    HW_PIN_TRI_STATE(HW_7SEGMENT_BIT3);
+}
+
+/*
  * @brief Writes to a 7-Segment
  *
  * @param[in] Segment   : selected 7-Segment

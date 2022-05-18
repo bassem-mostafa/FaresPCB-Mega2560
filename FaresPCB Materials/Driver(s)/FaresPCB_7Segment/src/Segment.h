@@ -60,6 +60,15 @@ typedef enum __attribute__((packed, aligned(1))) Digit_t
 // #############################################################################
 
 /*
+ * @brief Clears ALL 7-Segments
+ *
+ * @param[in] void   : None
+ *
+ * @return void     : None
+ */
+void Segment_Clear( void );
+
+/*
  * @brief Writes to a 7-Segment
  *
  * @param[in] Segment   : selected 7-Segment
