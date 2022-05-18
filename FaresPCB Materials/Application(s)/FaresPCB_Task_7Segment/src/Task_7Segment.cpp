@@ -75,6 +75,7 @@ static void vTask( void *pvParameters )
         Segment_Write(Segment_2, (Digit_t)( (Request.request.value /   10) % 10) );
         Segment_Write(Segment_3, (Digit_t)( (Request.request.value /  100) % 10) );
         Segment_Write(Segment_4, (Digit_t)( (Request.request.value / 1000) % 10) );
+        Segment_Clear();
         vTaskDelayUntil( &xLastWakeTime, xFrequency );
     }
 }
