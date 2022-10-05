@@ -226,9 +226,9 @@
 
 typedef struct __attribute__((packed, aligned(1))) HW_PinDef
 {
-    volatile uint8_t * DDR;
-    volatile uint8_t * PORT;
-    volatile uint8_t * PIN;
+    volatile uint8_t * const DDR;
+    volatile uint8_t * const PORT;
+    volatile uint8_t * const PIN;
     uint8_t            MASK;
 } HW_PinDef;
 
