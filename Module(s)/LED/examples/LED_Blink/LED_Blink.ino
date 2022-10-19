@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "Arduino_FreeRTOS.h"
+#include "LED.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
