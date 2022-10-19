@@ -57,5 +57,20 @@ void setup()
 
 void loop()
 {
-    //TODO
+    LED_IntensitySet(LED_Internal, LED_Intensity_Zero);
+    LED_IntensitySet(LED_1,        LED_Intensity_Zero);
+    LED_IntensitySet(LED_2,        LED_Intensity_Zero);
+    LED_IntensitySet(LED_3,        LED_Intensity_Zero);
+    LED_IntensitySet(LED_4,        LED_Intensity_Zero);
+    LED_IntensitySet(LED_5,        LED_Intensity_Zero);
+    LED_IntensitySet(LED_RGB,      LED_Intensity_Zero);
+    _delay_ms(500);
+    LED_IntensitySet(LED_Internal, LED_Intensity_Full);
+    LED_IntensitySet(LED_1,        LED_Intensity_Full);
+    LED_IntensitySet(LED_2,        LED_Intensity_Full);
+    LED_IntensitySet(LED_3,        LED_Intensity_Full);
+    LED_IntensitySet(LED_4,        LED_Intensity_Full);
+    LED_IntensitySet(LED_5,        LED_Intensity_Full);
+    LED_IntensitySet(LED_RGB,      LED_Intensity_Full);
+    _delay_ms(500);
 }
