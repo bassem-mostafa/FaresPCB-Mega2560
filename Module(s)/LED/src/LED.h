@@ -33,6 +33,12 @@
 // #### Public Type(s) #########################################################
 // #############################################################################
 
+typedef enum __attribute__((packed, aligned(1))) LED_Status_t
+{
+    LED_Status_Success = 0,
+    LED_Status_Error,
+} LED_Status_t;
+
 typedef enum __attribute__((packed, aligned(1))) LED_t
 {
     LED_Internal = 0,
@@ -41,50 +47,36 @@ typedef enum __attribute__((packed, aligned(1))) LED_t
     LED_3,
     LED_4,
     LED_5,
+    LED_RGB,
 } LED_t;
+
+typedef enum __attribute__((packed, aligned(1))) LED_Intensity_t
+{
+    LED_Intensity_Zero = 0,
+    LED_Intensity_Full,
+    LED_Intensity_Red,
+    LED_Intensity_Green,
+    LED_Intensity_Blue,
+    // TODO Support Other Intensities
+} LED_Intensity_t;
 
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
 
 /*
- * @brief Turns on a LED
+ * @brief Sets Intensity of a LED
  *
- * @param[in] LED   : selected LED
+ * @param[in] LED           : selected LED      @Ref LED_t
+ * @param[in] LED_Intensity : Intensity value   @Ref LED_Intensity_t
  *
- * @return void     : None
+ * @return LED_Status_t : LED_Status_t
  */
-void LED_TurnOn( LED_t LED );
-
-/*
- * @brief Turns off a LED
- *
- * @param[in] LED   : selected LED
- *
- * @return void     : None
- */
-void LED_TurnOff( LED_t LED );
-
-/*
- * @brief Reads LED state
- *
- * @param[in] LED   : selected LED
- *
- * @return true     : LED is turned on
- * @return false    : LED is turned off
- */
-bool LED_isOn( LED_t LED );
-
-/*
- * @brief Sets RGB LED intensity
- *
- * @param[in] red    : red intensity
- * @param[in] green  : green intensity
- * @param[in] blue   : blue intensity
- *
- * @return void     : None
- */
-void LED_RGB_SetIntensity( uint8_t red, uint8_t green, uint8_t blue );
+LED_Status_t LED_IntensitySet
+(
+        LED_t LED,
+        LED_Intensity_t LED_Intensity
+);
 
 // #############################################################################
 // #### Public Variable(s) #####################################################
