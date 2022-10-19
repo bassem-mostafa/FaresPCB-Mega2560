@@ -71,6 +71,43 @@ void loop()
     LED_IntensitySet(LED_3,        LED_Intensity_Full);
     LED_IntensitySet(LED_4,        LED_Intensity_Full);
     LED_IntensitySet(LED_5,        LED_Intensity_Full);
-    LED_IntensitySet(LED_RGB,      LED_Intensity_Full);
+    // LED RGB Blinking With Colors
+    {
+        static LED_Intensity_t LED_Intensity = LED_Intensity_Red;
+        switch (LED_Intensity)
+        {
+            case LED_Intensity_Red:
+                LED_IntensitySet(LED_RGB, LED_Intensity_Red);
+                LED_Intensity = LED_Intensity_Green;
+                break;
+            case LED_Intensity_Green:
+                LED_IntensitySet(LED_RGB, LED_Intensity_Green);
+                LED_Intensity = LED_Intensity_Blue;
+                break;
+            case LED_Intensity_Blue:
+                LED_IntensitySet(LED_RGB, LED_Intensity_Blue);
+                LED_Intensity = LED_Intensity_Yellow;
+                break;
+            case LED_Intensity_Yellow:
+                LED_IntensitySet(LED_RGB, LED_Intensity_Yellow);
+                LED_Intensity = LED_Intensity_Cyan;
+                break;
+            case LED_Intensity_Cyan:
+                LED_IntensitySet(LED_RGB, LED_Intensity_Cyan);
+                LED_Intensity = LED_Intensity_Magenta;
+                break;
+            case LED_Intensity_Magenta:
+                LED_IntensitySet(LED_RGB, LED_Intensity_Magenta);
+                LED_Intensity = LED_Intensity_Full;
+                break;
+            case LED_Intensity_Full:
+                LED_IntensitySet(LED_RGB, LED_Intensity_Full);
+                LED_Intensity = LED_Intensity_Red;
+                break;
+            default:
+                LED_Intensity = LED_Intensity_Red;
+                break;
+        }
+    }
     _delay_ms(500);
 }
