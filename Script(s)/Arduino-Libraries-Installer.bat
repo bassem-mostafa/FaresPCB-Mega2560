@@ -33,19 +33,19 @@ REM "Displaying User Directory"
 ECHO Using User Directory '%USER_DIR%'
 
 REM "Removes Existing Libraries From User Directory"
-FOR /D %%f IN ("%CD%\Driver(s)\FaresPCB_*") DO (
-    IF EXIST "%USER_DIR%\Documents\Arduino\libraries\%%~nf" (
-        ECHO Remove Detected %USER_DIR%\Documents\Arduino\libraries\%%~nf
-        RMDIR /S /Q "%USER_DIR%\Documents\Arduino\libraries\%%~nf"
+FOR /D %%f IN ("%CD%\..\Module(s)\*") DO (
+    IF EXIST "%USER_DIR%\Documents\Arduino\libraries\FaresPCB_%%~nf" (
+        ECHO Remove Detected %USER_DIR%\Documents\Arduino\libraries\FaresPCB_%%~nf
+        RMDIR /S /Q "%USER_DIR%\Documents\Arduino\libraries\FaresPCB_%%~nf"
     )
 )
 
 REM "Links Libraries From Project Folders Into User Directory"
-FOR /D %%f IN ("%CD%\Driver(s)\FaresPCB_*") DO (
+FOR /D %%f IN ("%CD%\..\Module(s)\*") DO (
     SET PROJECT_LIBRARY=%%~nf
     IF "%%~nf"=="!PROJECT_LIBRARY:Template=!" (
-        ECHO Linking %%~nf From %%f To %USER_DIR%\Documents\Arduino\libraries\%%~nf
-        MKLINK /D "%USER_DIR%\Documents\Arduino\libraries\%%~nf" "%%f"
+        ECHO Linking %%~nf From %%f To %USER_DIR%\Documents\Arduino\libraries\FaresPCB_%%~nf
+        MKLINK /D "%USER_DIR%\Documents\Arduino\libraries\FaresPCB_%%~nf" "%%f"
     )
 )
 
