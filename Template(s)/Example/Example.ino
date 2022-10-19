@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "Arduino_FreeRTOS.h"
+#include "string.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -26,7 +27,7 @@
 #define _MINUTE        ( (const char[]){__TIMESTAMP__[14], __TIMESTAMP__[15]} )
 #define _SECOND        ( (const char[]){__TIMESTAMP__[17], __TIMESTAMP__[18]} )
 
-const char _FW_LABEL[] = "LED Demo";
+const char * _FW_LABEL = strrchr(__FILE__, '\\');
 const char _FW_VERSION[30] =
 {
         _YEAR[0], _YEAR[1],
@@ -56,5 +57,5 @@ void setup()
 
 void loop()
 {
-    //TODO
+    // TODO
 }
