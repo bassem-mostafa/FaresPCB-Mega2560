@@ -80,45 +80,143 @@ typedef struct __attribute__((packed, aligned(1))) _LED_t
 // #### Private Variable(s) ####################################################
 // #############################################################################
 
-static _LED_t _LED[] =
+static _LED_t _LED_Internal = (_LED_t){_LED_ID_Internal, _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_1        = (_LED_t){_LED_ID_1,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_2        = (_LED_t){_LED_ID_2,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_3        = (_LED_t){_LED_ID_3,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_4        = (_LED_t){_LED_ID_4,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_5        = (_LED_t){_LED_ID_5,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_RGB      = (_LED_t){_LED_ID_RGB,      _LED_Type_RGB,  {{_LED_Channel_ID_R,    _LED_CHANNEL_VALUE_INITIAL },
+                                                                          {_LED_Channel_ID_G,    _LED_CHANNEL_VALUE_INITIAL },
+                                                                          {_LED_Channel_ID_B,    _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t * const _LED[] =
 {
-        {_LED_ID_Internal, _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}},
-        {_LED_ID_1,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}},
-        {_LED_ID_2,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}},
-        {_LED_ID_3,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}},
-        {_LED_ID_4,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}},
-        {_LED_ID_5,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}},
-        {_LED_ID_RGB,      _LED_Type_RGB,  {{_LED_Channel_ID_R,    _LED_CHANNEL_VALUE_INITIAL },
-                                            {_LED_Channel_ID_G,    _LED_CHANNEL_VALUE_INITIAL },
-                                            {_LED_Channel_ID_B,    _LED_CHANNEL_VALUE_INITIAL },}},
+        [_LED_ID_Internal] = &_LED_Internal,
+        [_LED_ID_1]        = &_LED_1,
+        [_LED_ID_2]        = &_LED_2,
+        [_LED_ID_3]        = &_LED_3,
+        [_LED_ID_4]        = &_LED_4,
+        [_LED_ID_5]        = &_LED_5,
+        [_LED_ID_RGB]      = &_LED_RGB,
 };
 
 // #############################################################################
 // #### Private Method(s) ######################################################
 // #############################################################################
 
+/*
+ * @brief Gets number of channels for a LED
+ *
+ * @param[in] _LED : selected _LED instance @Ref _LED_t, _LED[]
+ *
+ * @return uint8_t : Number of channels
+ */
+static const uint8_t _LED_ChannelsNumberGet
+(
+        const _LED_t * const _LED
+)
+{
+    uint8_t nChannels = 0;
+    do
+    {
+        if (_LED == NULL) break;
+        switch (_LED->_LED_Type)
+        {
+            case _LED_Type_Mono:
+                nChannels = 1;
+                break;
+            case _LED_Type_RGB:
+                nChannels = 3;
+                break;
+            default:
+                nChannels = 0;
+                break;
+        }
+    }
+    while(0);
+    return nChannels;
+}
+
+/*
+ * @brief Gets a LED instance for specified ID
+ *
+ * @param[in] LED         : selected LED ID @Ref _LED[]
+ *
+ * @return _LED_t * const : LED instance reference
+ */
 static _LED_t * const _LED_InstanceGet
 (
-        const _LED_ID_t _LED_ID
+        const LED_t LED
 )
 {
     _LED_t * _LED_instance = NULL;
-    for (_LED_t * _LED_ptr = _LED; sizeof(_LED) / sizeof(_LED_t); ++_LED_ptr)
+    do
     {
-
+        switch (LED)
+        {
+            case LED_Internal:
+                _LED_instance = _LED[_LED_ID_Internal];
+                break;
+            case LED_1:
+                _LED_instance = _LED[_LED_ID_1];
+                break;
+            case LED_2:
+                _LED_instance = _LED[_LED_ID_2];
+                break;
+            case LED_3:
+                _LED_instance = _LED[_LED_ID_3];
+                break;
+            case LED_4:
+                _LED_instance = _LED[_LED_ID_4];
+                break;
+            case LED_5:
+                _LED_instance = _LED[_LED_ID_5];
+                break;
+            case LED_RGB:
+                _LED_instance = _LED[_LED_ID_RGB];
+                break;
+            default:
+                _LED_instance = NULL;
+                break;
+        }
     }
+    while(0);
     return _LED_instance;
 }
 
+/*
+ * @brief Sets a channel of a LED to specific value
+ *
+ * @param[in] _LED               : selected _LED instance   @Ref _LED[]
+ * @param[in] _LED_Channel_ID    : selected channel ID      @Ref _LED_Channel_ID_t
+ * @param[in] _LED_Channel_Value : channel value to be set  @Ref _LED_Channel_Value_t
+ *
+ * @return _LED_t * const : LED instance reference
+ */
 static bool _LED_ChannelSet
 (
-        const _LED_ID_t _LED_ID,
+        _LED_t * const _LED,
         const _LED_Channel_ID_t _LED_Channel_ID,
         const _LED_Channel_Value_t _LED_Channel_Value
 )
 {
-    _LED_t * _LED_instance = _LED_InstanceGet(_LED_ID);
-    return false;
+    bool isOk = false;
+    do
+    {
+        if ( _LED == NULL ) break;
+        const uint8_t nChannels = _LED_ChannelsNumberGet(_LED);
+        for (uint8_t i = 0; i < nChannels; ++i)
+        {
+            if (  _LED_Channel_ID == _LED_Channel_ID_Mono
+               || _LED_Channel_ID == _LED->_LED_Channel[i]._LED_Channel_ID)
+            {
+                _LED->_LED_Channel[i]._LED_Channel_Value = _LED_Channel_Value;
+                isOk = true;
+            }
+        }
+    }
+    while(0);
+    return isOk;
 }
 
 // #############################################################################
@@ -135,30 +233,60 @@ static bool _LED_ChannelSet
  */
 LED_Status_t LED_IntensitySet
 (
-        LED_t LED,
-        LED_Intensity_t LED_Intensity
+        const LED_t LED,
+        const LED_Intensity_t LED_Intensity
 )
 {
-    LED_Status_t LED_Status = LED_Status_Success;
+    LED_Status_t LED_Status = LED_Status_Error;
     do
     {
-        switch (LED)
+        _LED_t * const _LED = _LED_InstanceGet(LED);
+        if ( _LED == NULL) break;
+        switch (LED_Intensity)
         {
-            case LED_Internal:
+            case LED_Intensity_Zero:
+                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
+                LED_Status = LED_Status_Success;
                 break;
-            case LED_1:
+            case LED_Intensity_Full:
+                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0xFF);
+                LED_Status = LED_Status_Success;
                 break;
-            case LED_2:
+            case LED_Intensity_Red:
+                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_R,    0xFF);
+                LED_Status = LED_Status_Success;
                 break;
-            case LED_3:
+            case LED_Intensity_Green:
+                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_G,    0xFF);
+                LED_Status = LED_Status_Success;
                 break;
-            case LED_4:
+            case LED_Intensity_Blue:
+                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_B,    0xFF);
+                LED_Status = LED_Status_Success;
                 break;
-            case LED_5:
+            case LED_Intensity_Yellow:
+                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_R,    0xFF);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_G,    0xFF);
+                LED_Status = LED_Status_Success;
                 break;
-            case LED_RGB:
+            case LED_Intensity_Cyan:
+                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_G,    0xFF);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_B,    0xFF);
+                LED_Status = LED_Status_Success;
+                break;
+            case LED_Intensity_Magenta:
+                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_R,    0xFF);
+                _LED_ChannelSet(_LED, _LED_Channel_ID_B,    0xFF);
+                LED_Status = LED_Status_Success;
                 break;
             default:
+                LED_Status = LED_Status_Error;
                 break;
         }
     }

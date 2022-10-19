@@ -57,6 +57,9 @@ typedef enum __attribute__((packed, aligned(1))) LED_Intensity_t
     LED_Intensity_Red,
     LED_Intensity_Green,
     LED_Intensity_Blue,
+    LED_Intensity_Yellow,
+    LED_Intensity_Cyan,
+    LED_Intensity_Magenta,
     // TODO Support Other Intensities
 } LED_Intensity_t;
 
@@ -74,8 +77,8 @@ typedef enum __attribute__((packed, aligned(1))) LED_Intensity_t
  */
 LED_Status_t LED_IntensitySet
 (
-        LED_t LED,
-        LED_Intensity_t LED_Intensity
+        const LED_t LED,
+        const LED_Intensity_t LED_Intensity
 );
 
 // #############################################################################
