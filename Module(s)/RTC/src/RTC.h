@@ -41,16 +41,6 @@ typedef uint8_t RTC_Month_t;
 
 typedef uint8_t RTC_Day_t;
 
-typedef uint8_t RTC_Hour_t;
-
-typedef uint8_t RTC_Minute_t;
-
-typedef uint8_t RTC_Second_t;
-
-typedef uint8_t RTC_Memory_Index_t;
-
-typedef uint8_t RTC_Memory_Value_t;
-
 typedef enum __attribute__((packed, aligned(1))) RTC_WeekDay_t
 {
     RTC_WeekDay_Unknown = 0,
@@ -71,6 +61,12 @@ typedef struct __attribute__((packed, aligned(1))) RTC_Date_t
     RTC_WeekDay_t weekday;
 } RTC_Date_t;
 
+typedef uint8_t RTC_Hour_t;
+
+typedef uint8_t RTC_Minute_t;
+
+typedef uint8_t RTC_Second_t;
+
 typedef enum __attribute__((packed, aligned(1))) RTC_Period_t
 {
     RTC_Period_24H = 0,
@@ -85,6 +81,10 @@ typedef struct __attribute__((packed, aligned(1))) RTC_Time_t
     RTC_Second_t second;
     RTC_Period_t period;
 } RTC_Time_t;
+
+typedef uint8_t RTC_Memory_Index_t;
+
+typedef uint8_t RTC_Memory_Value_t;
 
 // #############################################################################
 // #### Public Method(s) #######################################################
