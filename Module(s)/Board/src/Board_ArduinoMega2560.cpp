@@ -3,7 +3,7 @@
 // #############################################################################
 
 /*
- * Copyright (C) 2022 BaSSeM
+ * Copyright (C) 2023 BaSSeM
  *
  * This software is distributed under the terms and conditions of the 'Apache-2.0'
  * license which can be found in the file 'LICENSE.txt' in this package distribution
@@ -18,17 +18,17 @@
 // #### File Guard #############################################################
 // #############################################################################
 
-#ifndef FARESPCB_H_
-#define FARESPCB_H_
+#if defined(ARDUINO) && defined(ARDUINO_AVR_MEGA2560) && defined(__AVR_ATmega2560__)
 
 // #############################################################################
 // #### Include(s) #############################################################
 // #############################################################################
 
+#include "Board.h"
 #include <Arduino.h>
 
 // #############################################################################
-// #### Public Macro(s) ########################################################
+// #### Private Macro(s) #######################################################
 // #############################################################################
 
 //====================================
@@ -81,7 +81,7 @@
 //42          PL7                         Digital pin 42                LED1
 //43          PD0 ( SCL/INT0 )            Digital pin 21 (SCL)          EEPROM SCL
 //44          PD1 ( SDA/INT1 )            Digital pin 20 (SDA)          EEPROM SDA
-//45          PD2 ( RXDI/INT2 )           Digital pin 19 (RX1)          BLUETOOTH TX
+//45          PD2 ( RXD1/INT2 )           Digital pin 19 (RX1)          BLUETOOTH TX
 //46          PD3 ( TXD1/INT3 )           Digital pin 18 (TX1)          BLUETOOTH RX
 //47          PD4 ( ICP1 )
 //48          PD5 ( XCK1 )
@@ -138,158 +138,194 @@
 //99          GND                         GND
 //100         AVCC                        VCC
 
-
 // LEDs PINs
-#define HW_LED_INTERNAL             (const HW_PinDef) {&DDRB, &PORTB, &PINB, (0x01 << 7)}
-#define HW_LED_1                    (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 7)}
-#define HW_LED_2                    (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 6)}
-#define HW_LED_3                    (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 5)}
-#define HW_LED_4                    (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 4)}
-#define HW_LED_5                    (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 3)}
-#define HW_LED_RGB_RED              10
-#define HW_LED_RGB_GREEN            11
-#define HW_LED_RGB_BLUE             12
+#define _PLATFORM_LED_INTERNAL               13
+#define _PLATFORM_LED_1                      42
+#define _PLATFORM_LED_2                      43
+#define _PLATFORM_LED_3                      44
+#define _PLATFORM_LED_4                      45
+#define _PLATFORM_LED_5                      46
+#define _PLATFORM_LED_RGB_RED                10
+#define _PLATFORM_LED_RGB_GREEN              11
+#define _PLATFORM_LED_RGB_BLUE               12
 
 // RELAYs PINs
-#define HW_RELAY_1                  (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 2)}
-#define HW_RELAY_2                  (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 1)}
+#define _PLATFORM_RELAY_1                    47
+#define _PLATFORM_RELAY_2                    48
 
 // BUZZERs PINs
-#define HW_BUZZER                   (const HW_PinDef) {&DDRL, &PORTL, &PINL, (0x01 << 0)}
-#define HW_BUZZER_PIN               49
-// 7-SEGMENTs PINs
-#define HW_7SEGMENT_BIT0            (const HW_PinDef) {&DDRE, &PORTE, &PINE, (0x01 << 4)}
-#define HW_7SEGMENT_BIT1            (const HW_PinDef) {&DDRE, &PORTE, &PINE, (0x01 << 5)}
-#define HW_7SEGMENT_BIT2            (const HW_PinDef) {&DDRG, &PORTG, &PING, (0x01 << 5)}
-#define HW_7SEGMENT_BIT3            (const HW_PinDef) {&DDRE, &PORTE, &PINE, (0x01 << 3)}
+#define _PLATFORM_BUZZER                     49
 
-#define HW_7SEGMENT_SEL1            (const HW_PinDef) {&DDRH, &PORTH, &PINH, (0x01 << 6)}
-#define HW_7SEGMENT_SEL2            (const HW_PinDef) {&DDRH, &PORTH, &PINH, (0x01 << 5)}
-#define HW_7SEGMENT_SEL3            (const HW_PinDef) {&DDRH, &PORTH, &PINH, (0x01 << 4)}
-#define HW_7SEGMENT_SEL4            (const HW_PinDef) {&DDRH, &PORTH, &PINH, (0x01 << 3)}
+// 7-SEGMENTs PINs
+#define _PLATFORM_7SEGMENT_BIT0              2
+#define _PLATFORM_7SEGMENT_BIT1              3
+#define _PLATFORM_7SEGMENT_BIT2              4
+#define _PLATFORM_7SEGMENT_BIT3              5
+
+#define _PLATFORM_7SEGMENT_SEL1              9
+#define _PLATFORM_7SEGMENT_SEL2              8
+#define _PLATFORM_7SEGMENT_SEL3              7
+#define _PLATFORM_7SEGMENT_SEL4              6
 
 // LCD PINs
-#define HW_LCD_BL                   (const HW_PinDef) {&DDRB, &PORTB, &PINB, (0x01 << 0)}
-#define HW_LCD_RS                   (const HW_PinDef) {&DDRG, &PORTG, &PING, (0x01 << 0)}
-#define HW_LCD_EN                   (const HW_PinDef) {&DDRG, &PORTG, &PING, (0x01 << 1)}
-#define HW_LCD_D0                   (const HW_PinDef) {&DDRA, &PORTA, &PINA, (0x01 << 0)}
-#define HW_LCD_D1                   (const HW_PinDef) {&DDRA, &PORTA, &PINA, (0x01 << 1)}
-#define HW_LCD_D2                   (const HW_PinDef) {&DDRA, &PORTA, &PINA, (0x01 << 2)}
-#define HW_LCD_D3                   (const HW_PinDef) {&DDRA, &PORTA, &PINA, (0x01 << 3)}
-#define HW_LCD_D4                   (const HW_PinDef) {&DDRA, &PORTA, &PINA, (0x01 << 4)}
-#define HW_LCD_D5                   (const HW_PinDef) {&DDRA, &PORTA, &PINA, (0x01 << 5)}
-#define HW_LCD_D6                   (const HW_PinDef) {&DDRA, &PORTA, &PINA, (0x01 << 6)}
-#define HW_LCD_D7                   (const HW_PinDef) {&DDRA, &PORTA, &PINA, (0x01 << 7)}
-#define HW_LCD_CS1                  (const HW_PinDef) {&DDRG, &PORTG, &PING, (0x01 << 2)}
-#define HW_LCD_CS2                  (const HW_PinDef) {&DDRD, &PORTD, &PIND, (0x01 << 7)}
+#define _PLATFORM_LCD_BL                     53
+#define _PLATFORM_LCD_RS                     41
+#define _PLATFORM_LCD_EN                     40
+#define _PLATFORM_LCD_D0                     22
+#define _PLATFORM_LCD_D1                     23
+#define _PLATFORM_LCD_D2                     24
+#define _PLATFORM_LCD_D3                     25
+#define _PLATFORM_LCD_D4                     26
+#define _PLATFORM_LCD_D5                     27
+#define _PLATFORM_LCD_D6                     28
+#define _PLATFORM_LCD_D7                     29
+#define _PLATFORM_LCD_CS1                    39
+#define _PLATFORM_LCD_CS2                    38
 
 // KEYPADs PINs
-#define HW_KEYPAD_ROW1              (const HW_PinDef) {&DDRC, &PORTC, &PINC, (0x01 << 0)}
-#define HW_KEYPAD_ROW2              (const HW_PinDef) {&DDRC, &PORTC, &PINC, (0x01 << 1)}
-#define HW_KEYPAD_ROW3              (const HW_PinDef) {&DDRC, &PORTC, &PINC, (0x01 << 2)}
-#define HW_KEYPAD_ROW4              (const HW_PinDef) {&DDRC, &PORTC, &PINC, (0x01 << 3)}
-#define HW_KEYPAD_COL1              (const HW_PinDef) {&DDRC, &PORTC, &PINC, (0x01 << 4)}
-#define HW_KEYPAD_COL2              (const HW_PinDef) {&DDRC, &PORTC, &PINC, (0x01 << 5)}
-#define HW_KEYPAD_COL3              (const HW_PinDef) {&DDRC, &PORTC, &PINC, (0x01 << 6)}
-#define HW_KEYPAD_COL4              (const HW_PinDef) {&DDRC, &PORTC, &PINC, (0x01 << 7)}
+#define _PLATFORM_KEYPAD_ROW1                37
+#define _PLATFORM_KEYPAD_ROW2                36
+#define _PLATFORM_KEYPAD_ROW3                35
+#define _PLATFORM_KEYPAD_ROW4                34
+#define _PLATFORM_KEYPAD_COL1                33
+#define _PLATFORM_KEYPAD_COL2                32
+#define _PLATFORM_KEYPAD_COL3                31
+#define _PLATFORM_KEYPAD_COL4                30
 
 // RS232s PINs
-#define HW_RS232_TX                 (const HW_PinDef) {&DDRJ, &PORTJ, &PINJ, (0x01 << 1)}
-#define HW_RS232_RX                 (const HW_PinDef) {&DDRJ, &PORTJ, &PINJ, (0x01 << 0)}
+#define _PLATFORM_RS232_TX                   14
+#define _PLATFORM_RS232_RX                   15
 
 // TEMPERATURE SENSORs PINs
-#define HW_TEMPERATURE_SENSOR       A1// (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 0)}
+#define _PLATFORM_TEMPERATURE_SENSOR         A1
 
 // VARIABLE RESISTORs PINs
-#define HW_VARIABLE_RESISTOR        (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 1)}
+#define _PLATFORM_VARIABLE_RESISTOR          A0
 
 // RTC Info
-#define HW_RTC_ADDRESS              0x68 // 1101000 (W/R)
+#define _PLATFORM_RTC_ADDRESS                0x68
 
 // EEPROM Info
-#define HW_EEPROM_ADDRESS           0x50
+#define _PLATFORM_EEPROM_ADDRESS             0x50
 
 // BLUETOOTH Info
-#define HW_BLUETOOTH_KEY            (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 4)}
-#define HW_BLUETOOTH_STATE          (const HW_PinDef) {&DDRF, &PORTF, &PINF, (0x01 << 5)}
-//#define HW_BLUETOOTH_TX             18
-//#define HW_BLUETOOTH_RX             19
-#define HW_BLUETOOTH_SERIAL         Serial1
+#define _PLATFORM_BLUETOOTH_KEY              A4
+#define _PLATFORM_BLUETOOTH_STATE            A5
+#define _PLATFORM_BLUETOOTH_TX               18
+#define _PLATFORM_BLUETOOTH_RX               19
+#define _PLATFORM_BLUETOOTH_SERIAL           Serial1
 
 // ULTRA-SONIC Info
-#define HW_ULTRASONIC_ECHO          A7
-#define HW_ULTRASONIC_TRIG          A6
+#define _PLATFORM_ULTRASONIC_ECHO            A7
+#define _PLATFORM_ULTRASONIC_TRIG            A6
 
 // #############################################################################
-// #### Public Type(s) #########################################################
+// #### Private Type(s) ########################################################
 // #############################################################################
 
-typedef struct __attribute__((packed, aligned(1))) HW_PinDef
-{
-    volatile uint8_t * const DDR;
-    volatile uint8_t * const PORT;
-    volatile uint8_t * const PIN;
-    uint8_t            MASK;
-} HW_PinDef;
+// #############################################################################
+// #### Private Method(s) Prototype ############################################
+// #############################################################################
+
+// #############################################################################
+// #### Private Variable(s) ####################################################
+// #############################################################################
+
+// #############################################################################
+// #### Private Method(s) ######################################################
+// #############################################################################
 
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
 
-/*
- * @brief Configures a pin as output
- *
- * @param[in] HW_Pin   : selected Pin @HW_PinDef
- *
- * @return void
- */
-void    HW_PIN_OUTPUT      (HW_PinDef HW_Pin);
+Platform_Status_t Platform_Pin_Setup
+(
+        const Platform_Pin_t Platform_Pin,
+        const Platform_Pin_Mode_t Platform_Pin_Mode
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    pinMode(0, 0);
+    return Platform_Status;
+}
 
-/*
- * @brief Configures a pin as input
- *
- * @param[in] HW_Pin   : selected Pin @HW_PinDef
- *
- * @return void
- */
-void    HW_PIN_INPUT       (HW_PinDef HW_Pin);
+Platform_Status_t Platform_Pin_Write
+(
+        const Platform_Pin_t Platform_Pin,
+        const Platform_Pin_Value_t Platform_Pin_Value
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
 
-/*
- * @brief Configures a pin as tri-state (high impedance)
- *
- * @param[in] HW_Pin   : selected Pin @HW_PinDef
- *
- * @return void
- */
-void    HW_PIN_TRI_STATE   (HW_PinDef HW_Pin);
+Platform_Status_t Platform_Pin_Read
+(
+        const Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_t * const Platform_Pin_Value
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
 
-/*
- * @brief Sets a pin value logic high
- *
- * @param[in] HW_Pin   : selected Pin @HW_PinDef
- *
- * @return void
- */
-void    HW_PIN_SET         (HW_PinDef HW_Pin);
+Platform_Status_t Platform_I2C_Write
+(
+        const Platform_I2C_t Platform_I2C,
+        const Platform_I2C_Address_t Platform_I2C_Address,
+        const Platform_I2C_Data_t Platform_I2C_Data,
+        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
 
-/*
- * @brief Sets a pin value logic low
- *
- * @param[in] HW_Pin   : selected Pin @HW_PinDef
- *
- * @return void
- */
-void    HW_PIN_CLEAR       (HW_PinDef HW_Pin);
+Platform_Status_t Platform_I2C_Read
+(
+        const Platform_I2C_t Platform_I2C,
+        const Platform_I2C_Address_t Platform_I2C_Address,
+        Platform_I2C_Data_t Platform_I2C_Data,
+        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
 
-/*
- * @brief Reads a pin value
- *
- * @param[in] HW_Pin   : selected Pin @HW_PinDef
- *
- * @return HIGH : on logic high
- * @return LOW  : on logic low
- */
-uint8_t HW_PIN_READ        (HW_PinDef HW_Pin);
+Platform_Status_t Platform_SPI_Transaction
+(
+        const Platform_SPI_t Platform_SPI,
+        Platform_SPI_Data_t Platform_SPI_Data,
+        const Platform_SPI_Data_Length_t Platform_SPI_Data_Length
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
+Platform_Status_t Platform_USART_Write
+(
+        const Platform_USART_t Platform_USART,
+        const Platform_USART_Data_t Platform_USART_Data,
+        const Platform_USART_Data_Length_t Platform_USART_Data_Length
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
+Platform_Status_t Platform_USART_Read
+(
+        const Platform_USART_t Platform_USART,
+        Platform_USART_Data_t Platform_USART_Data,
+        const Platform_USART_Data_Length_t Platform_USART_Data_Length
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
 
 // #############################################################################
 // #### Public Variable(s) #####################################################
@@ -299,7 +335,7 @@ uint8_t HW_PIN_READ        (HW_PinDef HW_Pin);
 // #### File Guard #############################################################
 // #############################################################################
 
-#endif /* FARESPCB_H_ */
+#endif /* defined(ARDUINO) && defined(ARDUINO_AVR_MEGA2560) && defined(__AVR_ATmega2560__) */
 
 // #############################################################################
 // #### END OF FILE ############################################################
