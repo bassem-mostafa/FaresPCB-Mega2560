@@ -3,7 +3,7 @@
 // #############################################################################
 
 /*
- * Copyright (C) 2022 BaSSeM
+ * Copyright (C) 2023 BaSSeM
  *
  * This software is distributed under the terms and conditions of the 'Apache-2.0'
  * license which can be found in the file 'LICENSE.txt' in this package distribution
@@ -18,8 +18,8 @@
 // #### File Guard #############################################################
 // #############################################################################
 
-#ifndef FARESPCB_LCD_H_
-#define FARESPCB_LCD_H_
+#ifndef LCD_H_
+#define LCD_H_
 
 // #############################################################################
 // #### Include(s) #############################################################
@@ -31,40 +31,50 @@
 // #### Public Macro(s) ########################################################
 // #############################################################################
 
-#define LCD_ICON_SIZE 8
-#define LCD_Icon_Alarm LCD_Icon_Bell
+#define LCD_SCREEN_HEIGHT   ( 2)
+#define LCD_SCREEN_WIDTH    (16)
 
 // #############################################################################
 // #### Public Type(s) #########################################################
 // #############################################################################
 
-typedef const uint8_t /*__attribute__((packed, aligned(1)))*/ LCD_Icon_t[LCD_ICON_SIZE];
+typedef uint8_t LCD_Screen_t[LCD_SCREEN_HEIGHT][LCD_SCREEN_WIDTH];
 
-typedef enum __attribute__((packed, aligned(1))) LCD_Line_t
+typedef enum __attribute__((packed, aligned(1))) LCD_Icon_t
 {
-    LCD_Line_1 = 0,
-    LCD_Line_2,
-} LCD_Line_t;
-
-typedef enum __attribute__((packed, aligned(1))) LCD_Character_t
-{
-    LCD_Character_1 = 0,
-    LCD_Character_2,
-    LCD_Character_3,
-    LCD_Character_4,
-    LCD_Character_5,
-    LCD_Character_6,
-    LCD_Character_7,
-    LCD_Character_8,
-    LCD_Character_9,
-    LCD_Character_10,
-    LCD_Character_11,
-    LCD_Character_12,
-    LCD_Character_13,
-    LCD_Character_14,
-    LCD_Character_15,
-    LCD_Character_16,
-} LCD_Character_t;
+    LCD_Icon_Empty = 0,
+    LCD_Icon_Bluetooth,
+    LCD_Icon_LockOn,
+    LCD_Icon_LockOff,
+    LCD_Icon_Calendar,
+    LCD_Icon_Clock,
+    LCD_Icon_Bell,
+    LCD_Icon_Degree,
+    LCD_Icon_Thermometer,
+    LCD_Icon_WaterDrop,
+    LCD_Icon_Bar_Loading_StartEmpty,
+    LCD_Icon_Bar_Loading_StartFull,
+    LCD_Icon_Bar_Loading_MiddleEmpty,
+    LCD_Icon_Bar_Loading_MiddleHalf,
+    LCD_Icon_Bar_Loading_MiddleFull,
+    LCD_Icon_Bar_Loading_EndEmpty,
+    LCD_Icon_Bar_Loading_EndFull,
+    LCD_Icon_MelodySingle,
+    LCD_Icon_MelodyDual,
+    LCD_Icon_MelodyPlay,
+    LCD_Icon_MelodyStop,
+    LCD_Icon_MelodyPause,
+    LCD_Icon_MelodyNext,
+    LCD_Icon_MelodyPrevious,
+    LCD_Icon_Heart,
+    LCD_Icon_BatteryLow,
+    LCD_Icon_BatteryHalf,
+    LCD_Icon_BatteryFull,
+    LCD_Icon_SignalLow,
+    LCD_Icon_SignalHalf,
+    LCD_Icon_SignalFull,
+    LCD_Icon_Alarm,
+} LCD_Icon_t;
 
 typedef enum __attribute__((packed, aligned(1))) LCD_Custom_Character_t
 {
@@ -81,24 +91,6 @@ typedef enum __attribute__((packed, aligned(1))) LCD_Custom_Character_t
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
-
-/*
- * @brief Initializes LCD
- *
- * @param[in] void  : None
- *
- * @return void     : None
- */
-void LCD_Initialize( void );
-
-/*
- * @brief Clears LCD
- *
- * @param[in] void  : None
- *
- * @return void     : None
- */
-void LCD_Clear( void );
 
 /*
  * @brief Turns LCD back-light on
@@ -119,16 +111,13 @@ void LCD_LightOn( void );
 void LCD_LightOff( void );
 
 /*
- * @brief Writes a text into LCD starting from selected line / character
+ * @brief Writes a screen content to display
  *
- * @param[in] LCD_Line          : line selected
- * @param[in] LCD_Character     : character selected
- * @param[in] text              : text reference
- * @param[in] length            : text length
+ * @param[in] LCD_Screen : screen content
  *
  * @return void     : None
  */
-void LCD_Write( LCD_Line_t LCD_Line, LCD_Character_t LCD_Character, uint8_t * text, uint8_t length );
+void LCD_Write( LCD_Screen_t LCD_Screen );
 
 /*
  * @brief Links an icon to specific custom character
@@ -140,58 +129,15 @@ void LCD_Write( LCD_Line_t LCD_Line, LCD_Character_t LCD_Character, uint8_t * te
  */
 void LCD_Setup( LCD_Custom_Character_t LCD_Custom_Character, LCD_Icon_t LCD_Icon );
 
-/*
- * @brief Draws an icon linked to a custom character
- *
- * @param[in] LCD_Line              : line selected
- * @param[in] LCD_Character         : character selected
- * @param[in] LCD_Custom_Character  : custom character selected
- *
- * @return void     : None
- */
-void LCD_Draw( LCD_Line_t LCD_Line, LCD_Character_t LCD_Character, LCD_Custom_Character_t LCD_Custom_Character );
-
 // #############################################################################
 // #### Public Variable(s) #####################################################
 // #############################################################################
-
-extern LCD_Icon_t LCD_Icon_Empty;
-extern LCD_Icon_t LCD_Icon_Bluetooth;
-extern LCD_Icon_t LCD_Icon_LockOn;
-extern LCD_Icon_t LCD_Icon_LockOff;
-extern LCD_Icon_t LCD_Icon_Calendar;
-extern LCD_Icon_t LCD_Icon_Clock;
-extern LCD_Icon_t LCD_Icon_Bell;
-extern LCD_Icon_t LCD_Icon_Degree;
-extern LCD_Icon_t LCD_Icon_Thermometer;
-extern LCD_Icon_t LCD_Icon_WaterDrop;
-extern LCD_Icon_t LCD_Icon_Bar_Loading_StartEmpty;
-extern LCD_Icon_t LCD_Icon_Bar_Loading_StartFull;
-extern LCD_Icon_t LCD_Icon_Bar_Loading_MiddleEmpty;
-extern LCD_Icon_t LCD_Icon_Bar_Loading_MiddleHalf;
-extern LCD_Icon_t LCD_Icon_Bar_Loading_MiddleFull;
-extern LCD_Icon_t LCD_Icon_Bar_Loading_EndEmpty;
-extern LCD_Icon_t LCD_Icon_Bar_Loading_EndFull;
-extern LCD_Icon_t LCD_Icon_MelodySingle;
-extern LCD_Icon_t LCD_Icon_MelodyDual;
-extern LCD_Icon_t LCD_Icon_MelodyPlay;
-extern LCD_Icon_t LCD_Icon_MelodyStop;
-extern LCD_Icon_t LCD_Icon_MelodyPause;
-extern LCD_Icon_t LCD_Icon_MelodyNext;
-extern LCD_Icon_t LCD_Icon_MelodyPrevious;
-extern LCD_Icon_t LCD_Icon_Heart;
-extern LCD_Icon_t LCD_Icon_BatteryLow;
-extern LCD_Icon_t LCD_Icon_BatteryHalf;
-extern LCD_Icon_t LCD_Icon_BatteryFull;
-extern LCD_Icon_t LCD_Icon_SignalLow;
-extern LCD_Icon_t LCD_Icon_SignalHalf;
-extern LCD_Icon_t LCD_Icon_SignalFull;
 
 // #############################################################################
 // #### File Guard #############################################################
 // #############################################################################
 
-#endif /* FARESPCB_LCD_H_ */
+#endif /* LCD_H_ */
 
 // #############################################################################
 // #### END OF FILE ############################################################
