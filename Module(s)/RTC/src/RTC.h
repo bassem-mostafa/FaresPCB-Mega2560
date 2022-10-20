@@ -3,7 +3,7 @@
 // #############################################################################
 
 /*
- * Copyright (C) 2022 BaSSeM
+ * Copyright (C) 2023 BaSSeM
  *
  * This software is distributed under the terms and conditions of the 'Apache-2.0'
  * license which can be found in the file 'LICENSE.txt' in this package distribution
@@ -18,12 +18,14 @@
 // #### File Guard #############################################################
 // #############################################################################
 
-#ifndef FARESPCB_RTC_H_
-#define FARESPCB_RTC_H_
+#ifndef RTC_H_
+#define RTC_H_
 
 // #############################################################################
 // #### Include(s) #############################################################
 // #############################################################################
+
+#include "stdint.h"
 
 // #############################################################################
 // #### Public Macro(s) ########################################################
@@ -32,6 +34,22 @@
 // #############################################################################
 // #### Public Type(s) #########################################################
 // #############################################################################
+
+typedef uint16_t RTC_Year_t;
+
+typedef uint8_t RTC_Month_t;
+
+typedef uint8_t RTC_Day_t;
+
+typedef uint8_t RTC_Hour_t;
+
+typedef uint8_t RTC_Minute_t;
+
+typedef uint8_t RTC_Second_t;
+
+typedef uint8_t RTC_Memory_Index_t;
+
+typedef uint8_t RTC_Memory_Value_t;
 
 typedef enum __attribute__((packed, aligned(1))) RTC_WeekDay_t
 {
@@ -47,9 +65,9 @@ typedef enum __attribute__((packed, aligned(1))) RTC_WeekDay_t
 
 typedef struct __attribute__((packed, aligned(1))) RTC_Date_t
 {
-    uint16_t year;
-    uint8_t month;
-    uint8_t day;
+    RTC_Year_t year;
+    RTC_Month_t month;
+    RTC_Day_t day;
     RTC_WeekDay_t weekday;
 } RTC_Date_t;
 
@@ -62,9 +80,9 @@ typedef enum __attribute__((packed, aligned(1))) RTC_Period_t
 
 typedef struct __attribute__((packed, aligned(1))) RTC_Time_t
 {
-    uint8_t hour;
-    uint8_t minute;
-    uint8_t second;
+    RTC_Hour_t hour;
+    RTC_Minute_t minute;
+    RTC_Second_t second;
     RTC_Period_t period;
 } RTC_Time_t;
 
@@ -115,7 +133,7 @@ void RTC_TimeSet( RTC_Time_t RTC_Time );
  *
  * @return uint8_t     : memory value at given index
  */
-uint8_t RTC_MemoryGet( uint8_t index );
+RTC_Memory_Value_t RTC_MemoryGet( RTC_Memory_Index_t RTC_Memory_Index );
 
 /*
  * @brief Sets RTC memory
@@ -125,7 +143,7 @@ uint8_t RTC_MemoryGet( uint8_t index );
  *
  * @return void     : None
  */
-void RTC_MemorySet( uint8_t index, uint8_t value );
+void RTC_MemorySet( RTC_Memory_Index_t RTC_Memory_Index, RTC_Memory_Value_t RTC_Memory_Value );
 
 // #############################################################################
 // #### Public Variable(s) #####################################################
@@ -135,7 +153,7 @@ void RTC_MemorySet( uint8_t index, uint8_t value );
 // #### File Guard #############################################################
 // #############################################################################
 
-#endif /* FARESPCB_RTC_H_ */
+#endif /* RTC_H_ */
 
 // #############################################################################
 // #### END OF FILE ############################################################

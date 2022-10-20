@@ -3,7 +3,7 @@
 // #############################################################################
 
 /*
- * Copyright (C) 2022 BaSSeM
+ * Copyright (C) 2023 BaSSeM
  *
  * This software is distributed under the terms and conditions of the 'Apache-2.0'
  * license which can be found in the file 'LICENSE.txt' in this package distribution
@@ -18,22 +18,25 @@
 // #### Include(s) #############################################################
 // #############################################################################
 
-#include "FaresPCB.h"
 #include "RTC.h"
 #include "Wire.h"
+#include "util/delay.h"
+#include "stddef.h"
 
 // #############################################################################
 // #### Private Macro(s) #######################################################
 // #############################################################################
 
-#define YEAR_OFFSET 2000
-#define RAM_SIZE 56 // in bytes
-#define BCD2DEC(BCD) ( ( ( ( (BCD) >> 4 ) & 0xFF )  * 10 ) + ( ( (BCD) & 0xFF ) * 1 ) )
-#define DEC2BCD(DEC) ( ( ( ( (DEC) / 10 ) % 10 ) << 4 ) | ( (DEC) % 10 ) )
+#define _RTC_YEAR_OFFSET 2000
+#define _RTC_RAM_SIZE 56 // in bytes
+#define _RTC_BCD2DEC(BCD) ( ( ( ( (BCD) >> 4 ) & 0xFF )  * 10 ) + ( ( (BCD) & 0xFF ) * 1 ) )
+#define _RTC_DEC2BCD(DEC) ( ( ( ( (DEC) / 10 ) % 10 ) << 4 ) | ( (DEC) % 10 ) )
 
 // #############################################################################
 // #### Private Type(s) ########################################################
 // #############################################################################
+
+typedef uint8_t _RTC_Byte_t;
 
 typedef enum _00h_Clock_t
 {
@@ -43,7 +46,7 @@ typedef enum _00h_Clock_t
 
 typedef union __attribute__((packed, aligned(1))) _00h_t
 {
-    uint8_t value;
+    _RTC_Byte_t value;
     struct
     {
         uint8_t second      : 4;
@@ -191,9 +194,9 @@ typedef union __attribute__((packed, aligned(1))) _07h_t
     };
 } _07h_t;
 
-typedef uint8_t _RAM_t[RAM_SIZE];
+typedef uint8_t _RAM_t[_RTC_RAM_SIZE];
 
-typedef struct __attribute__((packed, aligned(1))) RTC_t
+typedef struct __attribute__((packed, aligned(1))) _RTC_t
 {
     _00h_t _00h;
     _01h_t _01h;
@@ -204,7 +207,7 @@ typedef struct __attribute__((packed, aligned(1))) RTC_t
     _06h_t _06h;
     _07h_t _07h;
     _RAM_t _RAM;
-} RTC_t;
+} _RTC_t;
 
 // #############################################################################
 // #### Private Method(s) Prototype ############################################
@@ -214,7 +217,7 @@ typedef struct __attribute__((packed, aligned(1))) RTC_t
 // #### Private Variable(s) ####################################################
 // #############################################################################
 
-RTC_t RTC;
+_RTC_t _RTC;
 
 // #############################################################################
 // #### Private Method(s) ######################################################
@@ -234,24 +237,24 @@ RTC_t RTC;
 RTC_Date_t RTC_DateGet( void )
 {
     RTC_Date_t RTC_Date;
-    Wire.begin();
-    Wire.beginTransmission(HW_RTC_ADDRESS);
-    Wire.write(offsetof(RTC_t, _03h));
-    Wire.endTransmission(false);
-    Wire.requestFrom(HW_RTC_ADDRESS, offsetof(RTC_t, _06h) - offsetof(RTC_t, _03h) + 1);
-    for( uint8_t timeout = 0x0F; Wire.available() < (offsetof(RTC_t, _06h) - offsetof(RTC_t, _03h) + 1); --timeout)
-    {
-        _delay_ms(1);
-    }
-    Wire.end();
+//    Wire.begin();
+//    Wire.beginTransmission(HW_RTC_ADDRESS);
+//    Wire.write(offsetof(_RTC_t, _03h));
+//    Wire.endTransmission(false);
+//    Wire.requestFrom(HW_RTC_ADDRESS, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1);
+//    for( uint8_t timeout = 0x0F; Wire.available() < (offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1); --timeout)
+//    {
+//        _delay_ms(1);
+//    }
+//    Wire.end();
 
-    if (Wire.available() == (offsetof(RTC_t, _06h) - offsetof(RTC_t, _03h) + 1) )
+    if (Wire.available() == (offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1) )
     {
-        Wire.readBytes((uint8_t*)&RTC._03h, offsetof(RTC_t, _06h) - offsetof(RTC_t, _03h) + 1);
-        RTC_Date.year = RTC._06h.year_10 * 10 + RTC._06h.year + YEAR_OFFSET;
-        RTC_Date.month = RTC._05h.month_10 * 10 + RTC._05h.month;
-        RTC_Date.day = RTC._04h.date_10 * 10 + RTC._04h.date;
-        switch (RTC._03h.day)
+        Wire.readBytes((uint8_t*)&_RTC._03h, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1);
+        RTC_Date.year = _RTC._06h.year_10 * 10 + _RTC._06h.year + _RTC_YEAR_OFFSET;
+        RTC_Date.month = _RTC._05h.month_10 * 10 + _RTC._05h.month;
+        RTC_Date.day = _RTC._04h.date_10 * 10 + _RTC._04h.date;
+        switch (_RTC._03h.day)
         {
             case _03h_Day_Saturday:
                 RTC_Date.weekday = RTC_WeekDay_Saturday;
@@ -292,34 +295,34 @@ RTC_Date_t RTC_DateGet( void )
  */
 void RTC_DateSet( RTC_Date_t RTC_Date )
 {
-    RTC._06h.year_10 = DEC2BCD( ( (RTC_Date.year - YEAR_OFFSET) / 10 ) % 10);
-    RTC._06h.year = DEC2BCD( ( (RTC_Date.year - YEAR_OFFSET) /  1 ) % 10);
-    RTC._05h.month_10 = DEC2BCD( (RTC_Date.month / 10 ) % 10);
-    RTC._05h.month = DEC2BCD( (RTC_Date.month /  1 ) % 10);
-    RTC._04h.date_10 = DEC2BCD( (RTC_Date.day / 10 ) % 10);
-    RTC._04h.date = DEC2BCD( (RTC_Date.day /  1 ) % 10);
+    _RTC._06h.year_10 = _RTC_DEC2BCD( ( (RTC_Date.year - _RTC_YEAR_OFFSET) / 10 ) % 10);
+    _RTC._06h.year = _RTC_DEC2BCD( ( (RTC_Date.year - _RTC_YEAR_OFFSET) /  1 ) % 10);
+    _RTC._05h.month_10 = _RTC_DEC2BCD( (RTC_Date.month / 10 ) % 10);
+    _RTC._05h.month = _RTC_DEC2BCD( (RTC_Date.month /  1 ) % 10);
+    _RTC._04h.date_10 = _RTC_DEC2BCD( (RTC_Date.day / 10 ) % 10);
+    _RTC._04h.date = _RTC_DEC2BCD( (RTC_Date.day /  1 ) % 10);
     switch (RTC_Date.weekday)
     {
         case RTC_WeekDay_Saturday:
-            RTC._03h.day = _03h_Day_Saturday;
+            _RTC._03h.day = _03h_Day_Saturday;
             break;
         case RTC_WeekDay_Sunday:
-            RTC._03h.day = _03h_Day_Sunday;
+            _RTC._03h.day = _03h_Day_Sunday;
             break;
         case RTC_WeekDay_Monday:
-            RTC._03h.day = _03h_Day_Monday;
+            _RTC._03h.day = _03h_Day_Monday;
             break;
         case RTC_WeekDay_Tuesday:
-            RTC._03h.day = _03h_Day_Tuesday;
+            _RTC._03h.day = _03h_Day_Tuesday;
             break;
         case RTC_WeekDay_Wednesday:
-            RTC._03h.day = _03h_Day_Wednesday;
+            _RTC._03h.day = _03h_Day_Wednesday;
             break;
         case RTC_WeekDay_Thursday:
-            RTC._03h.day = _03h_Day_Thursday;
+            _RTC._03h.day = _03h_Day_Thursday;
             break;
         case RTC_WeekDay_Friday:
-            RTC._03h.day = _03h_Day_Friday;
+            _RTC._03h.day = _03h_Day_Friday;
             break;
         case RTC_WeekDay_Unknown:
         default:
@@ -327,12 +330,12 @@ void RTC_DateSet( RTC_Date_t RTC_Date )
             break;
     }
 
-    Wire.begin();
-    Wire.beginTransmission(HW_RTC_ADDRESS);
-    Wire.write(offsetof(RTC_t, _03h));
-    Wire.write((uint8_t*)&RTC._03h, offsetof(RTC_t, _06h) - offsetof(RTC_t, _03h) + 1);
-    Wire.endTransmission();
-    Wire.end();
+//    Wire.begin();
+//    Wire.beginTransmission(HW_RTC_ADDRESS);
+//    Wire.write(offsetof(_RTC_t, _03h));
+//    Wire.write((uint8_t*)&_RTC._03h, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1);
+//    Wire.endTransmission();
+//    Wire.end();
 }
 
 /*
@@ -345,27 +348,27 @@ void RTC_DateSet( RTC_Date_t RTC_Date )
 RTC_Time_t RTC_TimeGet( void )
 {
     RTC_Time_t RTC_Time;
-    Wire.begin();
-    Wire.beginTransmission(HW_RTC_ADDRESS);
-    Wire.write(offsetof(RTC_t, _00h));
-    Wire.endTransmission(false);
-    Wire.requestFrom(HW_RTC_ADDRESS, offsetof(RTC_t, _02h) - offsetof(RTC_t, _00h) + 1);
-    for( uint8_t timeout = 0x0F; Wire.available() < (offsetof(RTC_t, _02h) - offsetof(RTC_t, _00h) + 1); --timeout)
-    {
-        _delay_ms(1);
-    }
-    Wire.end();
+//    Wire.begin();
+//    Wire.beginTransmission(HW_RTC_ADDRESS);
+//    Wire.write(offsetof(_RTC_t, _00h));
+//    Wire.endTransmission(false);
+//    Wire.requestFrom(HW_RTC_ADDRESS, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1);
+//    for( uint8_t timeout = 0x0F; Wire.available() < (offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1); --timeout)
+//    {
+//        _delay_ms(1);
+//    }
+//    Wire.end();
 
-    if (Wire.available() == (offsetof(RTC_t, _02h) - offsetof(RTC_t, _00h) + 1) )
+    if (Wire.available() == (offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1) )
     {
-        Wire.readBytes((uint8_t*)&RTC._00h, offsetof(RTC_t, _02h) - offsetof(RTC_t, _00h) + 1);
-        switch (RTC._02h.mode)
+        Wire.readBytes((uint8_t*)&_RTC._00h, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1);
+        switch (_RTC._02h.mode)
         {
             case _02h_Mode_12h:
-                RTC_Time.hour = RTC._02h._12h.hour_10 * 10 + RTC._02h._12h.hour;
-                RTC_Time.minute = RTC._01h.minute_10 * 10 + RTC._01h.minute;
-                RTC_Time.second = RTC._00h.second_10 * 10 + RTC._00h.second;
-                switch (RTC._02h._12h.period)
+                RTC_Time.hour = _RTC._02h._12h.hour_10 * 10 + _RTC._02h._12h.hour;
+                RTC_Time.minute = _RTC._01h.minute_10 * 10 + _RTC._01h.minute;
+                RTC_Time.second = _RTC._00h.second_10 * 10 + _RTC._00h.second;
+                switch (_RTC._02h._12h.period)
                 {
                     case _02h_Period_AM:
                         RTC_Time.period = RTC_Period_12H_AM;
@@ -378,9 +381,9 @@ RTC_Time_t RTC_TimeGet( void )
                 break;
             case _02h_Mode_24h:
             default:
-                RTC_Time.hour = RTC._02h._24h.hour_10 * 10 + RTC._02h._24h.hour;
-                RTC_Time.minute = RTC._01h.minute_10 * 10 + RTC._01h.minute;
-                RTC_Time.second = RTC._00h.second_10 * 10 + RTC._00h.second;
+                RTC_Time.hour = _RTC._02h._24h.hour_10 * 10 + _RTC._02h._24h.hour;
+                RTC_Time.minute = _RTC._01h.minute_10 * 10 + _RTC._01h.minute;
+                RTC_Time.second = _RTC._00h.second_10 * 10 + _RTC._00h.second;
                 RTC_Time.period = RTC_Period_24H;
                 break;
         }
@@ -401,42 +404,42 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
     {
     case RTC_Period_12H_AM:
     case RTC_Period_12H_PM:
-        RTC._02h.mode = _02h_Mode_12h;
-        RTC._02h._12h.hour_10 = DEC2BCD((RTC_Time.hour / 10) % 10);
-        RTC._02h._12h.hour = DEC2BCD((RTC_Time.hour /  1) % 10);
-        RTC._01h.minute_10 = DEC2BCD((RTC_Time.minute / 10) % 10);
-        RTC._01h.minute = DEC2BCD((RTC_Time.minute /  1) % 10);
-        RTC._00h.second_10 = DEC2BCD((RTC_Time.second / 10) % 10);
-        RTC._00h.second = DEC2BCD((RTC_Time.second /  1) % 10);
+        _RTC._02h.mode = _02h_Mode_12h;
+        _RTC._02h._12h.hour_10 = _RTC_DEC2BCD((RTC_Time.hour / 10) % 10);
+        _RTC._02h._12h.hour = _RTC_DEC2BCD((RTC_Time.hour /  1) % 10);
+        _RTC._01h.minute_10 = _RTC_DEC2BCD((RTC_Time.minute / 10) % 10);
+        _RTC._01h.minute = _RTC_DEC2BCD((RTC_Time.minute /  1) % 10);
+        _RTC._00h.second_10 = _RTC_DEC2BCD((RTC_Time.second / 10) % 10);
+        _RTC._00h.second = _RTC_DEC2BCD((RTC_Time.second /  1) % 10);
         switch (RTC_Time.period)
         {
             case RTC_Period_12H_AM:
-                RTC._02h._12h.period = _02h_Period_AM;
+                _RTC._02h._12h.period = _02h_Period_AM;
                 break;
             case RTC_Period_12H_PM:
             default:
-                RTC._02h._12h.period = _02h_Period_PM;
+                _RTC._02h._12h.period = _02h_Period_PM;
                 break;
         }
         break;
     case RTC_Period_24H:
     default:
-        RTC._02h.mode = _02h_Mode_24h;
-        RTC._02h._24h.hour_10 = DEC2BCD((RTC_Time.hour / 10) % 10);
-        RTC._02h._24h.hour = DEC2BCD((RTC_Time.hour /  1) % 10);
-        RTC._01h.minute_10 = DEC2BCD((RTC_Time.minute / 10) % 10);
-        RTC._01h.minute = DEC2BCD((RTC_Time.minute /  1) % 10);
-        RTC._00h.second_10 = DEC2BCD((RTC_Time.second / 10) % 10);
-        RTC._00h.second = DEC2BCD((RTC_Time.second /  1) % 10);
+        _RTC._02h.mode = _02h_Mode_24h;
+        _RTC._02h._24h.hour_10 = _RTC_DEC2BCD((RTC_Time.hour / 10) % 10);
+        _RTC._02h._24h.hour = _RTC_DEC2BCD((RTC_Time.hour /  1) % 10);
+        _RTC._01h.minute_10 = _RTC_DEC2BCD((RTC_Time.minute / 10) % 10);
+        _RTC._01h.minute = _RTC_DEC2BCD((RTC_Time.minute /  1) % 10);
+        _RTC._00h.second_10 = _RTC_DEC2BCD((RTC_Time.second / 10) % 10);
+        _RTC._00h.second = _RTC_DEC2BCD((RTC_Time.second /  1) % 10);
         break;
     }
 
-    Wire.begin();
-    Wire.beginTransmission(HW_RTC_ADDRESS);
-    Wire.write(offsetof(RTC_t, _00h));
-    Wire.write((uint8_t*)&RTC._00h, offsetof(RTC_t, _02h) - offsetof(RTC_t, _00h) + 1);
-    Wire.endTransmission();
-    Wire.end();
+//    Wire.begin();
+//    Wire.beginTransmission(HW_RTC_ADDRESS);
+//    Wire.write(offsetof(_RTC_t, _00h));
+//    Wire.write((uint8_t*)&_RTC._00h, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1);
+//    Wire.endTransmission();
+//    Wire.end();
 }
 
 /*
@@ -449,20 +452,20 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
 uint8_t RTC_MemoryGet( uint8_t index )
 {
     uint8_t value;
-    Wire.begin();
-    Wire.beginTransmission(HW_RTC_ADDRESS);
-    Wire.write(offsetof(RTC_t, _RAM) + index);
-    Wire.endTransmission(false);
-    Wire.requestFrom(HW_RTC_ADDRESS, 1);
-    for( uint8_t timeout = 0x0F; Wire.available() < (1); --timeout)
-    {
-        _delay_ms(1);
-    }
-    Wire.end();
+//    Wire.begin();
+//    Wire.beginTransmission(HW_RTC_ADDRESS);
+//    Wire.write(offsetof(_RTC_t, _RAM) + index);
+//    Wire.endTransmission(false);
+//    Wire.requestFrom(HW_RTC_ADDRESS, 1);
+//    for( uint8_t timeout = 0x0F; Wire.available() < (1); --timeout)
+//    {
+//        _delay_ms(1);
+//    }
+//    Wire.end();
     if (Wire.available() == (1) )
     {
-        Wire.readBytes((uint8_t*)&RTC._RAM[index], 1);
-        value = RTC._RAM[index];
+        Wire.readBytes((uint8_t*)&_RTC._RAM[index], 1);
+        value = _RTC._RAM[index];
     }
     return value;
 }
@@ -477,14 +480,14 @@ uint8_t RTC_MemoryGet( uint8_t index )
  */
 void RTC_MemorySet( uint8_t index, uint8_t value )
 {
-    RTC._RAM[index] = value;
+    _RTC._RAM[index] = value;
 
-    Wire.begin();
-    Wire.beginTransmission(HW_RTC_ADDRESS);
-    Wire.write(offsetof(RTC_t, _RAM) + index);
-    Wire.write(RTC._RAM[index]);
-    Wire.endTransmission();
-    Wire.end();
+//    Wire.begin();
+//    Wire.beginTransmission(HW_RTC_ADDRESS);
+//    Wire.write(offsetof(_RTC_t, _RAM) + index);
+//    Wire.write(_RTC._RAM[index]);
+//    Wire.endTransmission();
+//    Wire.end();
 }
 
 // #############################################################################
