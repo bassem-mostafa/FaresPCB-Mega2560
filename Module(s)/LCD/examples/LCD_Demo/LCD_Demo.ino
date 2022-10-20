@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "Arduino_FreeRTOS.h"
 #include "string.h"
+#include "LCD.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -53,9 +54,80 @@ void setup()
     Serial.print(" ");
     Serial.print(_FW_VERSION);
     Serial.println("\n");
+    LCD_Setup(LCD_Custom_Character_1, LCD_Icon_Bar_Loading_StartEmpty);
+    LCD_Setup(LCD_Custom_Character_2, LCD_Icon_Bar_Loading_StartFull);
+    LCD_Setup(LCD_Custom_Character_3, LCD_Icon_Bar_Loading_MiddleEmpty);
+    LCD_Setup(LCD_Custom_Character_4, LCD_Icon_Bar_Loading_MiddleHalf);
+    LCD_Setup(LCD_Custom_Character_5, LCD_Icon_Bar_Loading_MiddleFull);
+    LCD_Setup(LCD_Custom_Character_6, LCD_Icon_Bar_Loading_EndEmpty);
+    LCD_Setup(LCD_Custom_Character_7, LCD_Icon_Bar_Loading_EndFull);
+    LCD_LightOn();
 }
 
 void loop()
 {
-    // TODO
+    static uint8_t loading_bar_index = -1;
+    static LCD_Screen_t LCD_Screen_Loading =
+    {
+            " Loading Screen ",
+            {
+                    LCD_Custom_Character_1,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_3,
+                    LCD_Custom_Character_6},
+    };
+    do
+    {
+        if (loading_bar_index == -1)
+        {
+            loading_bar_index = 0;
+            break;
+        }
+
+        if (loading_bar_index > LCD_SCREEN_WIDTH)
+        {
+            break;
+        }
+
+        if (loading_bar_index == LCD_SCREEN_WIDTH)
+        {
+            loading_bar_index++;
+            strcpy((char*)LCD_Screen_Loading[1], "      Done      ");
+            break;
+        }
+
+        switch (LCD_Screen_Loading[1][loading_bar_index])
+        {
+            case LCD_Custom_Character_1:
+                LCD_Screen_Loading[1][loading_bar_index++] = LCD_Custom_Character_2;
+                break;
+            case LCD_Custom_Character_3:
+                LCD_Screen_Loading[1][loading_bar_index] = LCD_Custom_Character_4;
+                break;
+            case LCD_Custom_Character_4:
+                LCD_Screen_Loading[1][loading_bar_index++] = LCD_Custom_Character_5;
+                break;
+            case LCD_Custom_Character_6:
+                LCD_Screen_Loading[1][loading_bar_index++] = LCD_Custom_Character_7;
+                break;
+            default:
+                strcpy((char*)LCD_Screen_Loading[1], "      Error     ");
+                loading_bar_index = LCD_SCREEN_WIDTH + 1;
+                break;
+        }
+    }
+    while(0);
+    LCD_Write(LCD_Screen_Loading);
 }
