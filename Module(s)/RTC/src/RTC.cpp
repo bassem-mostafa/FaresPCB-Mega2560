@@ -49,25 +49,25 @@ typedef union __attribute__((packed, aligned(1))) _00h_t
     _RTC_Byte_t value;
     struct
     {
-        uint8_t second      : 4;
-        uint8_t second_10   : 3;
-        uint8_t             : 1;
+        _RTC_Byte_t second      : 4;
+        _RTC_Byte_t second_10   : 3;
+        _RTC_Byte_t             : 1;
     };
     struct
     {
-        uint8_t             : 7;
+        _RTC_Byte_t         : 7;
         _00h_Clock_t clock  : 1;
     };
 } _00h_t;
 
 typedef union __attribute__((packed, aligned(1))) _01h_t
 {
-    uint8_t value;
+    _RTC_Byte_t value;
     struct
     {
-        uint8_t minute      : 4;
-        uint8_t minute_10   : 3;
-        uint8_t             : 1;
+        _RTC_Byte_t minute      : 4;
+        _RTC_Byte_t minute_10   : 3;
+        _RTC_Byte_t             : 1;
     };
 } _01h_t;
 
@@ -85,25 +85,25 @@ typedef enum __attribute__((packed, aligned(1))) _02h_Mode_t
 
 typedef union __attribute__((packed, aligned(1))) _02h_t
 {
-    uint8_t value;
+    _RTC_Byte_t value;
     struct
     {
-        uint8_t hour            : 4;
-        uint8_t hour_10         : 1;
-        _02h_Period_t period    : 1;
-        uint8_t                 : 2;
+        _RTC_Byte_t hour            : 4;
+        _RTC_Byte_t hour_10         : 1;
+        _02h_Period_t period        : 1;
+        _RTC_Byte_t                 : 2;
     } _12h;
     struct
     {
-        uint8_t hour        : 4;
-        uint8_t hour_10     : 2;
-        uint8_t             : 2;
+        _RTC_Byte_t hour        : 4;
+        _RTC_Byte_t hour_10     : 2;
+        _RTC_Byte_t             : 2;
     } _24h;
     struct
     {
-        uint8_t             : 6;
+        _RTC_Byte_t         : 6;
         _02h_Mode_t mode    : 1;
-        uint8_t             : 1;
+        _RTC_Byte_t         : 1;
     };
 } _02h_t;
 
@@ -121,43 +121,43 @@ typedef enum __attribute__((packed, aligned(1))) _03h_Day_t
 
 typedef union __attribute__((packed, aligned(1))) _03h_t
 {
-    uint8_t value;
+    _RTC_Byte_t value;
     struct
     {
         _03h_Day_t day : 3;
-        uint8_t        : 5;
+        _RTC_Byte_t    : 5;
     };
 } _03h_t;
 
 typedef union __attribute__((packed, aligned(1))) _04h_t
 {
-    uint8_t value;
+    _RTC_Byte_t value;
     struct
     {
-        uint8_t date        : 4;
-        uint8_t date_10     : 2;
-        uint8_t             : 2;
+        _RTC_Byte_t date        : 4;
+        _RTC_Byte_t date_10     : 2;
+        _RTC_Byte_t             : 2;
     };
 } _04h_t;
 
 typedef union __attribute__((packed, aligned(1))) _05h_t
 {
-    uint8_t value;
+    _RTC_Byte_t value;
     struct
     {
-        uint8_t month        : 4;
-        uint8_t month_10     : 1;
-        uint8_t              : 3;
+        _RTC_Byte_t month        : 4;
+        _RTC_Byte_t month_10     : 1;
+        _RTC_Byte_t              : 3;
     };
 } _05h_t;
 
 typedef union __attribute__((packed, aligned(1))) _06h_t
 {
-    uint8_t value;
+    _RTC_Byte_t value;
     struct
     {
-        uint8_t year            : 4;
-        uint8_t year_10         : 4;
+        _RTC_Byte_t year            : 4;
+        _RTC_Byte_t year_10         : 4;
     };
 } _06h_t;
 
@@ -183,18 +183,18 @@ typedef enum __attribute__((packed, aligned(1))) _07h_OutputDefault_t
 
 typedef union __attribute__((packed, aligned(1))) _07h_t
 {
-    uint8_t value;
+    _RTC_Byte_t value;
     struct
     {
         _07h_RateSelect_t rate      : 2;
-        uint8_t                     : 2;
+        _RTC_Byte_t                 : 2;
         _07h_SquareWave_t wave      : 1;
-        uint8_t                     : 2;
+        _RTC_Byte_t                 : 2;
         _07h_OutputDefault_t out    : 1;
     };
 } _07h_t;
 
-typedef uint8_t _RAM_t[_RTC_RAM_SIZE];
+typedef _RTC_Byte_t _RAM_t[_RTC_RAM_SIZE];
 
 typedef struct __attribute__((packed, aligned(1))) _RTC_t
 {
@@ -449,12 +449,12 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
  *
  * @return uint8_t     : memory value at given index
  */
-uint8_t RTC_MemoryGet( uint8_t index )
+RTC_Memory_Value_t RTC_MemoryGet( RTC_Memory_Index_t RTC_Memory_Index )
 {
     uint8_t value;
 //    Wire.begin();
 //    Wire.beginTransmission(HW_RTC_ADDRESS);
-//    Wire.write(offsetof(_RTC_t, _RAM) + index);
+//    Wire.write(offsetof(_RTC_t, _RAM) + RTC_Memory_Index);
 //    Wire.endTransmission(false);
 //    Wire.requestFrom(HW_RTC_ADDRESS, 1);
 //    for( uint8_t timeout = 0x0F; Wire.available() < (1); --timeout)
@@ -464,8 +464,8 @@ uint8_t RTC_MemoryGet( uint8_t index )
 //    Wire.end();
     if (Wire.available() == (1) )
     {
-        Wire.readBytes((uint8_t*)&_RTC._RAM[index], 1);
-        value = _RTC._RAM[index];
+        Wire.readBytes((uint8_t*)&_RTC._RAM[RTC_Memory_Index], 1);
+        value = _RTC._RAM[RTC_Memory_Index];
     }
     return value;
 }
@@ -478,14 +478,14 @@ uint8_t RTC_MemoryGet( uint8_t index )
  *
  * @return void     : None
  */
-void RTC_MemorySet( uint8_t index, uint8_t value )
+void RTC_MemorySet( RTC_Memory_Index_t RTC_Memory_Index, RTC_Memory_Value_t RTC_Memory_Value )
 {
-    _RTC._RAM[index] = value;
+    _RTC._RAM[RTC_Memory_Index] = RTC_Memory_Value;
 
 //    Wire.begin();
 //    Wire.beginTransmission(HW_RTC_ADDRESS);
-//    Wire.write(offsetof(_RTC_t, _RAM) + index);
-//    Wire.write(_RTC._RAM[index]);
+//    Wire.write(offsetof(_RTC_t, _RAM) + RTC_Memory_Index);
+//    Wire.write(_RTC._RAM[RTC_Memory_Index]);
 //    Wire.endTransmission();
 //    Wire.end();
 }
