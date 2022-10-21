@@ -90,14 +90,5 @@ void loop()
     Platform_Pin_Write(Platform_Pin_LED_RGB_GREEN, Platform_Pin_Value_LOW);
     Platform_Pin_Write(Platform_Pin_LED_RGB_BLUE,  Platform_Pin_Value_LOW);
     _delay_ms(1000);
-    Platform_Pin_Setup(Platform_Pin_LED_1,         Platform_Pin_Mode_TRI_STATE);
-    Platform_Pin_Setup(Platform_Pin_LED_2,         Platform_Pin_Mode_TRI_STATE);
-    Platform_Pin_Setup(Platform_Pin_LED_3,         Platform_Pin_Mode_TRI_STATE);
-    Platform_Pin_Setup(Platform_Pin_LED_4,         Platform_Pin_Mode_TRI_STATE);
-    Platform_Pin_Setup(Platform_Pin_LED_5,         Platform_Pin_Mode_TRI_STATE);
-    Platform_Pin_Setup(Platform_Pin_LED_INTERNAL,  Platform_Pin_Mode_TRI_STATE);
-    Platform_Pin_Setup(Platform_Pin_LED_RGB_RED,   Platform_Pin_Mode_TRI_STATE);
-    Platform_Pin_Setup(Platform_Pin_LED_RGB_GREEN, Platform_Pin_Mode_TRI_STATE);
-    Platform_Pin_Setup(Platform_Pin_LED_RGB_BLUE,  Platform_Pin_Mode_TRI_STATE);
     while(0);
 }
