@@ -51,5 +51,10 @@
 			<type>2</type>
 			<locationURI>ECLIPSE_HOME/arduinoPlugin/libraries/FreeRTOS/10.5.0-0</locationURI>
 		</link>
+		<link>
+			<name>libraries/Wire</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.8.5/libraries/Wire</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>
