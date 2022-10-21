@@ -124,6 +124,7 @@ Platform_Status_t _Platform_Pin_Instance_Mode_Set
         switch (Platform_Pin_Mode)
         {
             case Platform_Pin_Mode_INPUT:
+            case Platform_Pin_Mode_TRI_STATE:
                 pinMode(_Platform_Pin_Instance, INPUT);
                 Platform_Status = Platform_Status_Success;
                 break;
