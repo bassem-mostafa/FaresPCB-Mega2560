@@ -308,6 +308,7 @@ Platform_Status_t Platform_SPI_Transaction
 Platform_Status_t Platform_USART_Write
 (
         const Platform_USART_t Platform_USART,
+        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
         const Platform_USART_Data_t Platform_USART_Data,
         const Platform_USART_Data_Length_t Platform_USART_Data_Length
 )
@@ -319,6 +320,7 @@ Platform_Status_t Platform_USART_Write
 Platform_Status_t Platform_USART_Read
 (
         const Platform_USART_t Platform_USART,
+        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
         Platform_USART_Data_t Platform_USART_Data,
         const Platform_USART_Data_Length_t Platform_USART_Data_Length
 )

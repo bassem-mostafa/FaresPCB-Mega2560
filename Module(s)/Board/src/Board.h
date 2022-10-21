@@ -199,6 +199,25 @@ typedef enum __attribute__((packed, aligned(1))) Platform_USART_t
     Platform_USART_4,
 } Platform_USART_t;
 
+typedef enum __attribute__((packed, aligned(1))) Platform_USART_Baudrate_t
+{
+    Platform_USART_Baudrate_110,
+    Platform_USART_Baudrate_300,
+    Platform_USART_Baudrate_600,
+    Platform_USART_Baudrate_1200,
+    Platform_USART_Baudrate_2400,
+    Platform_USART_Baudrate_4800,
+    Platform_USART_Baudrate_9600,
+    Platform_USART_Baudrate_14400,
+    Platform_USART_Baudrate_19200,
+    Platform_USART_Baudrate_38400,
+    Platform_USART_Baudrate_57600,
+    Platform_USART_Baudrate_115200,
+    Platform_USART_Baudrate_230400,
+    Platform_USART_Baudrate_460800,
+    Platform_USART_Baudrate_921600,
+} Platform_USART_Baudrate_t;
+
 typedef uint8_t* const Platform_USART_Data_t;
 
 typedef const uint16_t Platform_USART_Data_Length_t;
@@ -251,6 +270,7 @@ Platform_Status_t Platform_SPI_Transaction
 Platform_Status_t Platform_USART_Write
 (
         const Platform_USART_t Platform_USART,
+        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
         const Platform_USART_Data_t Platform_USART_Data,
         const Platform_USART_Data_Length_t Platform_USART_Data_Length
 );
@@ -258,6 +278,7 @@ Platform_Status_t Platform_USART_Write
 Platform_Status_t Platform_USART_Read
 (
         const Platform_USART_t Platform_USART,
+        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
         Platform_USART_Data_t Platform_USART_Data,
         const Platform_USART_Data_Length_t Platform_USART_Data_Length
 );
