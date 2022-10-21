@@ -18,17 +18,23 @@
 // #### File Guard #############################################################
 // #############################################################################
 
+#ifndef PLATFORM_ARDUINO_MEGA2560_H_
+#define PLATFORM_ARDUINO_MEGA2560_H_
+
 #if defined(ARDUINO) && defined(ARDUINO_AVR_MEGA2560) && defined(__AVR_ATmega2560__)
+// Platform Matches
+#else
+#error "Platform Does NOT Match"
+#endif
 
 // #############################################################################
 // #### Include(s) #############################################################
 // #############################################################################
 
-#include "Board.h"
-#include <Arduino.h>
+#include "Platform.h"
 
 // #############################################################################
-// #### Private Macro(s) #######################################################
+// #### Public Macro(s) ########################################################
 // #############################################################################
 
 //====================================
@@ -138,267 +144,94 @@
 //99          GND                         GND
 //100         AVCC                        VCC
 
-// LEDs PINs
-#define _PLATFORM_LED_INTERNAL               13
-#define _PLATFORM_LED_1                      42
-#define _PLATFORM_LED_2                      43
-#define _PLATFORM_LED_3                      44
-#define _PLATFORM_LED_4                      45
-#define _PLATFORM_LED_5                      46
-#define _PLATFORM_LED_RGB_RED                10
-#define _PLATFORM_LED_RGB_GREEN              11
-#define _PLATFORM_LED_RGB_BLUE               12
+// LEDs Information
+#define Platform_Pin_LED_INTERNAL               Platform_Pin_13         // 13
+#define Platform_Pin_LED_1                      Platform_Pin_42         // 42
+#define Platform_Pin_LED_2                      Platform_Pin_43         // 43
+#define Platform_Pin_LED_3                      Platform_Pin_44         // 44
+#define Platform_Pin_LED_4                      Platform_Pin_45         // 45
+#define Platform_Pin_LED_5                      Platform_Pin_46         // 46
+#define Platform_Pin_LED_RGB_RED                Platform_Pin_10         // 10
+#define Platform_Pin_LED_RGB_GREEN              Platform_Pin_11         // 11
+#define Platform_Pin_LED_RGB_BLUE               Platform_Pin_12         // 12
 
-// RELAYs PINs
-#define _PLATFORM_RELAY_1                    47
-#define _PLATFORM_RELAY_2                    48
+// RELAYs Information
+#define Platform_Pin_RELAY_1                    Platform_Pin_47         // 47
+#define Platform_Pin_RELAY_2                    Platform_Pin_48         // 48
 
-// BUZZERs PINs
-#define _PLATFORM_BUZZER                     49
+// BUZZERs Information
+#define Platform_Pin_BUZZER                     Platform_Pin_49         // 49
 
-// 7-SEGMENTs PINs
-#define _PLATFORM_7SEGMENT_BIT0              2
-#define _PLATFORM_7SEGMENT_BIT1              3
-#define _PLATFORM_7SEGMENT_BIT2              4
-#define _PLATFORM_7SEGMENT_BIT3              5
+// 7-SEGMENTs Information
+#define Platform_Pin_7SEGMENT_BIT0              Platform_Pin_2          // 2
+#define Platform_Pin_7SEGMENT_BIT1              Platform_Pin_3          // 3
+#define Platform_Pin_7SEGMENT_BIT2              Platform_Pin_4          // 4
+#define Platform_Pin_7SEGMENT_BIT3              Platform_Pin_5          // 5
 
-#define _PLATFORM_7SEGMENT_SEL1              9
-#define _PLATFORM_7SEGMENT_SEL2              8
-#define _PLATFORM_7SEGMENT_SEL3              7
-#define _PLATFORM_7SEGMENT_SEL4              6
+#define Platform_Pin_7SEGMENT_SEL1              Platform_Pin_9          // 9
+#define Platform_Pin_7SEGMENT_SEL2              Platform_Pin_8          // 8
+#define Platform_Pin_7SEGMENT_SEL3              Platform_Pin_7          // 7
+#define Platform_Pin_7SEGMENT_SEL4              Platform_Pin_6          // 6
 
-// LCD PINs
-#define _PLATFORM_LCD_BL                     53
-#define _PLATFORM_LCD_RS                     41
-#define _PLATFORM_LCD_EN                     40
-#define _PLATFORM_LCD_D0                     22
-#define _PLATFORM_LCD_D1                     23
-#define _PLATFORM_LCD_D2                     24
-#define _PLATFORM_LCD_D3                     25
-#define _PLATFORM_LCD_D4                     26
-#define _PLATFORM_LCD_D5                     27
-#define _PLATFORM_LCD_D6                     28
-#define _PLATFORM_LCD_D7                     29
-#define _PLATFORM_LCD_CS1                    39
-#define _PLATFORM_LCD_CS2                    38
+// LCD Information
+#define Platform_Pin_LCD_BL                     Platform_Pin_53         // 53
+#define Platform_Pin_LCD_RS                     Platform_Pin_41         // 41
+#define Platform_Pin_LCD_EN                     Platform_Pin_40         // 40
+#define Platform_Pin_LCD_D0                     Platform_Pin_22         // 22
+#define Platform_Pin_LCD_D1                     Platform_Pin_23         // 23
+#define Platform_Pin_LCD_D2                     Platform_Pin_24         // 24
+#define Platform_Pin_LCD_D3                     Platform_Pin_25         // 25
+#define Platform_Pin_LCD_D4                     Platform_Pin_26         // 26
+#define Platform_Pin_LCD_D5                     Platform_Pin_27         // 27
+#define Platform_Pin_LCD_D6                     Platform_Pin_28         // 28
+#define Platform_Pin_LCD_D7                     Platform_Pin_29         // 29
+#define Platform_Pin_LCD_CS1                    Platform_Pin_39         // 39
+#define Platform_Pin_LCD_CS2                    Platform_Pin_38         // 38
 
-// KEYPADs PINs
-#define _PLATFORM_KEYPAD_ROW1                37
-#define _PLATFORM_KEYPAD_ROW2                36
-#define _PLATFORM_KEYPAD_ROW3                35
-#define _PLATFORM_KEYPAD_ROW4                34
-#define _PLATFORM_KEYPAD_COL1                33
-#define _PLATFORM_KEYPAD_COL2                32
-#define _PLATFORM_KEYPAD_COL3                31
-#define _PLATFORM_KEYPAD_COL4                30
+// KEYPADs Information
+#define Platform_Pin_KEYPAD_ROW1                Platform_Pin_37         // 37
+#define Platform_Pin_KEYPAD_ROW2                Platform_Pin_36         // 36
+#define Platform_Pin_KEYPAD_ROW3                Platform_Pin_35         // 35
+#define Platform_Pin_KEYPAD_ROW4                Platform_Pin_34         // 34
+#define Platform_Pin_KEYPAD_COL1                Platform_Pin_33         // 33
+#define Platform_Pin_KEYPAD_COL2                Platform_Pin_32         // 32
+#define Platform_Pin_KEYPAD_COL3                Platform_Pin_31         // 31
+#define Platform_Pin_KEYPAD_COL4                Platform_Pin_30         // 30
 
-// RS232s PINs
-#define _PLATFORM_RS232_TX                   14
-#define _PLATFORM_RS232_RX                   15
+// RS232s Information
+#define Platform_USART_RS232                    Platform_USART_4        // Serial3
 
-// TEMPERATURE SENSORs PINs
-#define _PLATFORM_TEMPERATURE_SENSOR         A1
+// TEMPERATURE SENSORs Information
+#define Platform_Pin_TEMPERATURE_SENSOR         Platform_Pin_55         // A1
 
-// VARIABLE RESISTORs PINs
-#define _PLATFORM_VARIABLE_RESISTOR          A0
+// VARIABLE RESISTORs Information
+#define Platform_Pin_VARIABLE_RESISTOR          Platform_Pin_54         // A0
 
-// RTC Info
-#define _PLATFORM_RTC_ADDRESS                0x68
+// RTC Information
+#define Platform_I2C_Address_RTC                0x68
 
-// EEPROM Info
-#define _PLATFORM_EEPROM_ADDRESS             0x50
+// EEPROM Information
+#define Platform_I2C_Address_EEPROM             0x50
 
-// BLUETOOTH Info
-#define _PLATFORM_BLUETOOTH_KEY              A4
-#define _PLATFORM_BLUETOOTH_STATE            A5
-#define _PLATFORM_BLUETOOTH_TX               18
-#define _PLATFORM_BLUETOOTH_RX               19
-#define _PLATFORM_BLUETOOTH_SERIAL           Serial1
+// BLUETOOTH Information
+#define Platform_Pin_BLUETOOTH_KEY              Platform_Pin_58         // A4
+#define Platform_Pin_BLUETOOTH_STATE            Platform_Pin_59         // A5
+#define Platform_USART_BLUETOOTH                Platform_USART_2        // Serial1
 
-// ULTRA-SONIC Info
-#define _PLATFORM_ULTRASONIC_ECHO            A7
-#define _PLATFORM_ULTRASONIC_TRIG            A6
+// ULTRA-SONIC Information
+#define Platform_Pin_ULTRASONIC_ECHO            Platform_Pin_61         // A7
+#define Platform_Pin_ULTRASONIC_TRIG            Platform_Pin_60         // A6
 
-// #############################################################################
-// #### Private Type(s) ########################################################
-// #############################################################################
-
-typedef HardwareSerial _USART_Instance_t;
+// USB Information
+#define Platform_USART_USB                      Platform_USART_1        // Serial
 
 // #############################################################################
-// #### Private Method(s) Prototype ############################################
+// #### Public Type(s) #########################################################
 // #############################################################################
-
-// #############################################################################
-// #### Private Variable(s) ####################################################
-// #############################################################################
-
-// #############################################################################
-// #### Private Method(s) ######################################################
-// #############################################################################
-
-_USART_Instance_t * const _USART_InstanceGet
-(
-        const Platform_USART_t Platform_USART
-)
-{
-    _USART_Instance_t * _USART_Instance = NULL;
-    switch (Platform_USART)
-    {
-        case Platform_USART_1:
-            _USART_Instance = &Serial;
-            break;
-        case Platform_USART_2:
-            _USART_Instance = &Serial1;
-            break;
-        case Platform_USART_3:
-            _USART_Instance = &Serial2;
-            break;
-        case Platform_USART_4:
-            _USART_Instance = &Serial3;
-            break;
-        default:
-            _USART_Instance = NULL;
-            break;
-    }
-    return _USART_Instance;
-}
-
-Platform_Status_t _USART_InstanceBaudrateSet
-(
-        _USART_Instance_t * const _USART_Instance,
-        const Platform_USART_Baudrate_t Platform_USART_Baudrate
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    do
-    {
-        if ( _USART_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
-        switch (Platform_USART_Baudrate)
-        {
-            case Platform_USART_Baudrate_9600:
-                _USART_Instance->begin(9600);
-                Platform_Status = Platform_Status_Success;
-                break;
-            case Platform_USART_Baudrate_115200:
-                _USART_Instance->begin(115200);
-                Platform_Status = Platform_Status_Success;
-                break;
-            default:
-                Platform_Status = Platform_Status_NotSupported;
-                break;
-        }
-    }
-    while(0);
-    return Platform_Status;
-}
 
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
-
-Platform_Status_t Platform_Pin_Setup
-(
-        const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Mode_t Platform_Pin_Mode
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    pinMode(0, 0);
-    return Platform_Status;
-}
-
-Platform_Status_t Platform_Pin_Write
-(
-        const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Value_t Platform_Pin_Value
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    return Platform_Status;
-}
-
-Platform_Status_t Platform_Pin_Read
-(
-        const Platform_Pin_t Platform_Pin,
-        Platform_Pin_Value_t * const Platform_Pin_Value
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    return Platform_Status;
-}
-
-Platform_Status_t Platform_I2C_Write
-(
-        const Platform_I2C_t Platform_I2C,
-        const Platform_I2C_Address_t Platform_I2C_Address,
-        const Platform_I2C_Data_t Platform_I2C_Data,
-        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    return Platform_Status;
-}
-
-Platform_Status_t Platform_I2C_Read
-(
-        const Platform_I2C_t Platform_I2C,
-        const Platform_I2C_Address_t Platform_I2C_Address,
-        Platform_I2C_Data_t Platform_I2C_Data,
-        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    return Platform_Status;
-}
-
-Platform_Status_t Platform_SPI_Transaction
-(
-        const Platform_SPI_t Platform_SPI,
-        Platform_SPI_Data_t Platform_SPI_Data,
-        const Platform_SPI_Data_Length_t Platform_SPI_Data_Length
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    return Platform_Status;
-}
-
-Platform_Status_t Platform_USART_Write
-(
-        const Platform_USART_t Platform_USART,
-        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
-        const Platform_USART_Data_t Platform_USART_Data,
-        const Platform_USART_Data_Length_t Platform_USART_Data_Length
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    do
-    {
-        _USART_Instance_t * _USART_Instance = NULL;
-        if ( (_USART_Instance = _USART_InstanceGet(Platform_USART)) == NULL ) break;
-        if ( (Platform_Status = _USART_InstanceBaudrateSet(_USART_Instance, Platform_USART_Baudrate) ) != Platform_Status_Success ) break;
-        if ( Platform_USART_Data_Length != _USART_Instance->write(Platform_USART_Data, Platform_USART_Data_Length) )
-        {
-            Platform_Status = Platform_Status_Error;
-            break;
-        }
-        Platform_Status = Platform_Status_Success;
-    }
-    while(0);
-    return Platform_Status;
-}
-
-Platform_Status_t Platform_USART_Read
-(
-        const Platform_USART_t Platform_USART,
-        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
-        Platform_USART_Data_t Platform_USART_Data,
-        const Platform_USART_Data_Length_t Platform_USART_Data_Length
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    return Platform_Status;
-}
 
 // #############################################################################
 // #### Public Variable(s) #####################################################
@@ -408,7 +241,7 @@ Platform_Status_t Platform_USART_Read
 // #### File Guard #############################################################
 // #############################################################################
 
-#endif /* defined(ARDUINO) && defined(ARDUINO_AVR_MEGA2560) && defined(__AVR_ATmega2560__) */
+#endif /* PLATFORM_ARDUINO_MEGA2560_H_ */
 
 // #############################################################################
 // #### END OF FILE ############################################################

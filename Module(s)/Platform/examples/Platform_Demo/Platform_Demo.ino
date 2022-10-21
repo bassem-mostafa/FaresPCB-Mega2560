@@ -1,7 +1,6 @@
-#include "Arduino.h"
-#include "Arduino_FreeRTOS.h"
+#include "Platform.h"
 #include "string.h"
-#include "Board.h"
+#include "stdio.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -47,17 +46,56 @@ const char _FW_VERSION[30] =
 
 void setup()
 {
-    Serial.begin(115200);
-    while(!Serial);
-    Serial.print("FW ");
-    Serial.print(_FW_LABEL);
-    Serial.print(" ");
-    Serial.print(_FW_VERSION);
-    Serial.println("\n");
+    char FW_Info[50];
+    snprintf(FW_Info, sizeof(FW_Info), "\nFW %s V%s\n", _FW_LABEL, _FW_VERSION);
+    Platform_USART_Write
+    (
+            Platform_USART_1,
+            Platform_USART_Baudrate_115200,
+            (uint8_t*)FW_Info,
+            strlen(FW_Info)
+    );
+    const char User_Prompt[] = "Write 10 Characters";
+    Platform_USART_Write
+    (
+            Platform_USART_1,
+            Platform_USART_Baudrate_115200,
+            (uint8_t*)User_Prompt,
+            strlen(User_Prompt)
+    );
+    char User_Input[11];
+    memset(User_Input, 0, sizeof(User_Input));
+    Platform_USART_Read
+    (
+            Platform_USART_1,
+            Platform_USART_Baudrate_115200,
+            (uint8_t*)User_Input,
+            strlen(User_Input)
+    );
+    char User_Response[50];
+    snprintf(User_Response, sizeof(User_Response), "\n\nYou've Entered %s\n\nThanks", User_Input);
+    Platform_USART_Write
+    (
+            Platform_USART_1,
+            Platform_USART_Baudrate_115200,
+            (uint8_t*)User_Response,
+            strlen(User_Response)
+    );
 }
 
 void loop()
 {
-    static Platform_Pin_t Platform_Pin_LED = Platform_Pin_0;
-    Platform_Pin_Setup(Platform_Pin_LED, Platform_Pin_Mode_OUTPUT);
+    do
+    {
+        static bool demo_done = false;
+        if (demo_done) break;
+        static Platform_Pin_t Platform_Pin_LED = Platform_Pin_0;
+        Platform_Pin_Setup(Platform_Pin_LED, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Write(Platform_Pin_LED, Platform_Pin_Value_HIGH);
+        _delay_ms(1000);
+        Platform_Pin_Write(Platform_Pin_LED, Platform_Pin_Value_LOW);
+        _delay_ms(1000);
+        Platform_Pin_Setup(Platform_Pin_LED, Platform_Pin_Mode_TRI_STATE);
+    }
+    while(0);
 }

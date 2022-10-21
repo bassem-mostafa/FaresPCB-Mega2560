@@ -26,6 +26,7 @@
 // #############################################################################
 
 #include "stdint.h"
+#include "Platform_ArduinoMega2560.h" // Platform Dependent Header
 
 // #############################################################################
 // #### Public Macro(s) ########################################################
@@ -39,6 +40,7 @@ typedef enum __attribute__((packed, aligned(1))) Platform_Status_t
 {
     Platform_Status_Success,
     Platform_Status_Error,
+    Platform_Status_Timeout,
     Platform_Status_NotSupported,
 } Platform_Status_t;
 
