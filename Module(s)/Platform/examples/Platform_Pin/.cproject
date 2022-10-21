@@ -16,31 +16,31 @@
 					<folderInfo id="io.sloeber.core.sketch.0." name="/" resourcePath="">
 						<toolChain id="io.sloeber.core.toolChain.release.1603187786" name="Arduino Toolchain (Sloeber edition)" superClass="io.sloeber.core.toolChain.release">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="io.sloeber.targetplatform.1916971866" name="Arduino Target" osList="all" superClass="io.sloeber.targetplatform"/>
-							<builder buildPath="${workspace_loc:/Platform_Demo}/Release" id="io.sloeber.sketch.builder.640517163" keepEnvironmentInBuildfile="false" name="Arduino sketch builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="io.sloeber.sketch.builder"/>
+							<builder buildPath="${workspace_loc:/Platform_Pin}/Release" id="io.sloeber.sketch.builder.640517163" keepEnvironmentInBuildfile="false" name="Arduino sketch builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="io.sloeber.sketch.builder"/>
 							<tool id="io.sloeber.tool.sketch.compiler.cpp.748074301" name="Arduino C++ Compiler" superClass="io.sloeber.tool.sketch.compiler.cpp">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="io.sloeber.compiler.cpp.sketch.option.incpath.1599821316" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/core/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/libraries/FreeRTOS/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/libraries/FaresPCB_Platform/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/libraries/FreeRTOS/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/libraries/FaresPCB_Platform/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.154872374" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
 							<tool id="io.sloeber.tool.compiler.c.676934512" name="Arduino C Compiler" superClass="io.sloeber.tool.compiler.c">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="io.sloeber.compiler.c.sketch.option.incpath.1410038311" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/core/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/libraries/FreeRTOS/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/libraries/FaresPCB_Platform/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/libraries/FreeRTOS/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/libraries/FaresPCB_Platform/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.1242725169" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
 							<tool id="io.sloeber.tool.sketch.compiler.s.860321082" name="Arduino Assembler" superClass="io.sloeber.tool.sketch.compiler.s">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="io.sloeber.compiler.asm.sketch.option.incpath.1084542399" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/core/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/libraries/FreeRTOS/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Demo/libraries/FaresPCB_Platform/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/libraries/FreeRTOS/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Platform_Pin/libraries/FaresPCB_Platform/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.1921893850" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
@@ -90,11 +90,11 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="Platform_Demo.io.sloeber.core.sketch.1117353197" name="Arduino sketch" projectType="io.sloeber.core.sketch"/>
+		<project id="Platform_Pin.io.sloeber.core.sketch.1117353197" name="Arduino sketch" projectType="io.sloeber.core.sketch"/>
 	</storageModule>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/Platform_Demo"/>
+			<resource resourceType="PROJECT" workspacePath="/Platform_Pin"/>
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
