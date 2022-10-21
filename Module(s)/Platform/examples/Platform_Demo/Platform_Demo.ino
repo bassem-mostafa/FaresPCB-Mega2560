@@ -51,7 +51,7 @@ void setup()
     FW_Info[sizeof(FW_Info)-1] = '\0';
     Platform_USART_Write
     (
-            Platform_USART_1,
+            Platform_USART_USB,
             Platform_USART_Baudrate_115200,
             (uint8_t*)FW_Info,
             strlen(FW_Info)
@@ -59,7 +59,7 @@ void setup()
     const char User_Prompt[] = "Write 10 Characters";
     Platform_USART_Write
     (
-            Platform_USART_1,
+            Platform_USART_USB,
             Platform_USART_Baudrate_115200,
             (uint8_t*)User_Prompt,
             strlen(User_Prompt)
@@ -68,16 +68,16 @@ void setup()
     memset(User_Input, 0, sizeof(User_Input));
     Platform_USART_Read
     (
-            Platform_USART_1,
+            Platform_USART_USB,
             Platform_USART_Baudrate_115200,
             (uint8_t*)User_Input,
-            strlen(User_Input)
+            sizeof(User_Input)-1
     );
     char User_Response[50];
     snprintf(User_Response, sizeof(User_Response), "\n\nYou've Entered %s\n\nThanks", User_Input);
     Platform_USART_Write
     (
-            Platform_USART_1,
+            Platform_USART_USB,
             Platform_USART_Baudrate_115200,
             (uint8_t*)User_Response,
             strlen(User_Response)
