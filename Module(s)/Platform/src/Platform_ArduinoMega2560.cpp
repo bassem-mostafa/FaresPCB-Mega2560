@@ -263,6 +263,7 @@ Platform_Status_t _Platform_USART_Instance_Write
             Platform_Status = Platform_Status_Error;
             break;
         }
+        _Platform_USART_Instance->flush();
         Platform_Status = Platform_Status_Success;
     }
     while(0);
