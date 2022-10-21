@@ -36,13 +36,7 @@
 // #### Private Type(s) ########################################################
 // #############################################################################
 
-typedef HardwareSerial _USART_Instance_t;
-
-typedef void _SPI_Instance_t;
-
-typedef void _I2C_Instance_t;
-
-typedef uint8_t _Pin_Instance_t;
+typedef HardwareSerial _Platform_USART_Instance_t;
 
 // #############################################################################
 // #### Private Method(s) Prototype ############################################
@@ -56,41 +50,41 @@ typedef uint8_t _Pin_Instance_t;
 // #### Private Method(s) ######################################################
 // #############################################################################
 
-_USART_Instance_t * const _Platform_USART_InstanceGet
+_Platform_USART_Instance_t * const _Platform_USART_InstanceGet
 (
         const Platform_USART_t Platform_USART
 )
 {
-    _USART_Instance_t * _USART_Instance = NULL;
+    _Platform_USART_Instance_t * _Platform_USART_Instance = NULL;
     switch (Platform_USART)
     {
-        case Platform_USART_1: _USART_Instance = &Serial;  break;
-        case Platform_USART_2: _USART_Instance = &Serial1; break;
-        case Platform_USART_3: _USART_Instance = &Serial2; break;
-        case Platform_USART_4: _USART_Instance = &Serial3; break;
-        default:               _USART_Instance = NULL;     break;
+        case Platform_USART_1: _Platform_USART_Instance = &Serial;  break;
+        case Platform_USART_2: _Platform_USART_Instance = &Serial1; break;
+        case Platform_USART_3: _Platform_USART_Instance = &Serial2; break;
+        case Platform_USART_4: _Platform_USART_Instance = &Serial3; break;
+        default:               _Platform_USART_Instance = NULL;     break;
     }
-    return _USART_Instance;
+    return _Platform_USART_Instance;
 }
 
 Platform_Status_t _Platform_USART_InstanceBaudrateSet
 (
-        _USART_Instance_t * const _USART_Instance,
+        _Platform_USART_Instance_t * const _Platform_USART_Instance,
         const Platform_USART_Baudrate_t Platform_USART_Baudrate
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
     do
     {
-        if ( _USART_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
+        if ( _Platform_USART_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
         switch (Platform_USART_Baudrate)
         {
             case Platform_USART_Baudrate_9600:
-                _USART_Instance->begin(9600);
+                _Platform_USART_Instance->begin(9600);
                 Platform_Status = Platform_Status_Success;
                 break;
             case Platform_USART_Baudrate_115200:
-                _USART_Instance->begin(115200);
+                _Platform_USART_Instance->begin(115200);
                 Platform_Status = Platform_Status_Success;
                 break;
             default:
@@ -104,7 +98,7 @@ Platform_Status_t _Platform_USART_InstanceBaudrateSet
 
 Platform_Status_t _Platform_USART_InstanceWrite
 (
-        _USART_Instance_t * _USART_Instance,
+        _Platform_USART_Instance_t * _Platform_USART_Instance,
         Platform_USART_Data_t Platform_USART_Data,
         Platform_USART_Data_Length_t Platform_USART_Data_Length
 )
@@ -112,8 +106,8 @@ Platform_Status_t _Platform_USART_InstanceWrite
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
     do
     {
-        if ( _USART_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
-        if ( _USART_Instance->write(Platform_USART_Data, Platform_USART_Data_Length) != Platform_USART_Data_Length )
+        if ( _Platform_USART_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
+        if ( _Platform_USART_Instance->write(Platform_USART_Data, Platform_USART_Data_Length) != Platform_USART_Data_Length )
         {
             Platform_Status = Platform_Status_Error;
             break;
@@ -126,7 +120,7 @@ Platform_Status_t _Platform_USART_InstanceWrite
 
 Platform_Status_t _Platform_USART_InstanceRead
 (
-        _USART_Instance_t * _USART_Instance,
+        _Platform_USART_Instance_t * _Platform_USART_Instance,
         Platform_USART_Data_t Platform_USART_Data,
         Platform_USART_Data_Length_t Platform_USART_Data_Length
 )
@@ -134,8 +128,8 @@ Platform_Status_t _Platform_USART_InstanceRead
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
     do
     {
-        if ( _USART_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
-        if ( _USART_Instance->readBytes(Platform_USART_Data, Platform_USART_Data_Length) != Platform_USART_Data_Length )
+        if ( _Platform_USART_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
+        if ( _Platform_USART_Instance->readBytes(Platform_USART_Data, Platform_USART_Data_Length) != Platform_USART_Data_Length )
         {
             Platform_Status = Platform_Status_Error;
             break;
@@ -226,10 +220,10 @@ Platform_Status_t Platform_USART_Write
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
     do
     {
-        _USART_Instance_t * _USART_Instance = NULL;
-        if ( (_USART_Instance = _Platform_USART_InstanceGet(Platform_USART)) == NULL ) break;
-        if ( (Platform_Status = _Platform_USART_InstanceBaudrateSet(_USART_Instance, Platform_USART_Baudrate) ) != Platform_Status_Success ) break;
-        if ( (Platform_Status = _Platform_USART_InstanceWrite(_USART_Instance, Platform_USART_Data, Platform_USART_Data_Length) ) != Platform_Status_Success ) break;
+        _Platform_USART_Instance_t * _Platform_USART_Instance = NULL;
+        if ( (_Platform_USART_Instance = _Platform_USART_InstanceGet(Platform_USART)) == NULL ) break;
+        if ( (Platform_Status = _Platform_USART_InstanceBaudrateSet(_Platform_USART_Instance, Platform_USART_Baudrate) ) != Platform_Status_Success ) break;
+        if ( (Platform_Status = _Platform_USART_InstanceWrite(_Platform_USART_Instance, Platform_USART_Data, Platform_USART_Data_Length) ) != Platform_Status_Success ) break;
         Platform_Status = Platform_Status_Success;
     }
     while(0);
@@ -247,10 +241,10 @@ Platform_Status_t Platform_USART_Read
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
     do
     {
-        _USART_Instance_t * _USART_Instance = NULL;
-        if ( (_USART_Instance = _Platform_USART_InstanceGet(Platform_USART)) == NULL ) break;
-        if ( (Platform_Status = _Platform_USART_InstanceBaudrateSet(_USART_Instance, Platform_USART_Baudrate) ) != Platform_Status_Success ) break;
-        if ( (Platform_Status = _Platform_USART_InstanceRead(_USART_Instance, Platform_USART_Data, Platform_USART_Data_Length) ) != Platform_Status_Success ) break;
+        _Platform_USART_Instance_t * _Platform_USART_Instance = NULL;
+        if ( (_Platform_USART_Instance = _Platform_USART_InstanceGet(Platform_USART)) == NULL ) break;
+        if ( (Platform_Status = _Platform_USART_InstanceBaudrateSet(_Platform_USART_Instance, Platform_USART_Baudrate) ) != Platform_Status_Success ) break;
+        if ( (Platform_Status = _Platform_USART_InstanceRead(_Platform_USART_Instance, Platform_USART_Data, Platform_USART_Data_Length) ) != Platform_Status_Success ) break;
         Platform_Status = Platform_Status_Success;
     }
     while(0);
