@@ -1,5 +1,6 @@
 #include "Platform.h"
 #include "string.h"
+#include "RTC.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -57,7 +58,21 @@ void setup()
     );
 }
 
+char DateTime[50];
+static const char WeekDay[][4] = {"???", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"};
+static const char DayPeriod[][3] = {"  ", "AM", "PM"};
 void loop()
 {
-    // TODO
+    RTC_Date_t RTC_Date = RTC_DateGet();
+    RTC_Time_t RTC_Time = RTC_TimeGet();
+    snprintf(DateTime, sizeof(DateTime), "%3s %02d-%02d-%02d %02d:%02d:%02d %3s\n", WeekDay[RTC_Date.weekday], RTC_Date.year, RTC_Date.month, RTC_Date.day, RTC_Time.hour, RTC_Time.minute, RTC_Time.second, DayPeriod[RTC_Time.period]);
+    DateTime[sizeof(DateTime) - 1] = '\0';
+    Platform_USART_Write
+    (
+            Platform_USART_USB,
+            Platform_USART_Baudrate_115200,
+            (uint8_t*)DateTime,
+            strlen(DateTime)
+    );
+    _delay_ms(500);
 }
