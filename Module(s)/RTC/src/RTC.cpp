@@ -209,6 +209,16 @@ typedef struct __attribute__((packed, aligned(1))) _RTC_t
     _RAM_t _RAM;
 } _RTC_t;
 
+typedef struct __attribute__((packed, aligned(1))) _RTC_Packet_t
+{
+        _RTC_Byte_t content_length;
+        struct __attribute__((packed, aligned(1)))
+        {
+                _RTC_Byte_t address;
+                _RTC_Byte_t data[];
+        } content;
+} _RTC_Packet_t;
+
 // #############################################################################
 // #### Private Method(s) Prototype ############################################
 // #############################################################################
@@ -238,8 +248,16 @@ RTC_Date_t RTC_DateGet( void )
 {
     RTC_Date_t RTC_Date;
 
-    uint8_t RTC_Memory_Address = offsetof(_RTC_t, _03h);
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, &RTC_Memory_Address, 1) == Platform_Status_Success )
+    _RTC_Packet_t _RTC_Packet = (_RTC_Packet_t) {
+        1 /* content_length */,
+        {
+                /* content.address */
+                offsetof(_RTC_t, _03h),
+                /* content.data */
+        }
+    };
+
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
 
     }
@@ -325,14 +343,20 @@ void RTC_DateSet( RTC_Date_t RTC_Date )
             break;
     }
 
+    _RTC_Packet_t _RTC_Packet = (_RTC_Packet_t) {
+        5 /* content_length */,
+        {
+                /* content.address */
+                offsetof(_RTC_t, _03h) ,
+                /* content.data */
+                _RTC._03h.value,
+                _RTC._04h.value,
+                _RTC._05h.value,
+                _RTC._06h.value,
+        }
+    };
 
-    uint8_t RTC_Memory_Address = offsetof(_RTC_t, _03h);
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, &RTC_Memory_Address, 1) == Platform_Status_Success )
-    {
-
-    }
-
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._03h, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1) == Platform_Status_Success )
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
 
     }
@@ -349,8 +373,16 @@ RTC_Time_t RTC_TimeGet( void )
 {
     RTC_Time_t RTC_Time;
 
-    uint8_t RTC_Memory_Address = offsetof(_RTC_t, _00h);
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, &RTC_Memory_Address, 1) == Platform_Status_Success )
+    _RTC_Packet_t _RTC_Packet = (_RTC_Packet_t) {
+        1 /* content_length */,
+        {
+                /* content.address */
+                offsetof(_RTC_t, _00h),
+                /* content.data */
+        }
+    };
+
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
 
     }
@@ -430,13 +462,19 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
     }
     _RTC._00h.clock = _00h_Clock_Enable;
 
-    uint8_t RTC_Memory_Address = offsetof(_RTC_t, _00h);
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, &RTC_Memory_Address, 1) == Platform_Status_Success )
-    {
+    _RTC_Packet_t _RTC_Packet = (_RTC_Packet_t) {
+        4 /* content_length */,
+        {
+                /* content.address */
+                offsetof(_RTC_t, _00h) ,
+                /* content.data */
+                _RTC._00h.value,
+                _RTC._01h.value,
+                _RTC._02h.value,
+        }
+    };
 
-    }
-
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._00h, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1) == Platform_Status_Success )
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
 
     }
@@ -452,8 +490,17 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
 RTC_Memory_Value_t RTC_MemoryGet( RTC_Memory_Index_t RTC_Memory_Index )
 {
     uint8_t value;
-    uint8_t RTC_Memory_Address = offsetof(_RTC_t, _RAM) + RTC_Memory_Index;
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, &RTC_Memory_Address, 1) == Platform_Status_Success )
+
+    _RTC_Packet_t _RTC_Packet = (_RTC_Packet_t) {
+        1 /* content_length */,
+        {
+                /* content.address */
+                offsetof(_RTC_t, _RAM) + RTC_Memory_Index ,
+                /* content.data */
+        }
+    };
+
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
 
     }
@@ -477,13 +524,17 @@ void RTC_MemorySet( RTC_Memory_Index_t RTC_Memory_Index, RTC_Memory_Value_t RTC_
 {
     _RTC._RAM[RTC_Memory_Index] = RTC_Memory_Value;
 
-    uint8_t RTC_Memory_Address = offsetof(_RTC_t, _RAM) + RTC_Memory_Index;
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, &RTC_Memory_Address, 1) == Platform_Status_Success )
-    {
+    _RTC_Packet_t _RTC_Packet = (_RTC_Packet_t) {
+        2 /* content_length */,
+        {
+                /* content.address */
+                offsetof(_RTC_t, _RAM) + RTC_Memory_Index ,
+                /* content.data */
+                _RTC._RAM[RTC_Memory_Index],
+        }
+    };
 
-    }
-
-    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._RAM[RTC_Memory_Index], 1) == Platform_Status_Success )
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
 
     }
