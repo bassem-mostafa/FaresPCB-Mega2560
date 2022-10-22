@@ -22,7 +22,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FaresPCB_LCD/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FreeRTOS/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FaresPCB_FreeRTOS-10.5/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.154872374" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -31,7 +31,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FaresPCB_LCD/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FreeRTOS/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FaresPCB_FreeRTOS-10.5/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.1242725169" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -40,7 +40,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FaresPCB_LCD/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FreeRTOS/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LCD_Demo/libraries/FaresPCB_FreeRTOS-10.5/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.1921893850" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
