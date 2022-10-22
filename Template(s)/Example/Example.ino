@@ -1,5 +1,4 @@
-#include "Arduino.h"
-#include "Arduino_FreeRTOS.h"
+#include "Platform.h"
 #include "string.h"
 
 #ifndef __TIMESTAMP__
