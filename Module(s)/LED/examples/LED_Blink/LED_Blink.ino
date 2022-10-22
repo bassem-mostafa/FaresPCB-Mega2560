@@ -1,5 +1,4 @@
-#include "Arduino.h"
-#include "Arduino_FreeRTOS.h"
+#include "Platform.h"
 #include "LED.h"
 #include "string.h"
 
