@@ -167,6 +167,8 @@ typedef enum __attribute__((packed, aligned(1))) Platform_Pin_Value_t
     Platform_Pin_Value_HIGH
 } Platform_Pin_Value_t;
 
+typedef uint8_t Platform_Pin_Value_PWM_t;
+
 typedef enum __attribute__((packed, aligned(1))) Platform_I2C_t
 {
     Platform_I2C_1,
@@ -238,6 +240,12 @@ Platform_Status_t Platform_Pin_Write
 (
         const Platform_Pin_t Platform_Pin,
         const Platform_Pin_Value_t Platform_Pin_Value
+);
+
+Platform_Status_t Platform_Pin_Write_PWM
+(
+        const Platform_Pin_t Platform_Pin,
+        const Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
 );
 
 Platform_Status_t Platform_Pin_Read

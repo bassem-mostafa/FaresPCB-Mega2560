@@ -182,6 +182,23 @@ Platform_Status_t _Platform_Pin_Instance_Write
     return Platform_Status;
 }
 
+Platform_Status_t _Platform_Pin_Instance_Write_PWM
+(
+        _Platform_Pin_Instance_t _Platform_Pin_Instance,
+        Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    do
+    {
+        if (_Platform_Pin_Instance == -1) { Platform_Status = Platform_Status_Error; break; }
+        analogWrite(_Platform_Pin_Instance, (uint8_t)Platform_Pin_Value_PWM);
+        Platform_Status = Platform_Status_Success;
+    }
+    while(0);
+    return Platform_Status;
+}
+
 Platform_Status_t _Platform_Pin_Instance_Read
 (
         _Platform_Pin_Instance_t _Platform_Pin_Instance,
@@ -465,6 +482,24 @@ Platform_Status_t Platform_Pin_Write
         _Platform_Pin_Instance_t _Platform_Pin_Instance = -1;
         if ( (_Platform_Pin_Instance = _Platform_Pin_Instance_Get(Platform_Pin) ) == -1 ) break;
         if ( ( Platform_Status = _Platform_Pin_Instance_Write(_Platform_Pin_Instance, Platform_Pin_Value) ) != Platform_Status_Success ) break;
+        Platform_Status = Platform_Status_Success;
+    }
+    while(0);
+    return Platform_Status;
+}
+
+Platform_Status_t Platform_Pin_Write_PWM
+(
+        const Platform_Pin_t Platform_Pin,
+        const Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    do
+    {
+        _Platform_Pin_Instance_t _Platform_Pin_Instance = -1;
+        if ( (_Platform_Pin_Instance = _Platform_Pin_Instance_Get(Platform_Pin) ) == -1 ) break;
+        if ( ( Platform_Status = _Platform_Pin_Instance_Write_PWM(_Platform_Pin_Instance, Platform_Pin_Value_PWM) ) != Platform_Status_Success ) break;
         Platform_Status = Platform_Status_Success;
     }
     while(0);
