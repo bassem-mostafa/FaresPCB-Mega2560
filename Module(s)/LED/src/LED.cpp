@@ -111,7 +111,7 @@ static _LED_t * const _LED[] =
  *
  * @return uint8_t : Number of channels
  */
-static const uint8_t _LED_ChannelsNumberGet
+static const uint8_t _LED_Instance_Channels_Number_Get
 (
         const _LED_t * const _LED
 )
@@ -144,7 +144,7 @@ static const uint8_t _LED_ChannelsNumberGet
  *
  * @return _LED_t * const : LED instance reference
  */
-static _LED_t * const _LED_InstanceGet
+static _LED_t * const _LED_Instance_Get
 (
         const LED_t LED
 )
@@ -193,7 +193,7 @@ static _LED_t * const _LED_InstanceGet
  *
  * @return _LED_t * const : LED instance reference
  */
-static bool _LED_ChannelSet
+static bool _LED_Instance_Channel_Set
 (
         _LED_t * const _LED,
         const _LED_Channel_ID_t _LED_Channel_ID,
@@ -204,7 +204,7 @@ static bool _LED_ChannelSet
     do
     {
         if ( _LED == NULL ) break;
-        const uint8_t nChannels = _LED_ChannelsNumberGet(_LED);
+        const uint8_t nChannels = _LED_Instance_Channels_Number_Get(_LED);
         for (uint8_t i = 0; i < nChannels; ++i)
         {
             if (  _LED_Channel_ID == _LED_Channel_ID_Mono
@@ -240,49 +240,49 @@ LED_Status_t LED_IntensitySet
     LED_Status_t LED_Status = LED_Status_Error;
     do
     {
-        _LED_t * const _LED = _LED_InstanceGet(LED);
-        if ( _LED == NULL) break;
+        _LED_t * _LED = NULL;
+        if ( (_LED = _LED_Instance_Get(LED)) == NULL) break;
         switch (LED_Intensity)
         {
             case LED_Intensity_Zero:
-                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_Mono, 0x00);
                 LED_Status = LED_Status_Success;
                 break;
             case LED_Intensity_Full:
-                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_Mono, 0xFF);
                 LED_Status = LED_Status_Success;
                 break;
             case LED_Intensity_Red:
-                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_R,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_R,    0xFF);
                 LED_Status = LED_Status_Success;
                 break;
             case LED_Intensity_Green:
-                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_G,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_G,    0xFF);
                 LED_Status = LED_Status_Success;
                 break;
             case LED_Intensity_Blue:
-                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_B,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_B,    0xFF);
                 LED_Status = LED_Status_Success;
                 break;
             case LED_Intensity_Yellow:
-                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_R,    0xFF);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_G,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_R,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_G,    0xFF);
                 LED_Status = LED_Status_Success;
                 break;
             case LED_Intensity_Cyan:
-                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_G,    0xFF);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_B,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_G,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_B,    0xFF);
                 LED_Status = LED_Status_Success;
                 break;
             case LED_Intensity_Magenta:
-                _LED_ChannelSet(_LED, _LED_Channel_ID_Mono, 0x00);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_R,    0xFF);
-                _LED_ChannelSet(_LED, _LED_Channel_ID_B,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_Mono, 0x00);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_R,    0xFF);
+                _LED_Instance_Channel_Set(_LED, _LED_Channel_ID_B,    0xFF);
                 LED_Status = LED_Status_Success;
                 break;
             default:
