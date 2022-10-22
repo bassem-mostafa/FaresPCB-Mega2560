@@ -86,18 +86,4 @@ void setup()
 
 void loop()
 {
-    do
-    {
-        static bool demo_done = false;
-        if (demo_done) break;
-        static Platform_Pin_t Platform_Pin_LED = Platform_Pin_LED_1;
-        Platform_Pin_Setup(Platform_Pin_LED, Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Write(Platform_Pin_LED, Platform_Pin_Value_HIGH);
-        _delay_ms(1000);
-        Platform_Pin_Write(Platform_Pin_LED, Platform_Pin_Value_LOW);
-        _delay_ms(1000);
-        Platform_Pin_Setup(Platform_Pin_LED, Platform_Pin_Mode_TRI_STATE);
-        demo_done = true;
-    }
-    while(0);
 }
