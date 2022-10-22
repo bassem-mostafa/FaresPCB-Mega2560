@@ -428,6 +428,7 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
         _RTC._00h.second = _RTC_DEC2BCD((RTC_Time.second /  1) % 10);
         break;
     }
+    _RTC._00h.clock = _00h_Clock_Enable;
 
     uint8_t RTC_Memory_Address = offsetof(_RTC_t, _00h);
     if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, &RTC_Memory_Address, 1) == Platform_Status_Success )
