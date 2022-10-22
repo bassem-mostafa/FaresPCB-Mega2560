@@ -19,7 +19,7 @@
 // #############################################################################
 
 #include "RTC.h"
-#include "Wire.h"
+#include "Platform.h"
 #include "util/delay.h"
 #include "stddef.h"
 
@@ -237,20 +237,13 @@ _RTC_t _RTC;
 RTC_Date_t RTC_DateGet( void )
 {
     RTC_Date_t RTC_Date;
-//    Wire.begin();
-//    Wire.beginTransmission(HW_RTC_ADDRESS);
-//    Wire.write(offsetof(_RTC_t, _03h));
-//    Wire.endTransmission(false);
-//    Wire.requestFrom(HW_RTC_ADDRESS, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1);
-//    for( uint8_t timeout = 0x0F; Wire.available() < (offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1); --timeout)
-//    {
-//        _delay_ms(1);
-//    }
-//    Wire.end();
-
-    if (Wire.available() == (offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1) )
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*){offsetof(_RTC_t, _03h)}, 1) == Platform_Status_Success )
     {
-        Wire.readBytes((uint8_t*)&_RTC._03h, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1);
+
+    }
+
+    if (Platform_I2C_Read(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._03h, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1) == Platform_Status_Success )
+    {
         RTC_Date.year = _RTC._06h.year_10 * 10 + _RTC._06h.year + _RTC_YEAR_OFFSET;
         RTC_Date.month = _RTC._05h.month_10 * 10 + _RTC._05h.month;
         RTC_Date.day = _RTC._04h.date_10 * 10 + _RTC._04h.date;
@@ -330,12 +323,16 @@ void RTC_DateSet( RTC_Date_t RTC_Date )
             break;
     }
 
-//    Wire.begin();
-//    Wire.beginTransmission(HW_RTC_ADDRESS);
-//    Wire.write(offsetof(_RTC_t, _03h));
-//    Wire.write((uint8_t*)&_RTC._03h, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1);
-//    Wire.endTransmission();
-//    Wire.end();
+
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*){offsetof(_RTC_t, _03h)}, 1) == Platform_Status_Success )
+    {
+
+    }
+
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._03h, offsetof(_RTC_t, _06h) - offsetof(_RTC_t, _03h) + 1) == Platform_Status_Success )
+    {
+
+    }
 }
 
 /*
@@ -348,20 +345,14 @@ void RTC_DateSet( RTC_Date_t RTC_Date )
 RTC_Time_t RTC_TimeGet( void )
 {
     RTC_Time_t RTC_Time;
-//    Wire.begin();
-//    Wire.beginTransmission(HW_RTC_ADDRESS);
-//    Wire.write(offsetof(_RTC_t, _00h));
-//    Wire.endTransmission(false);
-//    Wire.requestFrom(HW_RTC_ADDRESS, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1);
-//    for( uint8_t timeout = 0x0F; Wire.available() < (offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1); --timeout)
-//    {
-//        _delay_ms(1);
-//    }
-//    Wire.end();
 
-    if (Wire.available() == (offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1) )
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*){offsetof(_RTC_t, _00h)}, 1) == Platform_Status_Success )
     {
-        Wire.readBytes((uint8_t*)&_RTC._00h, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1);
+
+    }
+
+    if (Platform_I2C_Read(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._00h, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1) == Platform_Status_Success )
+    {
         switch (_RTC._02h.mode)
         {
             case _02h_Mode_12h:
@@ -434,12 +425,15 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
         break;
     }
 
-//    Wire.begin();
-//    Wire.beginTransmission(HW_RTC_ADDRESS);
-//    Wire.write(offsetof(_RTC_t, _00h));
-//    Wire.write((uint8_t*)&_RTC._00h, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1);
-//    Wire.endTransmission();
-//    Wire.end();
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*){offsetof(_RTC_t, _00h)}, 1) == Platform_Status_Success )
+    {
+
+    }
+
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._00h, offsetof(_RTC_t, _02h) - offsetof(_RTC_t, _00h) + 1) == Platform_Status_Success )
+    {
+
+    }
 }
 
 /*
@@ -452,19 +446,13 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
 RTC_Memory_Value_t RTC_MemoryGet( RTC_Memory_Index_t RTC_Memory_Index )
 {
     uint8_t value;
-//    Wire.begin();
-//    Wire.beginTransmission(HW_RTC_ADDRESS);
-//    Wire.write(offsetof(_RTC_t, _RAM) + RTC_Memory_Index);
-//    Wire.endTransmission(false);
-//    Wire.requestFrom(HW_RTC_ADDRESS, 1);
-//    for( uint8_t timeout = 0x0F; Wire.available() < (1); --timeout)
-//    {
-//        _delay_ms(1);
-//    }
-//    Wire.end();
-    if (Wire.available() == (1) )
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*){offsetof(_RTC_t, _RAM) + RTC_Memory_Index}, 1) == Platform_Status_Success )
     {
-        Wire.readBytes((uint8_t*)&_RTC._RAM[RTC_Memory_Index], 1);
+
+    }
+
+    if (Platform_I2C_Read(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._RAM[RTC_Memory_Index], 1) == Platform_Status_Success )
+    {
         value = _RTC._RAM[RTC_Memory_Index];
     }
     return value;
@@ -482,12 +470,16 @@ void RTC_MemorySet( RTC_Memory_Index_t RTC_Memory_Index, RTC_Memory_Value_t RTC_
 {
     _RTC._RAM[RTC_Memory_Index] = RTC_Memory_Value;
 
-//    Wire.begin();
-//    Wire.beginTransmission(HW_RTC_ADDRESS);
-//    Wire.write(offsetof(_RTC_t, _RAM) + RTC_Memory_Index);
-//    Wire.write(_RTC._RAM[RTC_Memory_Index]);
-//    Wire.endTransmission();
-//    Wire.end();
+
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*){offsetof(_RTC_t, _RAM) + RTC_Memory_Index}, 1) == Platform_Status_Success )
+    {
+
+    }
+
+    if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC._RAM[RTC_Memory_Index], 1) == Platform_Status_Success )
+    {
+
+    }
 }
 
 // #############################################################################
