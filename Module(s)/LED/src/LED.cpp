@@ -18,6 +18,7 @@
 // #### Include(s) #############################################################
 // #############################################################################
 
+#include "Platform.h"
 #include "LED.h"
 #include "stdint.h"
 #include "stddef.h"
@@ -62,6 +63,7 @@ typedef uint8_t _LED_Channel_Value_t;
 typedef struct __attribute__((packed, aligned(1))) _LED_Channel_t
 {
     const _LED_Channel_ID_t _LED_Channel_ID;
+    const Platform_Pin_t Platform_Pin;
     _LED_Channel_Value_t _LED_Channel_Value;
 } _LED_Channel_t;
 
@@ -80,15 +82,15 @@ typedef struct __attribute__((packed, aligned(1))) _LED_t
 // #### Private Variable(s) ####################################################
 // #############################################################################
 
-static _LED_t _LED_Internal = (_LED_t){_LED_ID_Internal, _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
-static _LED_t _LED_1        = (_LED_t){_LED_ID_1,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
-static _LED_t _LED_2        = (_LED_t){_LED_ID_2,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
-static _LED_t _LED_3        = (_LED_t){_LED_ID_3,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
-static _LED_t _LED_4        = (_LED_t){_LED_ID_4,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
-static _LED_t _LED_5        = (_LED_t){_LED_ID_5,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, _LED_CHANNEL_VALUE_INITIAL },}};
-static _LED_t _LED_RGB      = (_LED_t){_LED_ID_RGB,      _LED_Type_RGB,  {{_LED_Channel_ID_R,    _LED_CHANNEL_VALUE_INITIAL },
-                                                                          {_LED_Channel_ID_G,    _LED_CHANNEL_VALUE_INITIAL },
-                                                                          {_LED_Channel_ID_B,    _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_Internal = (_LED_t){_LED_ID_Internal, _LED_Type_Mono, {{_LED_Channel_ID_Mono, Platform_Pin_LED_INTERNAL,  _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_1        = (_LED_t){_LED_ID_1,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, Platform_Pin_LED_1,         _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_2        = (_LED_t){_LED_ID_2,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, Platform_Pin_LED_2,         _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_3        = (_LED_t){_LED_ID_3,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, Platform_Pin_LED_3,         _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_4        = (_LED_t){_LED_ID_4,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, Platform_Pin_LED_4,         _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_5        = (_LED_t){_LED_ID_5,        _LED_Type_Mono, {{_LED_Channel_ID_Mono, Platform_Pin_LED_5,         _LED_CHANNEL_VALUE_INITIAL },}};
+static _LED_t _LED_RGB      = (_LED_t){_LED_ID_RGB,      _LED_Type_RGB,  {{_LED_Channel_ID_R,    Platform_Pin_LED_RGB_RED,   _LED_CHANNEL_VALUE_INITIAL },
+                                                                          {_LED_Channel_ID_G,    Platform_Pin_LED_RGB_GREEN, _LED_CHANNEL_VALUE_INITIAL },
+                                                                          {_LED_Channel_ID_B,    Platform_Pin_LED_RGB_BLUE,  _LED_CHANNEL_VALUE_INITIAL },}};
 static _LED_t * const _LED[] =
 {
         [_LED_ID_Internal] = &_LED_Internal,
@@ -103,39 +105,6 @@ static _LED_t * const _LED[] =
 // #############################################################################
 // #### Private Method(s) ######################################################
 // #############################################################################
-
-/*
- * @brief Gets number of channels for a LED
- *
- * @param[in] _LED : selected _LED instance @Ref _LED_t, _LED[]
- *
- * @return uint8_t : Number of channels
- */
-static const uint8_t _LED_Instance_Channels_Number_Get
-(
-        const _LED_t * const _LED
-)
-{
-    uint8_t nChannels = 0;
-    do
-    {
-        if (_LED == NULL) break;
-        switch (_LED->_LED_Type)
-        {
-            case _LED_Type_Mono:
-                nChannels = 1;
-                break;
-            case _LED_Type_RGB:
-                nChannels = 3;
-                break;
-            default:
-                nChannels = 0;
-                break;
-        }
-    }
-    while(0);
-    return nChannels;
-}
 
 /*
  * @brief Gets a LED instance for specified ID
@@ -185,6 +154,88 @@ static _LED_t * const _LED_Instance_Get
 }
 
 /*
+ * @brief Gets number of channels for a LED
+ *
+ * @param[in] _LED : selected _LED instance @Ref _LED_t, _LED[]
+ *
+ * @return uint8_t : Number of channels
+ */
+static const uint8_t _LED_Instance_Channels_Number_Get
+(
+        const _LED_t * const _LED
+)
+{
+    uint8_t nChannels = 0;
+    do
+    {
+        if (_LED == NULL) break;
+        switch (_LED->_LED_Type)
+        {
+            case _LED_Type_Mono:
+                nChannels = 1;
+                break;
+            case _LED_Type_RGB:
+                nChannels = 3;
+                break;
+            default:
+                nChannels = 0;
+                break;
+        }
+    }
+    while(0);
+    return nChannels;
+}
+
+/*
+ * @brief Updates a Physical LED
+ *
+ * @param[in] _LED  : selected _LED instance   @Ref _LED[]
+ *
+ * @return bool     : operation status
+ */
+static bool _LED_Instance_Update
+(
+        _LED_t * const _LED
+)
+{
+    bool isOk = false;
+    do
+    {
+        if ( _LED == NULL ) break;
+        const uint8_t nChannels = _LED_Instance_Channels_Number_Get(_LED);
+        for (uint8_t i = 0; i < nChannels; ++i)
+        {
+            switch (_LED->_LED_Channel[i]._LED_Channel_ID)
+            {
+                case _LED_Channel_ID_Mono:
+                    Platform_Pin_Setup(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Mode_OUTPUT);
+                    if (_LED->_LED_Channel[i]._LED_Channel_Value == 0)
+                    {
+                        Platform_Pin_Write(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Value_LOW);
+                    }
+                    else
+                    {
+                        Platform_Pin_Write(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Value_HIGH);
+                    }
+                    isOk = true;
+                    break;
+                case _LED_Channel_ID_R:
+                case _LED_Channel_ID_G:
+                case _LED_Channel_ID_B:
+                    Platform_Pin_Setup(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Mode_OUTPUT);
+                    Platform_Pin_Write_PWM(_LED->_LED_Channel[i].Platform_Pin, _LED->_LED_Channel[i]._LED_Channel_Value);
+                    isOk = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    while(0);
+    return isOk;
+}
+
+/*
  * @brief Sets a channel of a LED to specific value
  *
  * @param[in] _LED               : selected _LED instance   @Ref _LED[]
@@ -211,6 +262,7 @@ static bool _LED_Instance_Channel_Set
                || _LED_Channel_ID == _LED->_LED_Channel[i]._LED_Channel_ID)
             {
                 _LED->_LED_Channel[i]._LED_Channel_Value = _LED_Channel_Value;
+                if (_LED_Instance_Update(_LED) == false) {isOk = false; break;}
                 isOk = true;
             }
         }
