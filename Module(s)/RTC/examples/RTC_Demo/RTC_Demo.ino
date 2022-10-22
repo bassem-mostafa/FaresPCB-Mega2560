@@ -65,7 +65,7 @@ void loop()
 {
     RTC_Date_t RTC_Date = RTC_DateGet();
     RTC_Time_t RTC_Time = RTC_TimeGet();
-    snprintf(DateTime, sizeof(DateTime), "%3s %02d-%02d-%02d %02d:%02d:%02d %3s\n", WeekDay[RTC_Date.weekday], RTC_Date.year, RTC_Date.month, RTC_Date.day, RTC_Time.hour, RTC_Time.minute, RTC_Time.second, DayPeriod[RTC_Time.period]);
+    snprintf(DateTime, sizeof(DateTime), "%3s %02d-%02d-%02d %02d:%02d:%02d %2s\n", WeekDay[RTC_Date.weekday], RTC_Date.year, RTC_Date.month, RTC_Date.day, RTC_Time.hour, RTC_Time.minute, RTC_Time.second, DayPeriod[RTC_Time.period]);
     DateTime[sizeof(DateTime) - 1] = '\0';
     Platform_USART_Write
     (
