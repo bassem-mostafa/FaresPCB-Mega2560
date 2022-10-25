@@ -275,6 +275,13 @@ typedef enum __attribute__((packed, aligned(1))) Platform_I2C_t
     Platform_I2C_2,
     Platform_I2C_3,
     Platform_I2C_4,
+    Platform_I2C_5,
+    Platform_I2C_6,
+    Platform_I2C_7,
+    Platform_I2C_8,
+    Platform_I2C_9,
+    Platform_I2C_10,
+    // TODO Need More I2Cs ?
 } Platform_I2C_t;
 
 typedef const uint8_t Platform_I2C_Address_t;
