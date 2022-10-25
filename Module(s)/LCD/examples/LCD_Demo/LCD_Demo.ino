@@ -68,7 +68,7 @@ void setup()
 
 void loop()
 {
-    static uint8_t loading_bar_index = -1;
+    static uint8_t loading_bar_index = 0xFF;
     static LCD_Screen_t LCD_Screen_Loading =
     {
             " Loading Screen ",
@@ -92,7 +92,7 @@ void loop()
     };
     do
     {
-        if (loading_bar_index == -1)
+        if (loading_bar_index == 0xFF)
         {
             loading_bar_index = 0;
             break;
@@ -106,7 +106,7 @@ void loop()
         if (loading_bar_index == LCD_SCREEN_WIDTH)
         {
             loading_bar_index++;
-            strcpy((char*)LCD_Screen_Loading[1], "      Done      ");
+            memcpy((char*)LCD_Screen_Loading[1], "      Done      ", LCD_SCREEN_WIDTH);
             break;
         }
 
