@@ -15,55 +15,35 @@
 // #############################################################################
 
 // #############################################################################
+// #### File Guard #############################################################
+// #############################################################################
+
+#ifndef FARESPCB_BLUETOOTH_H_
+#define FARESPCB_BLUETOOTH_H_
+
+// #############################################################################
 // #### Include(s) #############################################################
 // #############################################################################
 
-#include "FaresPCB.h"
-#include "Bluetooth.h"
+#include <stdint.h>
 
 // #############################################################################
-// #### Private Macro(s) #######################################################
-// #############################################################################
-
-#define SERIAL_BAUD     9600
-#define MIN(N1, N2)     ( (N1) < (N2) ? (N1) : (N2) )
-
-// #############################################################################
-// #### Private Type(s) ########################################################
+// #### Public Macro(s) ########################################################
 // #############################################################################
 
 // #############################################################################
-// #### Private Method(s) Prototype ############################################
+// #### Public Type(s) #########################################################
 // #############################################################################
 
-// #############################################################################
-// #### Private Variable(s) ####################################################
-// #############################################################################
-
-// #############################################################################
-// #### Private Method(s) ######################################################
-// #############################################################################
+typedef enum __attribute__((packed, aligned(1))) Bluetooth_Status_t
+{
+    Bluetooth_Status_Idle = 0,
+    Bluetooth_Status_Connected,
+} Bluetooth_Status_t;
 
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
-
-/*
- * @brief Initializes bluetooth
- *
- * @param[in] void  : None
- *
- * @return void  : None
- */
-void Bluetooth_Initialize( void )
-{
-    HW_PIN_INPUT(HW_BLUETOOTH_STATE);
-    HW_PIN_OUTPUT(HW_BLUETOOTH_KEY);
-    HW_BLUETOOTH_SERIAL.begin(SERIAL_BAUD);
-    while(!HW_BLUETOOTH_SERIAL);
-
-    HW_PIN_CLEAR(HW_BLUETOOTH_KEY);
-}
 
 /*
  * @brief Gets bluetooth status
@@ -73,12 +53,7 @@ void Bluetooth_Initialize( void )
  * @return Bluetooth_Status_Connected   : if connected
  * @return Bluetooth_Status_Idle        : if idle or disconnected
  */
-Bluetooth_Status_t Bluetooth_Status( void )
-{
-    Bluetooth_Status_t Bluetooth_Status = Bluetooth_Status_Idle;
-    Bluetooth_Status = ( (HW_PIN_READ(HW_BLUETOOTH_STATE) == HIGH) ? Bluetooth_Status_Connected : Bluetooth_Status_Idle);
-    return Bluetooth_Status;
-}
+Bluetooth_Status_t Bluetooth_StatusGet( void );
 
 /*
  * @brief Reads bluetooth received data
@@ -88,15 +63,7 @@ Bluetooth_Status_t Bluetooth_Status( void )
  *
  * @return uint32_t     : number of bytes read
  */
-uint32_t Bluetooth_Read( uint8_t * buffer, uint32_t length )
-{
-    uint32_t bytes_read = 0;
-    if (HW_BLUETOOTH_SERIAL.available() > 0)
-    {
-        bytes_read = HW_BLUETOOTH_SERIAL.readBytes(buffer, MIN(length, HW_BLUETOOTH_SERIAL.available()));
-    }
-    return bytes_read;
-}
+uint32_t Bluetooth_Read( uint8_t * buffer, uint32_t length );
 
 /*
  * @brief Writes bluetooth data
@@ -106,16 +73,17 @@ uint32_t Bluetooth_Read( uint8_t * buffer, uint32_t length )
  *
  * @return uint32_t     : number of bytes sent
  */
-uint32_t Bluetooth_Write( uint8_t * buffer, uint32_t length )
-{
-    uint32_t bytes_sent = 0;
-    bytes_sent = HW_BLUETOOTH_SERIAL.write(buffer, length);
-    return bytes_sent;
-}
+uint32_t Bluetooth_Write( uint8_t * buffer, uint32_t length );
 
 // #############################################################################
 // #### Public Variable(s) #####################################################
 // #############################################################################
+
+// #############################################################################
+// #### File Guard #############################################################
+// #############################################################################
+
+#endif /* FARESPCB_BLUETOOTH_H_ */
 
 // #############################################################################
 // #### END OF FILE ############################################################
