@@ -7,6 +7,7 @@
 #endif
 
 #define _MONTH_IS(MMM) ( __TIMESTAMP__[4] == MMM[0] && __TIMESTAMP__[5] == MMM[1] && __TIMESTAMP__[6] == MMM[2] )
+#define _WEEKDAY       ( (const char[]){__TIMESTAMP__[0], __TIMESTAMP__[1], __TIMESTAMP__[2]} )
 #define _YEAR          ( (const char[]){__TIMESTAMP__[22], __TIMESTAMP__[23]} )
 #define _MONTH         ( _MONTH_IS("Jan") ? "01" : \
                          _MONTH_IS("Feb") ? "02" : \
