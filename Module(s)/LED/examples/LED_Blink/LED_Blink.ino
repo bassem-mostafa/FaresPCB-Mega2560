@@ -27,7 +27,7 @@
 #define _MINUTE        ( (const char[]){__TIMESTAMP__[14], __TIMESTAMP__[15]} )
 #define _SECOND        ( (const char[]){__TIMESTAMP__[17], __TIMESTAMP__[18]} )
 
-const char * _FW_LABEL = strrchr(__FILE__, '\\');
+const char * _FW_LABEL = strrchr(__FILE__, '\\') + 1;
 const char _FW_VERSION[30] =
 {
         _YEAR[0], _YEAR[1],
