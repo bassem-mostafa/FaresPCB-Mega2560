@@ -315,6 +315,13 @@ typedef enum __attribute__((packed, aligned(1))) Platform_USART_t
     Platform_USART_2,
     Platform_USART_3,
     Platform_USART_4,
+    Platform_USART_5,
+    Platform_USART_6,
+    Platform_USART_7,
+    Platform_USART_8,
+    Platform_USART_9,
+    Platform_USART_10,
+    // TODO Need More USARTs ?
 } Platform_USART_t;
 
 typedef enum __attribute__((packed, aligned(1))) Platform_USART_Baudrate_t
