@@ -296,6 +296,13 @@ typedef enum __attribute__((packed, aligned(1))) Platform_SPI_t
     Platform_SPI_2,
     Platform_SPI_3,
     Platform_SPI_4,
+    Platform_SPI_5,
+    Platform_SPI_6,
+    Platform_SPI_7,
+    Platform_SPI_8,
+    Platform_SPI_9,
+    Platform_SPI_10,
+    // TODO Need More SPIs ?
 } Platform_SPI_t;
 
 typedef uint8_t* const Platform_SPI_Data_t;
