@@ -19,6 +19,7 @@
 // #############################################################################
 
 #include "LCD.h"
+#include "Platform.h"
 #include "util/delay.h"
 #include "stddef.h"
 
@@ -562,19 +563,20 @@ static const _LCD_Icon_t _LCD_Icon_SignalFull =
 
 static void _send( uint8_t value, bool command=false )
 {
-//    HW_PIN_SET(HW_LCD_EN);
-//    command ? HW_PIN_CLEAR(HW_LCD_RS) : HW_PIN_SET(HW_LCD_RS);
-//
-//    ( value & ( 0x01 << 0) ) ? HW_PIN_SET(HW_LCD_D0) : HW_PIN_CLEAR(HW_LCD_D0);
-//    ( value & ( 0x01 << 1) ) ? HW_PIN_SET(HW_LCD_D1) : HW_PIN_CLEAR(HW_LCD_D1);
-//    ( value & ( 0x01 << 2) ) ? HW_PIN_SET(HW_LCD_D2) : HW_PIN_CLEAR(HW_LCD_D2);
-//    ( value & ( 0x01 << 3) ) ? HW_PIN_SET(HW_LCD_D3) : HW_PIN_CLEAR(HW_LCD_D3);
-//    ( value & ( 0x01 << 4) ) ? HW_PIN_SET(HW_LCD_D4) : HW_PIN_CLEAR(HW_LCD_D4);
-//    ( value & ( 0x01 << 5) ) ? HW_PIN_SET(HW_LCD_D5) : HW_PIN_CLEAR(HW_LCD_D5);
-//    ( value & ( 0x01 << 6) ) ? HW_PIN_SET(HW_LCD_D6) : HW_PIN_CLEAR(HW_LCD_D6);
-//    ( value & ( 0x01 << 7) ) ? HW_PIN_SET(HW_LCD_D7) : HW_PIN_CLEAR(HW_LCD_D7);
-//
-//    HW_PIN_CLEAR(HW_LCD_EN);
+    Platform_Pin_Write(Platform_Pin_LCD_EN, Platform_Pin_Value_HIGH);
+
+    Platform_Pin_Write(Platform_Pin_LCD_RS, command ? Platform_Pin_Value_LOW : Platform_Pin_Value_HIGH);
+
+    Platform_Pin_Write(Platform_Pin_LCD_D0, ( value & ( 0x01 << 0) ) ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+    Platform_Pin_Write(Platform_Pin_LCD_D1, ( value & ( 0x01 << 1) ) ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+    Platform_Pin_Write(Platform_Pin_LCD_D2, ( value & ( 0x01 << 2) ) ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+    Platform_Pin_Write(Platform_Pin_LCD_D3, ( value & ( 0x01 << 3) ) ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+    Platform_Pin_Write(Platform_Pin_LCD_D4, ( value & ( 0x01 << 4) ) ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+    Platform_Pin_Write(Platform_Pin_LCD_D5, ( value & ( 0x01 << 5) ) ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+    Platform_Pin_Write(Platform_Pin_LCD_D6, ( value & ( 0x01 << 6) ) ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+    Platform_Pin_Write(Platform_Pin_LCD_D7, ( value & ( 0x01 << 7) ) ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+
+    Platform_Pin_Write(Platform_Pin_LCD_EN, Platform_Pin_Value_LOW);
     _delay_ms(2);
 }
 
@@ -585,52 +587,62 @@ static void _send( uint8_t value, bool command=false )
  *
  * @return void     : None
  */
-void _LCD_Initialize( void )
+bool _LCD_Initialize( void )
 {
-//    HW_PIN_OUTPUT(HW_LCD_BL);
-//    HW_PIN_OUTPUT(HW_LCD_RS);
-//    HW_PIN_OUTPUT(HW_LCD_EN);
-//    HW_PIN_OUTPUT(HW_LCD_D0);
-//    HW_PIN_OUTPUT(HW_LCD_D1);
-//    HW_PIN_OUTPUT(HW_LCD_D2);
-//    HW_PIN_OUTPUT(HW_LCD_D3);
-//    HW_PIN_OUTPUT(HW_LCD_D4);
-//    HW_PIN_OUTPUT(HW_LCD_D5);
-//    HW_PIN_OUTPUT(HW_LCD_D6);
-//    HW_PIN_OUTPUT(HW_LCD_D7);
-//    HW_PIN_OUTPUT(HW_LCD_CS1);
-//    HW_PIN_OUTPUT(HW_LCD_CS2);
-//
-//    HW_PIN_CLEAR(HW_LCD_BL);
-//    HW_PIN_CLEAR(HW_LCD_RS);
-//    HW_PIN_CLEAR(HW_LCD_EN);
-//    HW_PIN_CLEAR(HW_LCD_D0);
-//    HW_PIN_CLEAR(HW_LCD_D1);
-//    HW_PIN_CLEAR(HW_LCD_D2);
-//    HW_PIN_CLEAR(HW_LCD_D3);
-//    HW_PIN_CLEAR(HW_LCD_D4);
-//    HW_PIN_CLEAR(HW_LCD_D5);
-//    HW_PIN_CLEAR(HW_LCD_D6);
-//    HW_PIN_CLEAR(HW_LCD_D7);
-//    HW_PIN_CLEAR(HW_LCD_CS1);
-//    HW_PIN_CLEAR(HW_LCD_CS2);
-    _delay_ms(_LCD_POWER_ON_DELAY);
-    _Function._font = _Function_Font_5x8;
-    _Function._interface = _Function_Interface_8bit;
-    _Function._line = _Function_Line_2_Line;
-    _send(_Function._command, true);
-    _send(_Function._command, true);
+    static bool isInitialized = false;
+    do
+    {
+        if (isInitialized) break;
+        Platform_Pin_Setup(Platform_Pin_LCD_BL,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_EN,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_RS,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D0,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D1,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D2,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D3,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D4,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D5,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D6,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D7,  Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_CS1, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_CS2, Platform_Pin_Mode_OUTPUT);
 
-    _Setting._cursor = _Setting_Cursor_Disable;
-    _Setting._cursor_blink = _Setting_Cursor_Blink_Disable;
-    _Setting._display = _Setting_Display_Enable;
-    _send(_Setting._command, true);
+        Platform_Pin_Write(Platform_Pin_LCD_BL,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_EN,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_RS,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_D0,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_D1,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_D2,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_D3,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_D4,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_D5,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_D6,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_D7,  Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_CS1, Platform_Pin_Value_LOW);
+        Platform_Pin_Write(Platform_Pin_LCD_CS2, Platform_Pin_Value_LOW);
 
-    _send(_Clear._command, true);
+        _delay_ms(_LCD_POWER_ON_DELAY);
+        _Function._font = _Function_Font_5x8;
+        _Function._interface = _Function_Interface_8bit;
+        _Function._line = _Function_Line_2_Line;
+        _send(_Function._command, true);
+        _send(_Function._command, true);
 
-    _Mode._select = _Mode_Select_Cursor;
-    _Mode._cursor = _Mode_Cursor_Increment;
-    _send(_Mode._command, true);
+        _Setting._cursor = _Setting_Cursor_Disable;
+        _Setting._cursor_blink = _Setting_Cursor_Blink_Disable;
+        _Setting._display = _Setting_Display_Enable;
+        _send(_Setting._command, true);
+
+        _send(_Clear._command, true);
+
+        _Mode._select = _Mode_Select_Cursor;
+        _Mode._cursor = _Mode_Cursor_Increment;
+        _send(_Mode._command, true);
+
+        isInitialized = true;
+    }
+    while(0);
+    return isInitialized;
 }
 
 /*
@@ -658,7 +670,9 @@ void _LCD_Clear( void )
  */
 void LCD_LightOn( void )
 {
-//    HW_PIN_SET(HW_LCD_BL);
+    _LCD_Initialize();
+    Platform_Pin_Setup(Platform_Pin_LCD_BL, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Write(Platform_Pin_LCD_BL, Platform_Pin_Value_HIGH);
 }
 
 /*
@@ -670,7 +684,9 @@ void LCD_LightOn( void )
  */
 void LCD_LightOff( void )
 {
-//    HW_PIN_CLEAR(HW_LCD_BL);
+    _LCD_Initialize();
+    Platform_Pin_Setup(Platform_Pin_LCD_BL, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Write(Platform_Pin_LCD_BL, Platform_Pin_Value_LOW);
 }
 
 /*
@@ -682,6 +698,7 @@ void LCD_LightOff( void )
  */
 void LCD_Write( LCD_Screen_t LCD_Screen )
 {
+    _LCD_Initialize();
     for (uint8_t line = 0; line < LCD_SCREEN_HEIGHT; ++line)
     {
         _DDRAM._address = (line == 0 ? 0x00 : 0x40);
@@ -703,6 +720,7 @@ void LCD_Write( LCD_Screen_t LCD_Screen )
  */
 void LCD_Setup( LCD_Custom_Character_t LCD_Custom_Character, LCD_Icon_t LCD_Icon )
 {
+    _LCD_Initialize();
     do
     {
         _LCD_Icon_t * _LCD_Icon = NULL;
