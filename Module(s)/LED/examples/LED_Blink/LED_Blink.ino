@@ -46,13 +46,16 @@ const char _FW_VERSION[30] =
 
 void setup()
 {
-    Serial.begin(115200);
-    while(!Serial);
-    Serial.print("FW ");
-    Serial.print(_FW_LABEL);
-    Serial.print(" ");
-    Serial.print(_FW_VERSION);
-    Serial.println("\n");
+    char FW_Info[50];
+    snprintf(FW_Info, sizeof(FW_Info), "\nFW %s V%s\n", _FW_LABEL, _FW_VERSION);
+    FW_Info[sizeof(FW_Info)-1] = '\0';
+    Platform_USART_Write
+    (
+            Platform_USART_USB,
+            Platform_USART_Baudrate_115200,
+            (uint8_t*)FW_Info,
+            strlen(FW_Info)
+    );
 }
 
 void loop()
