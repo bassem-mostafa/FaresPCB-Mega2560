@@ -767,7 +767,7 @@ void LCD_Setup( LCD_Custom_Character_t LCD_Custom_Character, LCD_Icon_t LCD_Icon
         _send(_CGRAM._command, true);
         for (uint8_t i = 0; i < sizeof(_LCD_Icon_t); ++i)
         {
-            _send((uint8_t)_LCD_Icon[i]);
+            _send((uint8_t)((*_LCD_Icon)[i]));
         }
     }
     while(0);
