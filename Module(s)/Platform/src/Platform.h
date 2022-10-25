@@ -269,6 +269,8 @@ typedef enum __attribute__((packed, aligned(1))) Platform_Pin_Value_t
 
 typedef uint8_t Platform_Pin_Value_PWM_t;
 
+typedef struct _Platform_Pin_Setting_t* Platform_Pin_Setting_t;
+
 typedef enum __attribute__((packed, aligned(1))) Platform_I2C_t
 {
     Platform_I2C_1,
@@ -290,6 +292,8 @@ typedef uint8_t* const Platform_I2C_Data_t;
 
 typedef const uint16_t Platform_I2C_Data_Length_t;
 
+typedef struct _Platform_I2C_Setting_t* Platform_I2C_Setting_t;
+
 typedef enum __attribute__((packed, aligned(1))) Platform_SPI_t
 {
     Platform_SPI_1,
@@ -308,6 +312,8 @@ typedef enum __attribute__((packed, aligned(1))) Platform_SPI_t
 typedef uint8_t* const Platform_SPI_Data_t;
 
 typedef const uint16_t Platform_SPI_Data_Length_t;
+
+typedef struct _Platform_SPI_Setting_t* Platform_SPI_Setting_t;
 
 typedef enum __attribute__((packed, aligned(1))) Platform_USART_t
 {
@@ -346,6 +352,8 @@ typedef enum __attribute__((packed, aligned(1))) Platform_USART_Baudrate_t
 typedef uint8_t* const Platform_USART_Data_t;
 
 typedef const uint16_t Platform_USART_Data_Length_t;
+
+typedef struct _Platform_USART_Setting_t* Platform_USART_Setting_t;
 
 // #############################################################################
 // #### Public Method(s) #######################################################

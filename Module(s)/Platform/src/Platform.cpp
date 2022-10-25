@@ -32,6 +32,22 @@
 // #### Private Type(s) ########################################################
 // #############################################################################
 
+typedef struct __attribute__((packed, aligned(1))) _Platform_Pin_Setting_t
+{
+} _Platform_Pin_Setting_t;
+
+typedef struct __attribute__((packed, aligned(1))) _Platform_I2C_Setting_t
+{
+} _Platform_I2C_Setting_t;
+
+typedef struct __attribute__((packed, aligned(1))) _Platform_SPI_Setting_t
+{
+} _Platform_SPI_Setting_t;
+
+typedef struct __attribute__((packed, aligned(1))) _Platform_USART_Setting_t
+{
+} _Platform_USART_Setting_t;
+
 // #############################################################################
 // #### Private Method(s) Prototype ############################################
 // #############################################################################
