@@ -22,7 +22,7 @@
 // #### Include(s) #############################################################
 // #############################################################################
 
-#include "Platform.h"
+#include "Platform_Interface.h"
 
 // #############################################################################
 // #### Private Macro(s) #######################################################
@@ -80,17 +80,6 @@ Platform_Status_t Platform_Pin_Write
 (
         const Platform_Pin_t Platform_Pin,
         const Platform_Pin_Value_t Platform_Pin_Value
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    return Platform_Status;
-}
-
-__attribute((weak))
-Platform_Status_t Platform_Pin_Write_PWM
-(
-        const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
