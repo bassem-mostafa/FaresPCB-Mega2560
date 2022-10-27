@@ -145,6 +145,15 @@ Platform_Status_t _Platform_USART_Instance_Read
 // #### Public Method(s) #######################################################
 // #############################################################################
 
+Platform_Status_t Platform_USART_Setting_Initialize
+(
+        Platform_USART_Setting_t * Platform_USART_Setting
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
 Platform_Status_t Platform_USART_Write
 (
         const Platform_USART_t Platform_USART,
