@@ -46,5 +46,10 @@
 			<type>2</type>
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_Platform</location>
 		</link>
+		<link>
+			<name>libraries/Wire</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.8.5/libraries/Wire</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>
