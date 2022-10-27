@@ -35,15 +35,9 @@
 // #### Private Type(s) ########################################################
 // #############################################################################
 
-typedef enum __attribute__((packed, aligned(1))) _Platform_Pin_Setting_Status_t
-{
-    _Platform_Pin_Setting_Status_Free = 0,
-    _Platform_Pin_Setting_Status_Active,
-} _Platform_Pin_Setting_Status_t;
-
 typedef struct __attribute__((packed, aligned(1))) _Platform_Pin_Setting_t
 {
-        _Platform_Pin_Setting_Status_t _Platform_Pin_Setting_Status;
+        Platform_Pin_Setting_t * Platform_Pin_Setting;
         Platform_Pin_Mode_t Platform_Pin_Mode;
         // TODO Add more pin settings
 } _Platform_Pin_Setting_t;
@@ -58,16 +52,16 @@ typedef struct __attribute__((packed, aligned(1))) _Platform_Pin_Setting_t
 
 static _Platform_Pin_Setting_t _Platform_Pin_Setting_Pool[_Platform_Pin_Setting_Pool_Size] =
 {
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
+        {NULL},
+        {NULL},
+        {NULL},
+        {NULL},
+        {NULL},
+        {NULL},
+        {NULL},
+        {NULL},
+        {NULL},
+        {NULL},
 };
 
 // #############################################################################
@@ -82,13 +76,29 @@ static Platform_Pin_Setting_t _Platform_Pin_Setting_Get
     Platform_Pin_Setting_t Platform_Pin_Setting = NULL;
     for (uint32_t i = 0; i < (sizeof(_Platform_Pin_Setting_Pool)/sizeof(_Platform_Pin_Setting_Pool[0])); ++i)
     {
-        if (_Platform_Pin_Setting_Pool[i]._Platform_Pin_Setting_Status == _Platform_Pin_Setting_Status_Free)
+        if (_Platform_Pin_Setting_Pool[i].Platform_Pin_Setting == NULL)
         {
             Platform_Pin_Setting = &_Platform_Pin_Setting_Pool[i];
             break;
         }
     }
     return Platform_Pin_Setting;
+}
+
+static Platform_Status_t _Platform_Pin_Setting_Release
+(
+        Platform_Pin_Setting_t Platform_Pin_Setting
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    do
+    {
+        if (Platform_Pin_Setting == NULL) { Platform_Status = Platform_Status_Error; break; }
+        Platform_Pin_Setting->Platform_Pin_Setting = NULL;
+        Platform_Status = Platform_Status_Success;
+    }
+    while(0);
+    return Platform_Status;
 }
 
 static Platform_Status_t _Platform_Pin_Setting_Mode_Apply
@@ -207,9 +217,9 @@ Platform_Status_t Platform_Pin_Setting_Initialize
     do
     {
         if ( Platform_Pin_Setting == NULL ) { Platform_Status = Platform_Status_Error; break; }
-        if ( (*Platform_Pin_Setting = _Platform_Pin_Setting_Get()) == NULL ) { Platform_Status = Platform_Status_NotSupported; break; }
+        if ( ((*Platform_Pin_Setting) = _Platform_Pin_Setting_Get()) == NULL ) { Platform_Status = Platform_Status_NotSupported; break; }
 
-        (*Platform_Pin_Setting)->_Platform_Pin_Setting_Status = _Platform_Pin_Setting_Status_Active;
+        (*Platform_Pin_Setting)->Platform_Pin_Setting = Platform_Pin_Setting;
         Platform_Status = Platform_Status_Success;
     }
     while(0);
@@ -226,9 +236,8 @@ Platform_Status_t Platform_Pin_Setting_Mode_Set
     do
     {
         if ( Platform_Pin_Setting == NULL ) { Platform_Status = Platform_Status_Error; break; }
+        if ( Platform_Pin_Setting->Platform_Pin_Setting == NULL ) { Platform_Status = Platform_Status_Error; break; }
         Platform_Pin_Setting->Platform_Pin_Mode = Platform_Pin_Mode;
-
-        Platform_Pin_Setting->_Platform_Pin_Setting_Status = _Platform_Pin_Setting_Status_Active;
         Platform_Status = Platform_Status_Success;
     }
     while(0);
@@ -245,9 +254,9 @@ Platform_Status_t Platform_Pin_Setup
     do
     {
         if ( Platform_Pin_Setting == NULL ) { Platform_Status = Platform_Status_Error; break; }
+        if ( Platform_Pin_Setting->Platform_Pin_Setting == NULL ) { Platform_Status = Platform_Status_Error; break; }
         if ( (Platform_Status = _Platform_Pin_Setting_Apply(Platform_Pin, Platform_Pin_Setting) ) != Platform_Status_Success ) { break; }
-
-        Platform_Pin_Setting->_Platform_Pin_Setting_Status = _Platform_Pin_Setting_Status_Free;
+        if ( (Platform_Status = _Platform_Pin_Setting_Release(Platform_Pin_Setting)) != Platform_Status_Success ) { break; }
         Platform_Status = Platform_Status_Success;
     }
     while(0);
