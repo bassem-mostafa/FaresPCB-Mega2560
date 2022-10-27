@@ -26,7 +26,7 @@
 // #############################################################################
 
 #include "Platform_Interface.h"
-#include "Port/Platform_ArduinoMega2560.h" // Platform Dependent Header
+#include "Port/ArduinoMega2560/Platform_ArduinoMega2560.h" // Platform Dependent Header
 
 // #############################################################################
 // #### Public Macro(s) ########################################################
