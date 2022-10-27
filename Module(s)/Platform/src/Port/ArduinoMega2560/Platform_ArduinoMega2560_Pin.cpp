@@ -29,6 +29,8 @@
 // #### Private Macro(s) #######################################################
 // #############################################################################
 
+#define _Platform_Pin_Setting_Pool_Size 10
+
 // #############################################################################
 // #### Private Type(s) ########################################################
 // #############################################################################
@@ -54,45 +56,8 @@ typedef struct __attribute__((packed, aligned(1))) _Platform_Pin_Setting_t
 // #### Private Variable(s) ####################################################
 // #############################################################################
 
-static _Platform_Pin_Setting_t _Platform_Pin_Setting_Pool[] =
+static _Platform_Pin_Setting_t _Platform_Pin_Setting_Pool[_Platform_Pin_Setting_Pool_Size] =
 {
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
-        {_Platform_Pin_Setting_Status_Free},
         {_Platform_Pin_Setting_Status_Free},
         {_Platform_Pin_Setting_Status_Free},
         {_Platform_Pin_Setting_Status_Free},
