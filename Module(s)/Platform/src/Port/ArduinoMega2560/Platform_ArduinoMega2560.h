@@ -237,8 +237,8 @@ typedef uint8_t Platform_Pin_Value_PWM_t;
 
 Platform_Status_t Platform_Pin_Write_PWM
 (
-        const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
 );
 
 // #############################################################################
