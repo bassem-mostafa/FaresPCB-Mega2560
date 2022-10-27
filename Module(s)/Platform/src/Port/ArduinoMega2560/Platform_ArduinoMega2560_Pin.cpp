@@ -85,7 +85,6 @@ static Platform_Pin_Setting_t _Platform_Pin_Setting_Get
         if (_Platform_Pin_Setting_Pool[i]._Platform_Pin_Setting_Status == _Platform_Pin_Setting_Status_Free)
         {
             Platform_Pin_Setting = &_Platform_Pin_Setting_Pool[i];
-            Platform_Pin_Setting->_Platform_Pin_Setting_Status = _Platform_Pin_Setting_Status_Active;
             break;
         }
     }
@@ -210,6 +209,7 @@ Platform_Status_t Platform_Pin_Setting_Initialize
         if ( Platform_Pin_Setting == NULL ) { Platform_Status = Platform_Status_Error; break; }
         if ( (*Platform_Pin_Setting = _Platform_Pin_Setting_Get()) == NULL ) { Platform_Status = Platform_Status_NotSupported; break; }
 
+        (*Platform_Pin_Setting)->_Platform_Pin_Setting_Status = _Platform_Pin_Setting_Status_Active;
         Platform_Status = Platform_Status_Success;
     }
     while(0);
