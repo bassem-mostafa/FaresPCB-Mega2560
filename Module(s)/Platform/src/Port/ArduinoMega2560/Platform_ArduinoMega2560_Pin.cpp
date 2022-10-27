@@ -37,7 +37,6 @@ typedef enum __attribute__((packed, aligned(1))) _Platform_Pin_Setting_Status_t
 {
     _Platform_Pin_Setting_Status_Free = 0,
     _Platform_Pin_Setting_Status_Active,
-    _Platform_Pin_Setting_Status_Applied,
 } _Platform_Pin_Setting_Status_t;
 
 typedef struct __attribute__((packed, aligned(1))) _Platform_Pin_Setting_t
