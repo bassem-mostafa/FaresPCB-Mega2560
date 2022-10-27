@@ -56,7 +56,7 @@ __attribute((weak))
 Platform_Status_t Platform_Pin_Setting_Initialize
 (
         Platform_Pin_t Platform_Pin,
-        Platform_Pin_Setting_t Platform_Pin_Setting
+        Platform_Pin_Setting_t * Platform_Pin_Setting
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
@@ -66,8 +66,8 @@ Platform_Status_t Platform_Pin_Setting_Initialize
 __attribute((weak))
 Platform_Status_t Platform_Pin_Setting_Mode_Set
 (
-        Platform_Pin_t Platform_Pin,
-        Platform_Pin_Setting_t Platform_Pin_Setting
+        Platform_Pin_Setting_t Platform_Pin_Setting,
+        Platform_Pin_Mode_t Platform_Pin_Mode
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
