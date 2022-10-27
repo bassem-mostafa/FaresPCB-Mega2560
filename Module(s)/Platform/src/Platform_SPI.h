@@ -18,15 +18,15 @@
 // #### File Guard #############################################################
 // #############################################################################
 
-#ifndef PLATFORM_H_
-#define PLATFORM_H_
+#ifndef PLATFORM_SPI_H_
+#define PLATFORM_SPI_H_
 
 // #############################################################################
 // #### Include(s) #############################################################
 // #############################################################################
 
-#include "Platform_Interface.h"
-#include "Port/Platform_ArduinoMega2560.h" // Platform Dependent Header
+#include "Platform_Types.h"
+#include "stdint.h"
 
 // #############################################################################
 // #### Public Macro(s) ########################################################
@@ -36,9 +36,37 @@
 // #### Public Type(s) #########################################################
 // #############################################################################
 
+typedef enum __attribute__((packed, aligned(1))) Platform_SPI_t
+{
+    Platform_SPI_1,
+    Platform_SPI_2,
+    Platform_SPI_3,
+    Platform_SPI_4,
+    Platform_SPI_5,
+    Platform_SPI_6,
+    Platform_SPI_7,
+    Platform_SPI_8,
+    Platform_SPI_9,
+    Platform_SPI_10,
+    // TODO Need More SPIs ?
+} Platform_SPI_t;
+
+typedef uint8_t* const Platform_SPI_Data_t;
+
+typedef const uint16_t Platform_SPI_Data_Length_t;
+
+typedef struct _Platform_SPI_Setting_t* Platform_SPI_Setting_t;
+
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
+
+Platform_Status_t Platform_SPI_Transaction
+(
+        const Platform_SPI_t Platform_SPI,
+        Platform_SPI_Data_t Platform_SPI_Data,
+        const Platform_SPI_Data_Length_t Platform_SPI_Data_Length
+);
 
 // #############################################################################
 // #### Public Variable(s) #####################################################
@@ -48,7 +76,7 @@
 // #### File Guard #############################################################
 // #############################################################################
 
-#endif /* PLATFORM_H_ */
+#endif /* PLATFORM_SPI_H_ */
 
 // #############################################################################
 // #### END OF FILE ############################################################

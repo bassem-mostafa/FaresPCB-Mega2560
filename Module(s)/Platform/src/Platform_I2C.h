@@ -18,15 +18,15 @@
 // #### File Guard #############################################################
 // #############################################################################
 
-#ifndef PLATFORM_H_
-#define PLATFORM_H_
+#ifndef PLATFORM_I2C_H_
+#define PLATFORM_I2C_H_
 
 // #############################################################################
 // #### Include(s) #############################################################
 // #############################################################################
 
-#include "Platform_Interface.h"
-#include "Port/Platform_ArduinoMega2560.h" // Platform Dependent Header
+#include "Platform_Types.h"
+#include "stdint.h"
 
 // #############################################################################
 // #### Public Macro(s) ########################################################
@@ -36,9 +36,48 @@
 // #### Public Type(s) #########################################################
 // #############################################################################
 
+typedef enum __attribute__((packed, aligned(1))) Platform_I2C_t
+{
+    Platform_I2C_1,
+    Platform_I2C_2,
+    Platform_I2C_3,
+    Platform_I2C_4,
+    Platform_I2C_5,
+    Platform_I2C_6,
+    Platform_I2C_7,
+    Platform_I2C_8,
+    Platform_I2C_9,
+    Platform_I2C_10,
+    // TODO Need More I2Cs ?
+} Platform_I2C_t;
+
+typedef const uint8_t Platform_I2C_Address_t;
+
+typedef uint8_t* const Platform_I2C_Data_t;
+
+typedef const uint16_t Platform_I2C_Data_Length_t;
+
+typedef struct _Platform_I2C_Setting_t* Platform_I2C_Setting_t;
+
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
+
+Platform_Status_t Platform_I2C_Write
+(
+        const Platform_I2C_t Platform_I2C,
+        const Platform_I2C_Address_t Platform_I2C_Address,
+        const Platform_I2C_Data_t Platform_I2C_Data,
+        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
+);
+
+Platform_Status_t Platform_I2C_Read
+(
+        const Platform_I2C_t Platform_I2C,
+        const Platform_I2C_Address_t Platform_I2C_Address,
+        Platform_I2C_Data_t Platform_I2C_Data,
+        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
+);
 
 // #############################################################################
 // #### Public Variable(s) #####################################################
@@ -48,7 +87,7 @@
 // #### File Guard #############################################################
 // #############################################################################
 
-#endif /* PLATFORM_H_ */
+#endif /* PLATFORM_I2C_H_ */
 
 // #############################################################################
 // #### END OF FILE ############################################################
