@@ -49,38 +49,43 @@ void setup()
     char FW_Info[50];
     snprintf(FW_Info, sizeof(FW_Info), "\nFW %s V%s\n", _FW_LABEL, _FW_VERSION);
     FW_Info[sizeof(FW_Info)-1] = '\0';
+
+    Platform_USART_Setting_t Platform_USART_Setting = NULL;
+    Platform_USART_Setting_Initialize(&Platform_USART_Setting);
+    Platform_USART_Setting_Baudrate_Set(Platform_USART_Setting, Platform_USART_Baudrate_115200);
+    Platform_USART_Setup(Platform_USART_USB, Platform_USART_Setting);
+
     Platform_USART_Write
     (
             Platform_USART_USB,
-            Platform_USART_Baudrate_115200,
-            (uint8_t*)FW_Info,
-            strlen(FW_Info)
+            (Platform_USART_Data_t)FW_Info,
+            (Platform_USART_Data_Length_t)strlen(FW_Info)
     );
-    const char User_Prompt[] = "Write 10 Characters";
+
+    const char User_Prompt[] = "\nWrite something into terminal\n";
     Platform_USART_Write
     (
             Platform_USART_USB,
-            Platform_USART_Baudrate_115200,
-            (uint8_t*)User_Prompt,
-            strlen(User_Prompt)
+            (Platform_USART_Data_t)User_Prompt,
+            (Platform_USART_Data_Length_t)strlen(User_Prompt)
     );
-    char User_Input[11];
+    char User_Input[100];
+    Platform_USART_Data_Length_t User_Input_Length = 0;
     memset(User_Input, 0, sizeof(User_Input));
     Platform_USART_Read
     (
             Platform_USART_USB,
-            Platform_USART_Baudrate_115200,
-            (uint8_t*)User_Input,
-            sizeof(User_Input)-1
+            (Platform_USART_Data_t)User_Input,
+            (Platform_USART_Data_Length_t)(sizeof(User_Input)-1),
+            (Platform_USART_Data_Length_t *)&User_Input_Length
     );
-    char User_Response[50];
-    snprintf(User_Response, sizeof(User_Response), "\n\nYou've Entered %s\n\nThanks", User_Input);
+    char User_Response[200];
+    snprintf(User_Response, sizeof(User_Response), "\n\nYou've Entered %d characters '%s'\n\nThanks", User_Input_Length, User_Input);
     Platform_USART_Write
     (
             Platform_USART_USB,
-            Platform_USART_Baudrate_115200,
-            (uint8_t*)User_Response,
-            strlen(User_Response)
+            (Platform_USART_Data_t)User_Response,
+            (Platform_USART_Data_Length_t)strlen(User_Response)
     );
 }
 
