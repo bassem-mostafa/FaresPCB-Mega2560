@@ -62,7 +62,7 @@ Platform_Status_t Platform_USART_Setting_Initialize
     return Platform_Status;
 }
 
-Platform_Status_t Platform_USART_Setting_Bardrate_Set
+Platform_Status_t Platform_USART_Setting_Baudrate_Set
 (
         Platform_USART_Setting_t Platform_USART_Setting,
         Platform_USART_Baudrate_t Platform_USART_Baudrate
