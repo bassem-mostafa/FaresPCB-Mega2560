@@ -57,15 +57,43 @@ void setup()
             (uint8_t*)FW_Info,
             strlen(FW_Info)
     );
-    Platform_Pin_Setup(Platform_Pin_LED_1,         Platform_Pin_Mode_OUTPUT);
-    Platform_Pin_Setup(Platform_Pin_LED_2,         Platform_Pin_Mode_OUTPUT);
-    Platform_Pin_Setup(Platform_Pin_LED_3,         Platform_Pin_Mode_OUTPUT);
-    Platform_Pin_Setup(Platform_Pin_LED_4,         Platform_Pin_Mode_OUTPUT);
-    Platform_Pin_Setup(Platform_Pin_LED_5,         Platform_Pin_Mode_OUTPUT);
-    Platform_Pin_Setup(Platform_Pin_LED_INTERNAL,  Platform_Pin_Mode_OUTPUT);
-    Platform_Pin_Setup(Platform_Pin_LED_RGB_RED,   Platform_Pin_Mode_OUTPUT);
-    Platform_Pin_Setup(Platform_Pin_LED_RGB_GREEN, Platform_Pin_Mode_OUTPUT);
-    Platform_Pin_Setup(Platform_Pin_LED_RGB_BLUE,  Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setting_t Platform_Pin_Setting = NULL;
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_1, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_1, Platform_Pin_Setting);
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_2, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_2, Platform_Pin_Setting);
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_3, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_3, Platform_Pin_Setting);
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_4, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_4, Platform_Pin_Setting);
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_5, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_5, Platform_Pin_Setting);
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_INTERNAL, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_INTERNAL, Platform_Pin_Setting);
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_RGB_RED, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_RGB_RED, Platform_Pin_Setting);
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_RGB_GREEN, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_RGB_GREEN, Platform_Pin_Setting);
+
+    Platform_Pin_Setting_Initialize(Platform_Pin_LED_RGB_BLUE, &Platform_Pin_Setting);
+    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+    Platform_Pin_Setup(Platform_Pin_LED_RGB_BLUE, Platform_Pin_Setting);
 }
 
 void loop()
