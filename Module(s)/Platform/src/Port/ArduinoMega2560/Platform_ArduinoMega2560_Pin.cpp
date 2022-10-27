@@ -110,7 +110,7 @@ static _Platform_Pin_Setting_t _Platform_Pin_Setting_Pool[] =
 // #### Private Method(s) ######################################################
 // #############################################################################
 
-Platform_Pin_Setting_t _Platform_Pin_Setting_Get
+static Platform_Pin_Setting_t _Platform_Pin_Setting_Get
 (
         void
 )
@@ -128,7 +128,7 @@ Platform_Pin_Setting_t _Platform_Pin_Setting_Get
     return Platform_Pin_Setting;
 }
 
-Platform_Status_t _Platform_Pin_Setting_Mode_Apply
+static Platform_Status_t _Platform_Pin_Setting_Mode_Apply
 (
         const Platform_Pin_t Platform_Pin,
         const Platform_Pin_Setting_t Platform_Pin_Setting
@@ -162,7 +162,7 @@ Platform_Status_t _Platform_Pin_Setting_Mode_Apply
     return Platform_Status;
 }
 
-Platform_Status_t _Platform_Pin_Setting_Apply
+static Platform_Status_t _Platform_Pin_Setting_Apply
 (
         const Platform_Pin_t Platform_Pin,
         const Platform_Pin_Setting_t Platform_Pin_Setting
@@ -181,7 +181,7 @@ Platform_Status_t _Platform_Pin_Setting_Apply
     return Platform_Status;
 }
 
-Platform_Status_t _Platform_Pin_Value_Write
+static Platform_Status_t _Platform_Pin_Value_Write
 (
         const Platform_Pin_t Platform_Pin,
         const Platform_Pin_Value_t Platform_Pin_Value
@@ -197,7 +197,7 @@ Platform_Status_t _Platform_Pin_Value_Write
     return Platform_Status;
 }
 
-Platform_Status_t _Platform_Pin_Value_Write_PWM
+static Platform_Status_t _Platform_Pin_Value_Write_PWM
 (
         const Platform_Pin_t Platform_Pin,
         const Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
@@ -214,7 +214,7 @@ Platform_Status_t _Platform_Pin_Value_Write_PWM
     return Platform_Status;
 }
 
-Platform_Status_t _Platform_Pin_Value_Read
+static Platform_Status_t _Platform_Pin_Value_Read
 (
         const Platform_Pin_t Platform_Pin,
         Platform_Pin_Value_t * const Platform_Pin_Value
