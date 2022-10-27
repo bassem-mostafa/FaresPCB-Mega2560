@@ -57,6 +57,15 @@ typedef struct __attribute__((packed, aligned(1))) _Platform_I2C_Setting_t
 // #### Private Method(s) ######################################################
 // #############################################################################
 
+Platform_Status_t Platform_I2C_Setting_Initialize
+(
+        Platform_I2C_Setting_t * Platform_I2C_Setting
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
 _Platform_I2C_Instance_t _Platform_I2C_Instance_Get
 (
         Platform_I2C_t Platform_I2C

@@ -63,6 +63,11 @@ typedef struct _Platform_I2C_Setting_t* Platform_I2C_Setting_t;
 // #### Public Method(s) #######################################################
 // #############################################################################
 
+Platform_Status_t Platform_I2C_Setting_Initialize
+(
+        Platform_I2C_Setting_t * Platform_I2C_Setting
+);
+
 Platform_Status_t Platform_I2C_Write
 (
         const Platform_I2C_t Platform_I2C,
