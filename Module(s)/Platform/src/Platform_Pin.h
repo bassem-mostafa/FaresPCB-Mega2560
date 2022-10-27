@@ -264,22 +264,34 @@ typedef struct _Platform_Pin_Setting_t* Platform_Pin_Setting_t;
 // #### Public Method(s) #######################################################
 // #############################################################################
 
+Platform_Status_t Platform_Pin_Setting_Initialize
+(
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Setting_t Platform_Pin_Setting
+);
+
+Platform_Status_t Platform_Pin_Setting_Mode_Set
+(
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Setting_t Platform_Pin_Setting
+);
+
 Platform_Status_t Platform_Pin_Setup
 (
-        const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Mode_t Platform_Pin_Mode
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Setting_t Platform_Pin_Setting
 );
 
 Platform_Status_t Platform_Pin_Write
 (
-        const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Value_t Platform_Pin_Value
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_t Platform_Pin_Value
 );
 
 Platform_Status_t Platform_Pin_Read
 (
-        const Platform_Pin_t Platform_Pin,
-        Platform_Pin_Value_t * const Platform_Pin_Value
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_t * Platform_Pin_Value
 );
 
 // #############################################################################

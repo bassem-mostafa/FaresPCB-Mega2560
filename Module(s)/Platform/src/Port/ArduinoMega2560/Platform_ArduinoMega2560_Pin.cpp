@@ -223,10 +223,30 @@ Platform_Status_t _Platform_Pin_Instance_Read
 // #### Public Method(s) #######################################################
 // #############################################################################
 
+Platform_Status_t Platform_Pin_Setting_Initialize
+(
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Setting_t Platform_Pin_Setting
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
+Platform_Status_t Platform_Pin_Setting_Mode_Set
+(
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Setting_t Platform_Pin_Setting
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
 Platform_Status_t Platform_Pin_Setup
 (
-        const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Mode_t Platform_Pin_Mode
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Setting_t Platform_Pin_Setting
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
@@ -234,7 +254,8 @@ Platform_Status_t Platform_Pin_Setup
     {
         _Platform_Pin_Instance_t _Platform_Pin_Instance = -1;
         if ( (_Platform_Pin_Instance = _Platform_Pin_Instance_Get(Platform_Pin) ) == -1 ) break;
-        if ( ( Platform_Status = _Platform_Pin_Instance_Mode_Set(_Platform_Pin_Instance, Platform_Pin_Mode) ) != Platform_Status_Success ) break;
+//        FIXME
+//        if ( ( Platform_Status = _Platform_Pin_Instance_Mode_Set(_Platform_Pin_Instance, Platform_Pin_Mode) ) != Platform_Status_Success ) break;
         Platform_Status = Platform_Status_Success;
     }
     while(0);
@@ -243,8 +264,8 @@ Platform_Status_t Platform_Pin_Setup
 
 Platform_Status_t Platform_Pin_Write
 (
-        const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Value_t Platform_Pin_Value
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_t Platform_Pin_Value
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
@@ -279,8 +300,8 @@ Platform_Status_t Platform_Pin_Write_PWM
 
 Platform_Status_t Platform_Pin_Read
 (
-        const Platform_Pin_t Platform_Pin,
-        Platform_Pin_Value_t * const Platform_Pin_Value
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_t * Platform_Pin_Value
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
