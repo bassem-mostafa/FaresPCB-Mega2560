@@ -63,12 +63,33 @@ Platform_Status_t Platform_USART_Setting_Initialize
 }
 
 __attribute((weak))
+Platform_Status_t Platform_USART_Setting_Bardrate_Set
+(
+        Platform_USART_Setting_t Platform_USART_Setting,
+        Platform_USART_Baudrate_t Platform_USART_Baudrate
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
+__attribute((weak))
+Platform_Status_t Platform_USART_Setup
+(
+        Platform_USART_t Platform_USART,
+        Platform_USART_Setting_t Platform_USART_Setting
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
+__attribute((weak))
 Platform_Status_t Platform_USART_Write
 (
-        const Platform_USART_t Platform_USART,
-        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
-        const Platform_USART_Data_t Platform_USART_Data,
-        const Platform_USART_Data_Length_t Platform_USART_Data_Length
+        Platform_USART_t Platform_USART,
+        Platform_USART_Data_t Platform_USART_Data,
+        Platform_USART_Data_Length_t Platform_USART_Data_Length
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
@@ -78,10 +99,10 @@ Platform_Status_t Platform_USART_Write
 __attribute((weak))
 Platform_Status_t Platform_USART_Read
 (
-        const Platform_USART_t Platform_USART,
-        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
+        Platform_USART_t Platform_USART,
         Platform_USART_Data_t Platform_USART_Data,
-        const Platform_USART_Data_Length_t Platform_USART_Data_Length
+        Platform_USART_Data_Length_t Platform_USART_Data_Length,
+        Platform_USART_Data_Length_t * Platform_USART_Data_Length_Read
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;

@@ -70,9 +70,9 @@ typedef enum __attribute__((packed, aligned(1))) Platform_USART_Baudrate_t
     Platform_USART_Baudrate_921600,
 } Platform_USART_Baudrate_t;
 
-typedef uint8_t* const Platform_USART_Data_t;
+typedef uint8_t* Platform_USART_Data_t;
 
-typedef const uint16_t Platform_USART_Data_Length_t;
+typedef uint16_t Platform_USART_Data_Length_t;
 
 typedef struct _Platform_USART_Setting_t* Platform_USART_Setting_t;
 
@@ -85,20 +85,31 @@ Platform_Status_t Platform_USART_Setting_Initialize
         Platform_USART_Setting_t * Platform_USART_Setting
 );
 
+Platform_Status_t Platform_USART_Setting_Bardrate_Set
+(
+        Platform_USART_Setting_t Platform_USART_Setting,
+        Platform_USART_Baudrate_t Platform_USART_Baudrate
+);
+
+Platform_Status_t Platform_USART_Setup
+(
+        Platform_USART_t Platform_USART,
+        Platform_USART_Setting_t Platform_USART_Setting
+);
+
 Platform_Status_t Platform_USART_Write
 (
-        const Platform_USART_t Platform_USART,
-        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
-        const Platform_USART_Data_t Platform_USART_Data,
-        const Platform_USART_Data_Length_t Platform_USART_Data_Length
+        Platform_USART_t Platform_USART,
+        Platform_USART_Data_t Platform_USART_Data,
+        Platform_USART_Data_Length_t Platform_USART_Data_Length
 );
 
 Platform_Status_t Platform_USART_Read
 (
-        const Platform_USART_t Platform_USART,
-        const Platform_USART_Baudrate_t Platform_USART_Baudrate,
+        Platform_USART_t Platform_USART,
         Platform_USART_Data_t Platform_USART_Data,
-        const Platform_USART_Data_Length_t Platform_USART_Data_Length
+        Platform_USART_Data_Length_t Platform_USART_Data_Length,
+        Platform_USART_Data_Length_t * Platform_USART_Data_Length_Read = NULL
 );
 
 // #############################################################################
