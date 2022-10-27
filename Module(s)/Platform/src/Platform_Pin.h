@@ -266,7 +266,6 @@ typedef struct _Platform_Pin_Setting_t* Platform_Pin_Setting_t;
 
 Platform_Status_t Platform_Pin_Setting_Initialize
 (
-        Platform_Pin_t Platform_Pin,
         Platform_Pin_Setting_t * Platform_Pin_Setting
 );
 

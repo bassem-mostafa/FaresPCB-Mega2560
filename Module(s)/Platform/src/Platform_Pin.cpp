@@ -55,7 +55,6 @@ typedef struct __attribute__((packed, aligned(1))) _Platform_Pin_Setting_t
 __attribute((weak))
 Platform_Status_t Platform_Pin_Setting_Initialize
 (
-        Platform_Pin_t Platform_Pin,
         Platform_Pin_Setting_t * Platform_Pin_Setting
 )
 {
