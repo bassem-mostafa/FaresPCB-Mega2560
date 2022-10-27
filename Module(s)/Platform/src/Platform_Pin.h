@@ -264,21 +264,18 @@ typedef struct _Platform_Pin_Setting_t* Platform_Pin_Setting_t;
 // #### Public Method(s) #######################################################
 // #############################################################################
 
-__attribute((weak))
 Platform_Status_t Platform_Pin_Setup
 (
         const Platform_Pin_t Platform_Pin,
         const Platform_Pin_Mode_t Platform_Pin_Mode
 );
 
-__attribute((weak))
 Platform_Status_t Platform_Pin_Write
 (
         const Platform_Pin_t Platform_Pin,
         const Platform_Pin_Value_t Platform_Pin_Value
 );
 
-__attribute((weak))
 Platform_Status_t Platform_Pin_Read
 (
         const Platform_Pin_t Platform_Pin,
