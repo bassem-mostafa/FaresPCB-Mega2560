@@ -41,6 +41,10 @@ typedef enum __attribute__((packed, aligned(1))) _Platform_I2C_Instance_Mode_t
 
 typedef TwoWire * _Platform_I2C_Instance_t;
 
+typedef struct __attribute__((packed, aligned(1))) _Platform_I2C_Setting_t
+{
+} _Platform_I2C_Setting_t;
+
 // #############################################################################
 // #### Private Method(s) Prototype ############################################
 // #############################################################################

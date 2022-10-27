@@ -35,6 +35,10 @@
 
 typedef HardwareSerial * _Platform_USART_Instance_t;
 
+typedef struct __attribute__((packed, aligned(1))) _Platform_USART_Setting_t
+{
+} _Platform_USART_Setting_t;
+
 // #############################################################################
 // #### Private Method(s) Prototype ############################################
 // #############################################################################
