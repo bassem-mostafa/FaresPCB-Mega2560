@@ -57,6 +57,10 @@ typedef struct __attribute__((packed, aligned(1))) _Platform_I2C_Setting_t
 // #### Private Method(s) ######################################################
 // #############################################################################
 
+// #############################################################################
+// #### Public Method(s) #######################################################
+// #############################################################################
+
 Platform_Status_t Platform_I2C_Setting_Initialize
 (
         Platform_I2C_Setting_t * Platform_I2C_Setting
@@ -66,180 +70,38 @@ Platform_Status_t Platform_I2C_Setting_Initialize
     return Platform_Status;
 }
 
-_Platform_I2C_Instance_t _Platform_I2C_Instance_Get
+Platform_Status_t Platform_I2C_Setup
 (
-        Platform_I2C_t Platform_I2C
-)
-{
-    _Platform_I2C_Instance_t _Platform_I2C_Instance = NULL;
-    switch (Platform_I2C)
-    {
-        case Platform_I2C_1: _Platform_I2C_Instance = &Wire;  break;
-        default:             _Platform_I2C_Instance = NULL;     break;
-    }
-    return _Platform_I2C_Instance;
-}
-Platform_Status_t _Platform_I2C_Instance_Mode_Set
-(
-        _Platform_I2C_Instance_t _Platform_I2C_Instance,
-        _Platform_I2C_Instance_Mode_t _Platform_I2C_Instance_Mode
+        Platform_I2C_t Platform_I2C,
+        Platform_I2C_Setting_t Platform_I2C_Setting
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    switch (_Platform_I2C_Instance_Mode)
-    {
-        case _Platform_I2C_Instance_Mode_Master:
-            _Platform_I2C_Instance->begin();
-            Platform_Status = Platform_Status_Success;
-            break;
-        default:
-            break;
-    }
     return Platform_Status;
 }
-
-Platform_Status_t _Platform_I2C_Instance_Write
-(
-        _Platform_I2C_Instance_t _Platform_I2C_Instance,
-        Platform_I2C_Address_t Platform_I2C_Address,
-        Platform_I2C_Data_t Platform_I2C_Data,
-        Platform_I2C_Data_Length_t Platform_I2C_Data_Length
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    do
-    {
-        if ( _Platform_I2C_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
-        _Platform_I2C_Instance->beginTransmission(Platform_I2C_Address);
-        if ( _Platform_I2C_Instance->write(Platform_I2C_Data, Platform_I2C_Data_Length) != Platform_I2C_Data_Length )
-        {
-            Platform_Status = Platform_Status_Error;
-            break;
-        }
-        switch (_Platform_I2C_Instance->endTransmission())
-        {
-            case 0:
-                /* success */
-                Platform_Status = Platform_Status_Success;
-                break;
-            case 1:
-                /* length to long for buffer */
-                Platform_Status = Platform_Status_Error;
-                break;
-            case 2:
-                /* address send, NACK received */
-                Platform_Status = Platform_Status_Error;
-                break;
-            case 3:
-                /* data send, NACK received */
-                Platform_Status = Platform_Status_Error;
-                break;
-            case 4:
-                /* other twi error (lost bus arbitration, bus error, ..) */
-                Platform_Status = Platform_Status_Error;
-                break;
-            case 5:
-                /* timeout: */
-                Platform_Status = Platform_Status_Timeout;
-                break;
-            default:
-                Platform_Status = Platform_Status_Error;
-                break;
-        }
-    }
-    while(0);
-    return Platform_Status;
-}
-
-Platform_Status_t _Platform_I2C_Instance_Read
-(
-        _Platform_I2C_Instance_t _Platform_I2C_Instance,
-        Platform_I2C_Address_t Platform_I2C_Address,
-        Platform_I2C_Data_t Platform_I2C_Data,
-        Platform_I2C_Data_Length_t Platform_I2C_Data_Length
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    do
-    {
-        if ( _Platform_I2C_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
-        if ( _Platform_I2C_Instance->requestFrom(Platform_I2C_Address, (uint8_t)Platform_I2C_Data_Length) != Platform_I2C_Data_Length )
-        {
-            Platform_Status = Platform_Status_Error;
-            break;
-        }
-        if ( _Platform_I2C_Instance->readBytes(Platform_I2C_Data, Platform_I2C_Data_Length) != Platform_I2C_Data_Length )
-        {
-            Platform_Status = Platform_Status_Error;
-            break;
-        }
-        Platform_Status = Platform_Status_Success;
-    }
-    while(0);
-    return Platform_Status;
-}
-
-Platform_Status_t _Platform_I2C_Instance_Release
-(
-        _Platform_I2C_Instance_t _Platform_I2C_Instance
-)
-{
-    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    do
-    {
-        if ( _Platform_I2C_Instance == NULL ) {Platform_Status = Platform_Status_Error; break;}
-        _Platform_I2C_Instance->end();
-        Platform_Status = Platform_Status_Success;
-    }
-    while(0);
-    return Platform_Status;
-}
-
-// #############################################################################
-// #### Public Method(s) #######################################################
-// #############################################################################
 
 Platform_Status_t Platform_I2C_Write
 (
-        const Platform_I2C_t Platform_I2C,
-        const Platform_I2C_Address_t Platform_I2C_Address,
-        const Platform_I2C_Data_t Platform_I2C_Data,
-        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
+        Platform_I2C_t Platform_I2C,
+        Platform_I2C_Address_t Platform_I2C_Address,
+        Platform_I2C_Data_t Platform_I2C_Data,
+        Platform_I2C_Data_Length_t Platform_I2C_Data_Length
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    do
-    {
-        _Platform_I2C_Instance_t _Platform_I2C_Instance = NULL;
-        if ( (_Platform_I2C_Instance = _Platform_I2C_Instance_Get(Platform_I2C) ) == NULL ) break;
-        if ( ( Platform_Status = _Platform_I2C_Instance_Mode_Set(_Platform_I2C_Instance, _Platform_I2C_Instance_Mode_Master) ) != Platform_Status_Success ) break;
-        if ( ( Platform_Status = _Platform_I2C_Instance_Write(_Platform_I2C_Instance, Platform_I2C_Address, Platform_I2C_Data, Platform_I2C_Data_Length) ) != Platform_Status_Success ) break;
-        if ( ( Platform_Status = _Platform_I2C_Instance_Release(_Platform_I2C_Instance) ) != Platform_Status_Success ) break;
-        Platform_Status = Platform_Status_Success;
-    }
-    while(0);
     return Platform_Status;
 }
 
 Platform_Status_t Platform_I2C_Read
 (
-        const Platform_I2C_t Platform_I2C,
-        const Platform_I2C_Address_t Platform_I2C_Address,
+        Platform_I2C_t Platform_I2C,
+        Platform_I2C_Address_t Platform_I2C_Address,
         Platform_I2C_Data_t Platform_I2C_Data,
-        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
+        Platform_I2C_Data_Length_t Platform_I2C_Data_Length,
+        Platform_I2C_Data_Length_t * Platform_I2C_Data_Length_Read
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
-    do
-    {
-        _Platform_I2C_Instance_t _Platform_I2C_Instance = NULL;
-        if ( (_Platform_I2C_Instance = _Platform_I2C_Instance_Get(Platform_I2C) ) == NULL ) break;
-        if ( ( Platform_Status = _Platform_I2C_Instance_Mode_Set(_Platform_I2C_Instance, _Platform_I2C_Instance_Mode_Master) ) != Platform_Status_Success ) break;
-        if ( ( Platform_Status = _Platform_I2C_Instance_Read(_Platform_I2C_Instance, Platform_I2C_Address, Platform_I2C_Data, Platform_I2C_Data_Length) ) != Platform_Status_Success ) break;
-        if ( ( Platform_Status = _Platform_I2C_Instance_Release(_Platform_I2C_Instance) ) != Platform_Status_Success ) break;
-        Platform_Status = Platform_Status_Success;
-    }
-    while(0);
     return Platform_Status;
 }
 

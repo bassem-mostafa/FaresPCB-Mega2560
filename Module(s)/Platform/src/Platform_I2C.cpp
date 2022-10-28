@@ -63,12 +63,23 @@ Platform_Status_t Platform_I2C_Setting_Initialize
 }
 
 __attribute((weak))
+Platform_Status_t Platform_I2C_Setup
+(
+        Platform_I2C_t Platform_I2C,
+        Platform_I2C_Setting_t Platform_I2C_Setting
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    return Platform_Status;
+}
+
+__attribute((weak))
 Platform_Status_t Platform_I2C_Write
 (
-        const Platform_I2C_t Platform_I2C,
-        const Platform_I2C_Address_t Platform_I2C_Address,
-        const Platform_I2C_Data_t Platform_I2C_Data,
-        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
+        Platform_I2C_t Platform_I2C,
+        Platform_I2C_Address_t Platform_I2C_Address,
+        Platform_I2C_Data_t Platform_I2C_Data,
+        Platform_I2C_Data_Length_t Platform_I2C_Data_Length
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
@@ -78,10 +89,11 @@ Platform_Status_t Platform_I2C_Write
 __attribute((weak))
 Platform_Status_t Platform_I2C_Read
 (
-        const Platform_I2C_t Platform_I2C,
-        const Platform_I2C_Address_t Platform_I2C_Address,
+        Platform_I2C_t Platform_I2C,
+        Platform_I2C_Address_t Platform_I2C_Address,
         Platform_I2C_Data_t Platform_I2C_Data,
-        const Platform_I2C_Data_Length_t Platform_I2C_Data_Length
+        Platform_I2C_Data_Length_t Platform_I2C_Data_Length,
+        Platform_I2C_Data_Length_t * Platform_I2C_Data_Length_Read
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
