@@ -47,6 +47,11 @@
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_FreeRTOS-10.5</location>
 		</link>
 		<link>
+			<name>libraries/FaresPCB_Keypad</name>
+			<type>2</type>
+			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_Keypad</location>
+		</link>
+		<link>
 			<name>libraries/FaresPCB_Platform</name>
 			<type>2</type>
 			<location>C:/Users/BaSSeM/Documents/Arduino/libraries/FaresPCB_Platform</location>

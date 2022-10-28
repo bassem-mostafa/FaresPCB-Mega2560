@@ -1,6 +1,7 @@
 #include "Platform.h"
 #include "string.h"
 #include "stdio.h"
+#include "Keypad.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -66,5 +67,26 @@ void setup()
 
 void loop()
 {
-    // TODO
+    static char _info[50];
+    for (uint32_t Keypad_Key = Keypad_Key_1; Keypad_Key <= Keypad_Key_16; ++Keypad_Key)
+    {
+        switch (Keypad_Key_State_Get((Keypad_Key_t)Keypad_Key))
+        {
+            case Keypad_Key_State_Up:
+
+                break;
+            case Keypad_Key_State_Down:
+                snprintf(_info, sizeof(_info), "\nKey '%d' is Down", Keypad_Key);
+                _info[sizeof(_info)-1] = '\0';
+                Platform_USART_Write
+                (
+                        Platform_USART_USB,
+                        (Platform_USART_Data_t)_info,
+                        (Platform_USART_Data_Length_t)strlen(_info)
+                );
+                break;
+            default:
+                break;
+        }
+    }
 }
