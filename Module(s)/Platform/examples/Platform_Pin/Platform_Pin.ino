@@ -9,6 +9,7 @@
 #endif
 
 #define _MONTH_IS(MMM) ( __TIMESTAMP__[4] == MMM[0] && __TIMESTAMP__[5] == MMM[1] && __TIMESTAMP__[6] == MMM[2] )
+#define _WEEKDAY       ( (const char[]){__TIMESTAMP__[0], __TIMESTAMP__[1], __TIMESTAMP__[2]} )
 #define _YEAR          ( (const char[]){__TIMESTAMP__[22], __TIMESTAMP__[23]} )
 #define _MONTH         ( _MONTH_IS("Jan") ? "01" : \
                          _MONTH_IS("Feb") ? "02" : \
@@ -50,12 +51,17 @@ void setup()
     char FW_Info[50];
     snprintf(FW_Info, sizeof(FW_Info), "\nFW %s V%s\n", _FW_LABEL, _FW_VERSION);
     FW_Info[sizeof(FW_Info)-1] = '\0';
+
+    Platform_USART_Setting_t Platform_USART_Setting = NULL;
+    Platform_USART_Setting_Initialize(&Platform_USART_Setting);
+    Platform_USART_Setting_Baudrate_Set(Platform_USART_Setting, Platform_USART_Baudrate_115200);
+    Platform_USART_Setup(Platform_USART_USB, Platform_USART_Setting);
+
     Platform_USART_Write
     (
             Platform_USART_USB,
-            Platform_USART_Baudrate_115200,
-            (uint8_t*)FW_Info,
-            strlen(FW_Info)
+            (Platform_USART_Data_t)FW_Info,
+            (Platform_USART_Data_Length_t)strlen(FW_Info)
     );
     Platform_Pin_Setting_t Platform_Pin_Setting = NULL;
 
