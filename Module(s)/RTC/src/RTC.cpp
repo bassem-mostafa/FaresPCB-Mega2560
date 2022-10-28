@@ -233,6 +233,25 @@ _RTC_t _RTC;
 // #### Private Method(s) ######################################################
 // #############################################################################
 
+bool _RTC_Initialize
+(
+        void
+)
+{
+    static bool isInitialized = false;
+    do
+    {
+        if (isInitialized) break;
+
+        Platform_I2C_Setting_t Platform_I2C_Setting = NULL;
+        Platform_I2C_Setting_Initialize(&Platform_I2C_Setting);
+        Platform_I2C_Setup(Platform_I2C_1, Platform_I2C_Setting);
+        isInitialized = true;
+    }
+    while(0);
+    return isInitialized;
+}
+
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
@@ -256,6 +275,8 @@ RTC_Date_t RTC_DateGet( void )
                 /* content.data */
         }
     };
+
+    _RTC_Initialize();
 
     if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
@@ -356,6 +377,8 @@ void RTC_DateSet( RTC_Date_t RTC_Date )
         }
     };
 
+    _RTC_Initialize();
+
     if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
 
@@ -381,6 +404,8 @@ RTC_Time_t RTC_TimeGet( void )
                 /* content.data */
         }
     };
+
+    _RTC_Initialize();
 
     if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
@@ -474,6 +499,8 @@ void RTC_TimeSet( RTC_Time_t RTC_Time )
         }
     };
 
+    _RTC_Initialize();
+
     if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
 
@@ -499,6 +526,8 @@ RTC_Memory_Value_t RTC_MemoryGet( RTC_Memory_Index_t RTC_Memory_Index )
                 /* content.data */
         }
     };
+
+    _RTC_Initialize();
 
     if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
@@ -533,6 +562,8 @@ void RTC_MemorySet( RTC_Memory_Index_t RTC_Memory_Index, RTC_Memory_Value_t RTC_
                 _RTC._RAM[RTC_Memory_Index],
         }
     };
+
+    _RTC_Initialize();
 
     if ( Platform_I2C_Write(Platform_I2C_1, Platform_I2C_Address_RTC, (uint8_t*)&_RTC_Packet.content, _RTC_Packet.content_length) == Platform_Status_Success )
     {
