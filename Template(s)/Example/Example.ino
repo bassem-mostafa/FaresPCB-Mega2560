@@ -1,5 +1,6 @@
 #include "Platform.h"
 #include "string.h"
+#include "stdio.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
