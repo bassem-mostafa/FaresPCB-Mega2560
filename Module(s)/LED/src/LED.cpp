@@ -203,12 +203,15 @@ static bool _LED_Instance_Update
     {
         if ( _LED == NULL ) break;
         const uint8_t nChannels = _LED_Instance_Channels_Number_Get(_LED);
+        Platform_Pin_Setting_t Platform_Pin_Setting = NULL;
         for (uint8_t i = 0; i < nChannels; ++i)
         {
             switch (_LED->_LED_Channel[i]._LED_Channel_ID)
             {
                 case _LED_Channel_ID_Mono:
-                    Platform_Pin_Setup(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Mode_OUTPUT);
+                    Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+                    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+                    Platform_Pin_Setup(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Setting);
                     if (_LED->_LED_Channel[i]._LED_Channel_Value == 0)
                     {
                         Platform_Pin_Write(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Value_LOW);
@@ -222,7 +225,9 @@ static bool _LED_Instance_Update
                 case _LED_Channel_ID_R:
                 case _LED_Channel_ID_G:
                 case _LED_Channel_ID_B:
-                    Platform_Pin_Setup(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Mode_OUTPUT);
+                    Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+                    Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+                    Platform_Pin_Setup(_LED->_LED_Channel[i].Platform_Pin, Platform_Pin_Setting);
                     Platform_Pin_Write_PWM(_LED->_LED_Channel[i].Platform_Pin, _LED->_LED_Channel[i]._LED_Channel_Value);
                     isOk = true;
                     break;
