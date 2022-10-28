@@ -61,6 +61,10 @@ void setup()
             (Platform_USART_Data_t)FW_Info,
             (Platform_USART_Data_Length_t)strlen(FW_Info)
     );
+
+    Platform_I2C_Setting_t Platform_I2C_Setting = NULL;
+    Platform_I2C_Setting_Initialize(&Platform_I2C_Setting);
+    Platform_I2C_Setup(Platform_I2C_1, Platform_I2C_Setting);
 }
 
 void loop()
