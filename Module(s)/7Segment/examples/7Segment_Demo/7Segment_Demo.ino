@@ -1,6 +1,7 @@
 #include "Platform.h"
 #include "string.h"
 #include "stdio.h"
+#include "Segment.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -62,9 +63,13 @@ void setup()
             (Platform_USART_Data_t)FW_Info,
             (Platform_USART_Data_Length_t)strlen(FW_Info)
     );
+    Segment_Clear();
 }
 
 void loop()
 {
-    // TODO
+    Segment_Write(Segment_1, Digit_1);
+    Segment_Write(Segment_2, Digit_2);
+    Segment_Write(Segment_3, Digit_3);
+    Segment_Write(Segment_4, Digit_4);
 }
