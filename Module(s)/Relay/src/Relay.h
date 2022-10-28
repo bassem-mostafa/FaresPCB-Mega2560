@@ -18,8 +18,8 @@
 // #### File Guard #############################################################
 // #############################################################################
 
-#ifndef FARESPCB_RELAY_H_
-#define FARESPCB_RELAY_H_
+#ifndef RELAY_H_
+#define RELAY_H_
 
 // #############################################################################
 // #### Include(s) #############################################################
@@ -39,27 +39,25 @@ typedef enum __attribute__((packed, aligned(1))) Relay_t
     Relay_2
 } Relay_t;
 
+typedef enum __attribute__((packed, aligned(1))) Relay_State_t
+{
+    Relay_State_Off = 0,
+    Relay_State_On
+} Relay_State_t;
+
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
 
 /*
- * @brief Turns on a Relay
+ * @brief Sets a Relay to specified state
  *
- * @param[in] Relay   : selected Relay
- *
- * @return void     : None
- */
-void Relay_TurnOn( Relay_t Relay );
-
-/*
- * @brief Turns off a Relay
- *
- * @param[in] Relay   : selected Relay
+ * @param[in] Relay       : selected Relay
+ * @param[in] Relay_State : requested state
  *
  * @return void     : None
  */
-void Relay_TurnOff( Relay_t Relay );
+void Relay_State_Set( Relay_t Relay, Relay_State_t Relay_State );
 
 // #############################################################################
 // #### Public Variable(s) #####################################################

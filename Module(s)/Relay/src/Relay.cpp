@@ -18,8 +18,8 @@
 // #### Include(s) #############################################################
 // #############################################################################
 
-#include "FaresPCB.h"
 #include "Relay.h"
+#include "Platform.h"
 
 // #############################################################################
 // #### Private Macro(s) #######################################################
@@ -41,58 +41,54 @@
 // #### Private Method(s) ######################################################
 // #############################################################################
 
+bool _Relay_Initialize
+(
+        void
+)
+{
+    bool isInitialized = false;
+    do
+    {
+        Platform_Pin_Setting_t Platform_Pin_Setting = NULL;
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_RELAY_1, Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_RELAY_2, Platform_Pin_Setting);
+        isInitialized = true;
+    }
+    while(0);
+    return isInitialized;
+}
+
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
 
 /*
- * @brief Turns on a Relay
+ * @brief Sets a Relay to specified state
  *
- * @param[in] Relay   : selected Relay
- *
- * @return void     : None
- */
-void Relay_TurnOn( Relay_t Relay )
-{
-    do {
-        switch (Relay)
-        {
-            case Relay_1:
-                HW_PIN_OUTPUT(HW_RELAY_1);
-                HW_PIN_SET(HW_RELAY_1);
-                break;
-            case Relay_2:
-                HW_PIN_OUTPUT(HW_RELAY_2);
-                HW_PIN_SET(HW_RELAY_2);
-                break;
-            default:
-                break;
-        }
-    } while(0);
-}
-
-/*
- * @brief Turns off a Relay
- *
- * @param[in] Relay   : selected Relay
+ * @param[in] Relay       : selected Relay
+ * @param[in] Relay_State : requested state
  *
  * @return void     : None
  */
-void Relay_TurnOff( Relay_t Relay )
+void Relay_State_Set( Relay_t Relay, Relay_State_t Relay_State )
 {
-    do {
-        switch (Relay)
-        {
-            case Relay_1:
-                HW_PIN_TRI_STATE(HW_RELAY_1);
-                break;
-            case Relay_2:
-                HW_PIN_TRI_STATE(HW_RELAY_2);
-                break;
-            default:
-                break;
-        }
-    } while(0);
+    switch (Relay)
+    {
+        case Relay_1:
+            Platform_Pin_Write(Platform_Pin_RELAY_1, Relay_State == Relay_State_On ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+            break;
+        case Relay_2:
+            Platform_Pin_Write(Platform_Pin_RELAY_2, Relay_State == Relay_State_On ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+            break;
+        default:
+            break;
+    }
 }
 
 // #############################################################################
