@@ -56,9 +56,21 @@ bool _Bluetooth_Initialize( void )
     do
     {
         if (isInitialized) break;
-        Platform_Pin_Setup(Platform_Pin_BLUETOOTH_STATE, Platform_Pin_Mode_INPUT);
-        Platform_Pin_Setup(Platform_Pin_BLUETOOTH_KEY, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setting_t Platform_Pin_Setting = NULL;
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_INPUT);
+        Platform_Pin_Setup(Platform_Pin_BLUETOOTH_STATE, Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_BLUETOOTH_KEY, Platform_Pin_Setting);
+
         Platform_Pin_Write(Platform_Pin_BLUETOOTH_KEY, Platform_Pin_Value_LOW);
+
+        Platform_USART_Setting_t Platform_USART_Setting = NULL;
+        Platform_USART_Setting_Initialize(&Platform_USART_Setting);
+        Platform_USART_Setting_Baudrate_Set(Platform_USART_Setting, Platform_USART_Baudrate_9600);
+        Platform_USART_Setup(Platform_USART_BLUETOOTH, Platform_USART_Setting);
         isInitialized = true;
     }
     while(0);
@@ -99,7 +111,7 @@ uint32_t Bluetooth_Read( uint8_t * buffer, uint32_t length )
 {
     uint32_t bytes_read = 0;
     _Bluetooth_Initialize();
-    Platform_USART_Read(Platform_USART_BLUETOOTH, Platform_USART_Baudrate_9600, buffer, length);
+    Platform_USART_Read(Platform_USART_BLUETOOTH, buffer, length, (Platform_USART_Data_Length_t*)&bytes_read);
     return bytes_read;
 }
 
@@ -114,7 +126,7 @@ uint32_t Bluetooth_Read( uint8_t * buffer, uint32_t length )
 uint32_t Bluetooth_Write( uint8_t * buffer, uint32_t length )
 {
     uint32_t bytes_sent = 0;
-    if (Platform_USART_Write(Platform_USART_BLUETOOTH, Platform_USART_Baudrate_9600, buffer, length) == Platform_Status_Success )
+    if (Platform_USART_Write(Platform_USART_BLUETOOTH, buffer, length) == Platform_Status_Success )
     {
         bytes_sent = length;
     }
