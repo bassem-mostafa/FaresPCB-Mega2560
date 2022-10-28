@@ -56,7 +56,7 @@ typedef uint8_t Platform_I2C_Address_t;
 
 typedef uint8_t* Platform_I2C_Data_t;
 
-typedef uint16_t Platform_I2C_Data_Length_t;
+typedef uint8_t Platform_I2C_Data_Length_t;
 
 typedef struct _Platform_I2C_Setting_t* Platform_I2C_Setting_t;
 
