@@ -593,19 +593,58 @@ bool _LCD_Initialize( void )
     do
     {
         if (isInitialized) break;
-        Platform_Pin_Setup(Platform_Pin_LCD_BL,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_EN,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_RS,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_D0,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_D1,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_D2,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_D3,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_D4,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_D5,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_D6,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_D7,  Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_CS1, Platform_Pin_Mode_OUTPUT);
-        Platform_Pin_Setup(Platform_Pin_LCD_CS2, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setting_t Platform_Pin_Setting = NULL;
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_BL,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_EN,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_RS,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D0,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D1,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D2,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D3,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D4,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D5,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D6,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_D7,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_CS1,  Platform_Pin_Setting);
+
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_OUTPUT);
+        Platform_Pin_Setup(Platform_Pin_LCD_CS2,  Platform_Pin_Setting);
 
         Platform_Pin_Write(Platform_Pin_LCD_BL,  Platform_Pin_Value_LOW);
         Platform_Pin_Write(Platform_Pin_LCD_EN,  Platform_Pin_Value_LOW);
@@ -671,7 +710,6 @@ void _LCD_Clear( void )
 void LCD_LightOn( void )
 {
     _LCD_Initialize();
-    Platform_Pin_Setup(Platform_Pin_LCD_BL, Platform_Pin_Mode_OUTPUT);
     Platform_Pin_Write(Platform_Pin_LCD_BL, Platform_Pin_Value_HIGH);
 }
 
@@ -685,7 +723,6 @@ void LCD_LightOn( void )
 void LCD_LightOff( void )
 {
     _LCD_Initialize();
-    Platform_Pin_Setup(Platform_Pin_LCD_BL, Platform_Pin_Mode_OUTPUT);
     Platform_Pin_Write(Platform_Pin_LCD_BL, Platform_Pin_Value_LOW);
 }
 
