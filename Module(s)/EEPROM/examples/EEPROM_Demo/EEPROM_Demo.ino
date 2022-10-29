@@ -1,6 +1,7 @@
 #include "Platform.h"
 #include "string.h"
 #include "stdio.h"
+#include "EEPROM.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -62,9 +63,70 @@ void setup()
             (Platform_USART_Data_t)FW_Info,
             (Platform_USART_Data_Length_t)strlen(FW_Info)
     );
+    char _info[50];
+    char _info_write[20];
+    char _info_read[20];
+    EEPROM_Memory_Address_t EEPROM_Memory_Address = 0x0001;
+    EEPROM_Memory_Data_Length_t _info_read_length = 0;
+    for (uint8_t i = 0; i < sizeof(_info_write); ++i) _info_write[i] = 'A'+i;
+    memset(_info_read, 0, sizeof(_info_read));
+    _info_write[sizeof(_info_write)-1] = '\0';
+    _info_read[sizeof(_info_read)-1] = '\0';
+
+    snprintf(_info, sizeof(_info), "\nEEPROM Write '%s'", _info_write);
+    _info[sizeof(_info)-1] = '\0';
+    Platform_USART_Write
+    (
+            Platform_USART_USB,
+            (Platform_USART_Data_t)_info,
+            (Platform_USART_Data_Length_t)strlen(_info)
+    );
+
+    if (EEPROM_Write(EEPROM_Memory_Address, (uint8_t*)_info_write, sizeof(_info_write)-1) != EEPROM_Status_Success)
+    {
+        Platform_USART_Write
+        (
+                Platform_USART_USB,
+                (Platform_USART_Data_t)"\n\e[31mEEPROM Failed\e[39m",
+                (Platform_USART_Data_Length_t)strlen("\n\e[31mEEPROM Failed\e[39m")
+        );
+    }
+
+    snprintf(_info, sizeof(_info), "\nEEPROM Reading...");
+    _info[sizeof(_info)-1] = '\0';
+    Platform_USART_Write
+    (
+            Platform_USART_USB,
+            (Platform_USART_Data_t)_info,
+            (Platform_USART_Data_Length_t)strlen(_info)
+    );
+
+    if (EEPROM_Read(EEPROM_Memory_Address, (uint8_t*)_info_read, sizeof(_info_read)-1, &_info_read_length) != EEPROM_Status_Success || _info_read_length != (sizeof(_info_read)-1))
+    {
+        Platform_USART_Write
+        (
+                Platform_USART_USB,
+                (Platform_USART_Data_t)"\n\e[31mEEPROM Failed\e[39m",
+                (Platform_USART_Data_Length_t)strlen("\n\e[31mEEPROM Failed\e[39m")
+        );
+    }
+    snprintf(_info, sizeof(_info), "\nEEPROM Read '%s'", _info_read);
+    _info[sizeof(_info)-1] = '\0';
+    Platform_USART_Write
+    (
+            Platform_USART_USB,
+            (Platform_USART_Data_t)_info,
+            (Platform_USART_Data_Length_t)strlen(_info)
+    );
+    Platform_USART_Write
+    (
+            Platform_USART_USB,
+            (Platform_USART_Data_t)"\n\nEEPROM Demo Done\n",
+            (Platform_USART_Data_Length_t)strlen("\n\nEEPROM Demo Done\n")
+    );
 }
 
 void loop()
 {
-    // TODO
+
 }
