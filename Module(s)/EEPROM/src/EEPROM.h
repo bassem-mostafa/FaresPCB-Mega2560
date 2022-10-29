@@ -25,6 +25,9 @@
 // #### Include(s) #############################################################
 // #############################################################################
 
+#include "stdint.h"
+#include "stddef.h"
+
 // #############################################################################
 // #### Public Macro(s) ########################################################
 // #############################################################################
@@ -33,9 +36,37 @@
 // #### Public Type(s) #########################################################
 // #############################################################################
 
+typedef enum __attribute__((packed, aligned(1))) EEPROM_Status_t
+{
+    EEPROM_Status_Success,
+    EEPROM_Status_Error,
+    EEPROM_Status_Timeout,
+} EEPROM_Status_t;
+
+typedef uint32_t EEPROM_Memory_Address_t;
+
+typedef uint8_t* EEPROM_Memory_Data_t;
+
+typedef uint8_t EEPROM_Memory_Data_Length_t;
+
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
+
+EEPROM_Status_t EEPROM_Write
+(
+        EEPROM_Memory_Address_t EEPROM_Memory_Address,
+        EEPROM_Memory_Data_t EEPROM_Memory_Data,
+        EEPROM_Memory_Data_Length_t EEPROM_Memory_Data_Length
+);
+
+EEPROM_Status_t EEPROM_Read
+(
+        EEPROM_Memory_Address_t EEPROM_Memory_Address,
+        EEPROM_Memory_Data_t EEPROM_Memory_Data,
+        EEPROM_Memory_Data_Length_t EEPROM_Memory_Data_Length,
+        EEPROM_Memory_Data_Length_t * EEPROM_Memory_Data_Length_Read = NULL
+);
 
 // #############################################################################
 // #### Public Variable(s) #####################################################
