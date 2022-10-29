@@ -2,6 +2,7 @@
 #include "string.h"
 #include "stdio.h"
 #include "Temperature.h"
+#include "stdlib.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
