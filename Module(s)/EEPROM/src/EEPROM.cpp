@@ -39,15 +39,15 @@
 // #############################################################################
 
 typedef uint8_t _EEPROM_Byte_t;
-typedef uint16_t _EEPROM_Half_Word_t;
 
 typedef struct __attribute__((packed, aligned(1))) _EEPROM_Packet_t
 {
         _EEPROM_Byte_t content_length;
         struct __attribute__((packed, aligned(1)))
         {
-                _EEPROM_Half_Word_t address;
-                _EEPROM_Byte_t data[0xFF-sizeof(address)];
+                _EEPROM_Byte_t address_H;
+                _EEPROM_Byte_t address_L;
+                _EEPROM_Byte_t data[0xFF-sizeof(address_H)-sizeof(address_L)];
         } content;
 } _EEPROM_Packet_t;
 
@@ -94,13 +94,15 @@ EEPROM_Status_t _EEPROM_Write
     {
         if (_EEPROM_Initialize() != true) { EEPROM_Status = EEPROM_Status_Error; break; }
         if (EEPROM_Memory_Address > 0x7FFF) { EEPROM_Status = EEPROM_Status_Error; break; }
+        if (EEPROM_Memory_Data_Length > 0x3F /* Page Size */) { EEPROM_Status = EEPROM_Status_Error; break; }
         if ((EEPROM_Memory_Address + EEPROM_Memory_Data_Length) > 0x7FFF) { EEPROM_Status = EEPROM_Status_Error; break; }
 
         _EEPROM_Packet_t _EEPROM_Packet = (_EEPROM_Packet_t) {
             2 /* content_length */,
             {
                     /* content.address */
-                    EEPROM_Memory_Address,
+                    ((EEPROM_Memory_Address >> 8) & 0xFF),
+                    ((EEPROM_Memory_Address >> 0) & 0xFF),
                     /* content.data */
             }
         };
@@ -130,13 +132,15 @@ EEPROM_Status_t _EEPROM_Read
     {
         if (_EEPROM_Initialize() != true) { EEPROM_Status = EEPROM_Status_Error; break; }
         if (EEPROM_Memory_Address > 0x7FFF) { EEPROM_Status = EEPROM_Status_Error; break; }
+        if (EEPROM_Memory_Data_Length > 0x3F /* Page Size */) { EEPROM_Status = EEPROM_Status_Error; break; }
         if ((EEPROM_Memory_Address + EEPROM_Memory_Data_Length) > 0x7FFF) { EEPROM_Status = EEPROM_Status_Error; break; }
 
         _EEPROM_Packet_t _EEPROM_Packet = (_EEPROM_Packet_t) {
             2 /* content_length */,
             {
                     /* content.address */
-                    EEPROM_Memory_Address,
+                    ((EEPROM_Memory_Address >> 8) & 0xFF),
+                    ((EEPROM_Memory_Address >> 0) & 0xFF),
                     /* content.data */
             }
         };
