@@ -18,8 +18,8 @@
 // #### Include(s) #############################################################
 // #############################################################################
 
-#include "FaresPCB.h"
 #include "Temperature.h"
+#include "Platform.h"
 
 // #############################################################################
 // #### Private Macro(s) #######################################################
@@ -44,6 +44,25 @@
 // #############################################################################
 // #### Private Method(s) ######################################################
 // #############################################################################
+
+bool _Temperature_Initialize
+(
+        void
+)
+{
+    static bool isInitialized = false;
+    do
+    {
+        if (isInitialized) break;
+        Platform_Pin_Setting_t Platform_Pin_Setting = NULL;
+        Platform_Pin_Setting_Initialize(&Platform_Pin_Setting);
+        Platform_Pin_Setting_Mode_Set(Platform_Pin_Setting, Platform_Pin_Mode_INPUT);
+        Platform_Pin_Setup(Platform_Pin_TEMPERATURE_SENSOR, Platform_Pin_Setting);
+        isInitialized = true;
+    }
+    while(0);
+    return isInitialized;
+}
 
 static void sortBubble(uint16_t * readings, uint8_t size)
 {
@@ -83,10 +102,11 @@ double Temperature_Celsius( void )
     double temperature = 0.0l;
     uint16_t readings[7];
 
-    pinMode(HW_TEMPERATURE_SENSOR, INPUT);
+    _Temperature_Initialize();
+
     for (uint8_t i = 0; i < (sizeof(readings) / sizeof(readings[0])); ++i)
     {
-        readings[i] = analogRead(HW_TEMPERATURE_SENSOR);
+        Platform_Pin_Read_Analog(Platform_Pin_TEMPERATURE_SENSOR, (Platform_Pin_Value_Analog_t*)&readings[i]);
     }
     sortBubble(readings, (sizeof(readings) / sizeof(readings[0])));
     temperature = TO_CELSIUS( TO_VOLT( readings[(sizeof(readings) / sizeof(readings[0])) / 2 /* Median Value */] ) );
