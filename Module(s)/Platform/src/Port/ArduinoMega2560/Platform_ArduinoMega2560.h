@@ -229,16 +229,22 @@
 // #### Public Type(s) #########################################################
 // #############################################################################
 
-typedef uint8_t Platform_Pin_Value_PWM_t;
+typedef uint8_t Platform_Pin_Value_Analog_t;
 
 // #############################################################################
 // #### Public Method(s) #######################################################
 // #############################################################################
 
-Platform_Status_t Platform_Pin_Write_PWM
+Platform_Status_t Platform_Pin_Write_Analog
 (
         Platform_Pin_t Platform_Pin,
-        Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
+        Platform_Pin_Value_Analog_t Platform_Pin_Value_Analog
+);
+
+Platform_Status_t Platform_Pin_Read_Analog
+(
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_Analog_t * Platform_Pin_Value_Analog
 );
 
 // #############################################################################

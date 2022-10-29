@@ -170,17 +170,17 @@ static Platform_Status_t _Platform_Pin_Value_Write
     return Platform_Status;
 }
 
-static Platform_Status_t _Platform_Pin_Value_Write_PWM
+static Platform_Status_t _Platform_Pin_Value_Write_Analog
 (
         const Platform_Pin_t Platform_Pin,
-        const Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
+        const Platform_Pin_Value_Analog_t Platform_Pin_Value_Analog
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
     do
     {
 
-        analogWrite(Platform_Pin, Platform_Pin_Value_PWM);
+        analogWrite(Platform_Pin, Platform_Pin_Value_Analog);
         Platform_Status = Platform_Status_Success;
     }
     while(0);
@@ -198,6 +198,23 @@ static Platform_Status_t _Platform_Pin_Value_Read
     {
         if ( Platform_Pin_Value == NULL ) { Platform_Status = Platform_Status_Error; break; }
         *Platform_Pin_Value = (digitalRead(Platform_Pin) == HIGH ? Platform_Pin_Value_HIGH : Platform_Pin_Value_LOW);
+        Platform_Status = Platform_Status_Success;
+    }
+    while(0);
+    return Platform_Status;
+}
+
+static Platform_Status_t _Platform_Pin_Value_Read_Analog
+(
+        const Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_Analog_t * const Platform_Pin_Value_Analog
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    do
+    {
+        if ( Platform_Pin_Value_Analog == NULL ) { Platform_Status = Platform_Status_Error; break; }
+        *Platform_Pin_Value_Analog = analogRead(Platform_Pin);
         Platform_Status = Platform_Status_Success;
     }
     while(0);
@@ -280,16 +297,16 @@ Platform_Status_t Platform_Pin_Write
     return Platform_Status;
 }
 
-Platform_Status_t Platform_Pin_Write_PWM
+Platform_Status_t Platform_Pin_Write_Analog
 (
         Platform_Pin_t Platform_Pin,
-        Platform_Pin_Value_PWM_t Platform_Pin_Value_PWM
+        Platform_Pin_Value_Analog_t Platform_Pin_Value_Analog
 )
 {
     Platform_Status_t Platform_Status = Platform_Status_NotSupported;
     do
     {
-        if ( (Platform_Status = _Platform_Pin_Value_Write_PWM(Platform_Pin, Platform_Pin_Value_PWM)) != Platform_Status_Success ) { break; }
+        if ( (Platform_Status = _Platform_Pin_Value_Write_Analog(Platform_Pin, Platform_Pin_Value_Analog)) != Platform_Status_Success ) { break; }
 
         Platform_Status = Platform_Status_Success;
     }
@@ -307,6 +324,23 @@ Platform_Status_t Platform_Pin_Read
     do
     {
         if ( (Platform_Status = _Platform_Pin_Value_Read(Platform_Pin, Platform_Pin_Value)) != Platform_Status_Success ) { break; }
+
+        Platform_Status = Platform_Status_Success;
+    }
+    while(0);
+    return Platform_Status;
+}
+
+Platform_Status_t Platform_Pin_Read_Analog
+(
+        Platform_Pin_t Platform_Pin,
+        Platform_Pin_Value_Analog_t * Platform_Pin_Value_Analog
+)
+{
+    Platform_Status_t Platform_Status = Platform_Status_NotSupported;
+    do
+    {
+        if ( (Platform_Status = _Platform_Pin_Value_Read_Analog(Platform_Pin, Platform_Pin_Value_Analog)) != Platform_Status_Success ) { break; }
 
         Platform_Status = Platform_Status_Success;
     }
