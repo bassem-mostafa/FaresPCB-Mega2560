@@ -1,6 +1,7 @@
 #include "Platform.h"
 #include "string.h"
 #include "stdio.h"
+#include "Temperature.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -66,5 +67,16 @@ void setup()
 
 void loop()
 {
-    // TODO
+    static char _info[50];
+    snprintf(_info, sizeof(_info), "\nTemperature ");
+    dtostrf(Temperature_Celsius(), 3, 3, _info + strlen(_info));
+    snprintf(_info + strlen(_info), sizeof(_info) - strlen(_info), " clesius");
+    _info[sizeof(_info)-1] = '\0';
+
+    Platform_USART_Write
+    (
+            Platform_USART_USB,
+            (Platform_USART_Data_t)_info,
+            (Platform_USART_Data_Length_t)strlen(_info)
+    );
 }
