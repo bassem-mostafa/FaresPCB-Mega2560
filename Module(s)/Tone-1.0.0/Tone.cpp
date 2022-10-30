@@ -70,9 +70,9 @@ volatile uint8_t *timer0_pin_port;
 volatile uint8_t timer0_pin_mask;
 #endif
 
-volatile int32_t timer1_toggle_count;
-volatile uint8_t *timer1_pin_port;
-volatile uint8_t timer1_pin_mask;
+//volatile int32_t timer1_toggle_count;
+//volatile uint8_t *timer1_pin_port;
+//volatile uint8_t timer1_pin_mask;
 volatile int32_t timer2_toggle_count;
 volatile uint8_t *timer2_pin_port;
 volatile uint8_t timer2_pin_mask;
@@ -105,10 +105,12 @@ const uint8_t PROGMEM tone_pin_to_timer_PGM[] = { 2, 1 };
 
 #else
 
-#define AVAILABLE_TONE_PINS 3
+//#define AVAILABLE_TONE_PINS 3
+#define AVAILABLE_TONE_PINS 2
 
 // Leave timer 0 to last.
-const uint8_t PROGMEM tone_pin_to_timer_PGM[] = { 2, 1, 0 };
+//const uint8_t PROGMEM tone_pin_to_timer_PGM[] = { 2, 1, 0 };
+const uint8_t PROGMEM tone_pin_to_timer_PGM[] = { 2, 0 };
 
 #endif
 
@@ -143,26 +145,26 @@ ISR(TIMER0_COMPA_vect)
 #endif
 
 
-#ifdef WIRING
-void Tone_Timer1_Interrupt(void)
-#else
-ISR(TIMER1_COMPA_vect)
-#endif
-{
-  if (timer1_toggle_count != 0)
-  {
-    // toggle the pin
-    *timer1_pin_port ^= timer1_pin_mask;
-
-    if (timer1_toggle_count > 0)
-      timer1_toggle_count--;
-  }
-  else
-  {
-    TIMSK1 &= ~(1 << OCIE1A);                 // disable the interrupt
-    *timer1_pin_port &= ~(timer1_pin_mask);   // keep pin low after stop
-  }
-}
+//#ifdef WIRING
+//void Tone_Timer1_Interrupt(void)
+//#else
+//ISR(TIMER1_COMPA_vect)
+//#endif
+//{
+//  if (timer1_toggle_count != 0)
+//  {
+//    // toggle the pin
+//    *timer1_pin_port ^= timer1_pin_mask;
+//
+//    if (timer1_toggle_count > 0)
+//      timer1_toggle_count--;
+//  }
+//  else
+//  {
+//    TIMSK1 &= ~(1 << OCIE1A);                 // disable the interrupt
+//    *timer1_pin_port &= ~(timer1_pin_mask);   // keep pin low after stop
+//  }
+//}
 
 
 #ifdef WIRING
@@ -289,18 +291,18 @@ void Tone::begin(uint8_t tonePin)
         break;
 #endif
 
-      case 1:
-        // 16 bit timer
-        TCCR1A = 0;
-        TCCR1B = 0;
-        bitWrite(TCCR1B, WGM12, 1);
-        bitWrite(TCCR1B, CS10, 1);
-        timer1_pin_port = portOutputRegister(digitalPinToPort(_pin));
-        timer1_pin_mask = digitalPinToBitMask(_pin);
-#ifdef WIRING
-        Timer1.attachInterrupt(INTERRUPT_COMPARE_MATCH_A, Tone_Timer1_Interrupt);
-#endif
-        break;
+//      case 1:
+//        // 16 bit timer
+//        TCCR1A = 0;
+//        TCCR1B = 0;
+//        bitWrite(TCCR1B, WGM12, 1);
+//        bitWrite(TCCR1B, CS10, 1);
+//        timer1_pin_port = portOutputRegister(digitalPinToPort(_pin));
+//        timer1_pin_mask = digitalPinToBitMask(_pin);
+//#ifdef WIRING
+//        Timer1.attachInterrupt(INTERRUPT_COMPARE_MATCH_A, Tone_Timer1_Interrupt);
+//#endif
+//        break;
       case 2:
         // 8 bit timer
         TCCR2A = 0;
@@ -474,11 +476,11 @@ void Tone::play(uint16_t frequency, uint32_t duration)
         break;
 #endif
 
-      case 1:
-        OCR1A = ocr;
-        timer1_toggle_count = toggle_count;
-        bitWrite(TIMSK1, OCIE1A, 1);
-        break;
+//      case 1:
+//        OCR1A = ocr;
+//        timer1_toggle_count = toggle_count;
+//        bitWrite(TIMSK1, OCIE1A, 1);
+//        break;
       case 2:
         OCR2A = ocr;
         timer2_toggle_count = toggle_count;
