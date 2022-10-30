@@ -1,6 +1,8 @@
 #include "Platform.h"
 #include "string.h"
 #include "stdio.h"
+#include "Buzzer.h"
+#include "util/delay.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -45,6 +47,61 @@ const char _FW_VERSION[30] =
         '\0',
 };
 
+const Note_t Mario_Theme_Main[] =
+{
+  Note_E7, Note_E7, 0, Note_E7,
+  0, Note_C7, Note_E7, 0,
+  Note_G7, 0, 0,  0,
+  Note_G6, 0, 0, 0,
+
+  Note_C7, 0, 0, Note_G6,
+  0, 0, Note_E6, 0,
+  0, Note_A6, 0, Note_B6,
+  0, Note_A6S, Note_A6, 0,
+
+  Note_G6, Note_E7, Note_G7,
+  Note_A7, 0, Note_F7, Note_G7,
+  0, Note_E7, 0, Note_C7,
+  Note_D7, Note_B6, 0, 0,
+
+  Note_C7, 0, 0, Note_G6,
+  0, 0, Note_E6, 0,
+  0, Note_A6, 0, Note_B6,
+  0, Note_A6S, Note_A6, 0,
+
+  Note_G6, Note_E7, Note_G7,
+  Note_A7, 0, Note_F7, Note_G7,
+  0, Note_E7, 0, Note_C7,
+  Note_D7, Note_B6, 0, 0
+};
+
+const int Mario_Theme_Main_Tempo[] = {
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+
+  9, 9, 9,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+
+  9, 9, 9,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+  12, 12, 12, 12,
+};
+
 void setup()
 {
     char FW_Info[50];
@@ -66,5 +123,19 @@ void setup()
 
 void loop()
 {
-    // TODO
+    do
+    {
+        static bool isDone = false;
+        if (isDone) break;
+        const uint32_t Note_Period = 1000;
+        const double Note_Period_Pause_Factor = 1.3;
+        for (uint32_t i = 0; i < (sizeof(Mario_Theme_Main)/sizeof(Mario_Theme_Main[0])); ++i)
+        {
+            const uint32_t Note_Duration = Note_Period/Mario_Theme_Main_Tempo[0];
+            Buzzer_TurnOn(Mario_Theme_Main[i], Note_Duration);
+            _delay_ms(Note_Period_Pause_Factor*Note_Duration);
+        }
+        isDone = true;
+    }
+    while(0);
 }

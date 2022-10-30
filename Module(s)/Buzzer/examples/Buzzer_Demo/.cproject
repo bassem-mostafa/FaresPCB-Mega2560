@@ -25,6 +25,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/Wire/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_FreeRTOS-10.5/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_Buzzer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_Tone-1.0}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.154872374" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -36,6 +37,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/Wire/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_FreeRTOS-10.5/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_Buzzer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_Tone-1.0}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.1242725169" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -47,6 +49,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/Wire/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_FreeRTOS-10.5/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_Buzzer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Buzzer_Demo/libraries/FaresPCB_Tone-1.0}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.1921893850" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
