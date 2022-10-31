@@ -73,11 +73,11 @@ static bool _Buzzer_Initialize
 static void _Buzzer_Tone_Play
 (
         const _Buzzer_Tone_Instance_t * const _Buzzer_Tone_Instance,
-        const Note_t Note,
-        const uint32_t duration
+        const Buzzer_Note_t Buzzer_Note,
+        const Buzzer_Note_Duration_t Buzzer_Note_Duration
 )
 {
-    _Buzzer_Tone_Instance->play((uint16_t)Note, (uint32_t)duration);
+    _Buzzer_Tone_Instance->play((uint16_t)Buzzer_Note, (uint32_t)Buzzer_Note_Duration);
 }
 
 static void _Buzzer_Tone_Stop
@@ -95,19 +95,19 @@ static void _Buzzer_Tone_Stop
 /*
  * @brief Turns on Buzzer on specific frequency
  *
- * @param[in] Note        : selected Note
- * @param[in] duration    : Note duration in milli-seconds
+ * @param[in] Buzzer_Note             : selected Note
+ * @param[in] Buzzer_Note_Duration    : Note duration in milli-seconds
  *
  * @return void     : None
  */
 void Buzzer_TurnOn
 (
-        Note_t Note,
-        uint32_t duration
+        Buzzer_Note_t Buzzer_Note,
+        Buzzer_Note_Duration_t Buzzer_Note_Duration
 )
 {
     _Buzzer_Initialize();
-    _Buzzer_Tone_Play(&_Buzzer_Tone_Instance, Note, duration);
+    _Buzzer_Tone_Play(&_Buzzer_Tone_Instance, Buzzer_Note, Buzzer_Note_Duration);
 }
 
 /*
