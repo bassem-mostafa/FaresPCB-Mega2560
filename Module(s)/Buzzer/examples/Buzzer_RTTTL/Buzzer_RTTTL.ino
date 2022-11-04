@@ -199,7 +199,7 @@ void loop()
                 (Platform_USART_Data_Length_t*)&data_length_read
         );
         data_length += data_length_read;
-        if (data[data_length-1] == ';')
+        if ((data_length > 0) && (data[data_length-1] == ';'))
         {
             Platform_USART_Write
             (
