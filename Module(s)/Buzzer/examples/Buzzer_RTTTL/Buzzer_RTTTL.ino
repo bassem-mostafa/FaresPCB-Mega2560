@@ -1,6 +1,7 @@
 #include "Platform.h"
 #include "string.h"
 #include "stdio.h"
+#include "Buzzer.h"
 
 #ifndef __TIMESTAMP__
 // Reference: https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
@@ -107,7 +108,13 @@ typedef enum RTTTL_Duration_t
     RTTTL_Duration_32 = 32,
 } RTTTL_Duration_t;
 
-typedef char* RTTTL_Data_t;
+typedef struct RTTTL_Note_t
+{
+        Buzzer_Note_t Buzzer_Note;
+        Buzzer_Note_Duration_t Buzzer_Note_Duration;
+} RTTTL_Note_t;
+
+typedef RTTTL_Note_t RTTTL_Data_t[200];
 
 typedef struct RTTTL_t
 {
