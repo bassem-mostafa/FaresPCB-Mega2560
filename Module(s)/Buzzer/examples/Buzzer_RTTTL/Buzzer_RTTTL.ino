@@ -146,6 +146,7 @@ void setup()
             (Platform_USART_Data_Length_t)strlen(FW_Info)
     );
     const char description[] = ""
+            "\nRing Tone Text Transfer Language (RTTTL)"
             "\nFor Usage Guide Use The Following Link"
             "\n\thttps://www.mobilefish.com/tutorials/rtttl/rtttl_quickguide_specification.html"
             "\nPlease Write ';' without quotes at the end of the RTTTL melody"
