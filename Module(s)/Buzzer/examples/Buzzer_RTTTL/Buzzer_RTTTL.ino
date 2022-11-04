@@ -177,6 +177,20 @@ void loop()
         static char data[4*1024];
         static uint16_t data_length = 0;
         static uint16_t data_length_read = 0;
+        if ((sizeof(data)-data_length) <= 0)
+        {
+            Platform_USART_Write
+            (
+                    Platform_USART_USB,
+                    (Platform_USART_Data_t)""
+                            "\nWarning> Storage Not Sufficient For This RTTTL"
+                            "\nReset Storage",
+                    (Platform_USART_Data_Length_t)strlen(""
+                            "\nWarning> Storage Not Sufficient For This RTTTL"
+                            "\nReset Storage")
+            );
+            data_length = 0;
+        }
         Platform_USART_Read
         (
                 Platform_USART_USB,
